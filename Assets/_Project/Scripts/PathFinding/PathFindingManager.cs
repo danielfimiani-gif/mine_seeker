@@ -3,38 +3,28 @@ using UnityEngine;
 
 class PathFindingManager : MonoBehaviourSingleton<PathFindingManager>
 {
-    enum PathFindingStrategy
-    {
-        BreadthFirst,
-        DepthFirst,
-        Dijkstra,
-        Astar
-    }
-
     [SerializeField] private PathNodeGenerator pathNodeGenerator = new PathNodeGenerator();
-    [SerializeField] private PathFindingStrategy pathFindingStrategy = PathFindingStrategy.BreadthFirst;
+    [SerializeField] private EPathFindingStrategy pathFindingStrategy = EPathFindingStrategy.BreadthFirst;
 
-    private List<PathNode> pathNodes;
-    private List<PathNode> openNodes;
-    private List<PathNode> closedNodes;
+    private List<PathNode> _pathNodes;
+    private IPathFindingStrategy _currentStrategy;
 
     void Start()
     {
-        if (pathNodes == null)
+        if (_pathNodes == null)
             GeneratePath();
 
-        openNodes = new List<PathNode>();
-        closedNodes = new List<PathNode>();
+        SetStrategy(pathFindingStrategy);
     }
 
     void OnDrawGizmos()
     {
-        if (pathNodes == null)
+        if (_pathNodes == null)
             return;
 
         Gizmos.color = Color.blue;
 
-        foreach (PathNode pathNode in pathNodes)
+        foreach (PathNode pathNode in _pathNodes)
         {
             foreach (PathNode adjacentNode in pathNode.AdjacentNodes)
             {
@@ -46,7 +36,29 @@ class PathFindingManager : MonoBehaviourSingleton<PathFindingManager>
     [ContextMenu("Generate Path")]
     private void GeneratePath()
     {
-        pathNodes = pathNodeGenerator.GenerateNodes();
+        _pathNodes = pathNodeGenerator.GenerateNodes();
+    }
+
+    public void SetStrategy(EPathFindingStrategy pathFindingStrategy)
+    {
+        switch (pathFindingStrategy)
+        {
+            case EPathFindingStrategy.BreadthFirst:
+                _currentStrategy = new BreadthFirstStrategy();
+                break;
+            case EPathFindingStrategy.DepthFirst:
+                _currentStrategy = new DepthFirstStrategy();
+                break;
+            case EPathFindingStrategy.Dijkstra:
+                _currentStrategy = new DijkstraStrategy();
+                break;
+            case EPathFindingStrategy.Astar:
+                _currentStrategy = new AStarStrategy();
+                break;
+            default:
+                Debug.Log("Invalid strategy not implemented");
+                break;
+        }
     }
 
     private PathNode FindClosestNode(Vector3 position)
@@ -55,7 +67,7 @@ class PathFindingManager : MonoBehaviourSingleton<PathFindingManager>
 
         float closestSqrDistance = float.MaxValue;
 
-        foreach (PathNode pathNode in pathNodes)
+        foreach (PathNode pathNode in _pathNodes)
         {
             float sqrDistance = (pathNode.Position - position).sqrMagnitude;
 
@@ -69,79 +81,9 @@ class PathFindingManager : MonoBehaviourSingleton<PathFindingManager>
         return closestNode;
     }
 
-    private PathNode GetNextOpenNode(PathNode destinationNode)
+    private void ResetNodes(PathFindingContext pathCtx)
     {
-        if (openNodes.Count == 0)
-            return null;
-
-        PathNode openNode = null;
-
-        switch (pathFindingStrategy)
-        {
-            case PathFindingStrategy.BreadthFirst:
-                openNode = GetNextOpenNodeBreadthFirst();
-                break;
-
-            case PathFindingStrategy.DepthFirst:
-                openNode = GetNextOpenNodeDepthFirst();
-                break;
-
-            case PathFindingStrategy.Dijkstra:
-                openNode = GetNextOpenNodeDijkstra();
-                break;
-
-            case PathFindingStrategy.Astar:
-                openNode = GetNextOpenNodeAStar(destinationNode);
-                break;
-        }
-
-        return openNode;
-    }
-
-    private void OpenNode(PathNode node)
-    {
-        if (openNodes.Contains(node))
-            return;
-
-        node.CurrentState = PathNode.State.Open;
-        openNodes.Add(node);
-    }
-
-    private void CloseNode(PathNode node)
-    {
-        if (closedNodes.Contains(node))
-            return;
-
-        node.CurrentState = PathNode.State.Closed;
-        openNodes.Remove(node);
-        closedNodes.Add(node);
-    }
-
-    private void OpenAdjacentNodes(PathNode parentNode)
-    {
-        foreach (PathNode pathNode in parentNode.AdjacentNodes)
-        {
-            if (pathNode.CurrentState != PathNode.State.Unreviewed)
-                continue;
-
-            pathNode.Parent = parentNode;
-
-            switch (pathFindingStrategy)
-            {
-                case PathFindingStrategy.Dijkstra:
-                case PathFindingStrategy.Astar:
-                    float sqrDistance = (parentNode.Position - pathNode.Position).sqrMagnitude;
-                    pathNode.AccumulatedCost = parentNode.AccumulatedCost + sqrDistance * pathNode.CostMultiplayer;
-                    break;
-            }
-
-            OpenNode(pathNode);
-        }
-    }
-
-    private void ResetNodes()
-    {
-        foreach (PathNode pathNode in pathNodes)
+        foreach (PathNode pathNode in _pathNodes)
         {
             if (pathNode.CurrentState == PathNode.State.Unreviewed)
                 continue;
@@ -151,41 +93,7 @@ class PathFindingManager : MonoBehaviourSingleton<PathFindingManager>
             pathNode.AccumulatedCost = 0f;
         }
 
-        openNodes.Clear();
-        closedNodes.Clear();
-    }
-
-    private PathNode GetNextOpenNodeBreadthFirst() => openNodes[0];
-    private PathNode GetNextOpenNodeDepthFirst() => openNodes[^1];
-    private PathNode GetNextOpenNodeDijkstra()
-    {
-        PathNode openNode = openNodes[0];
-        foreach (PathNode pathNode in openNodes)
-        {
-            if (pathNode.AccumulatedCost < openNode.AccumulatedCost)
-                openNode = pathNode;
-        }
-
-        return openNode;
-    }
-    private PathNode GetNextOpenNodeAStar(PathNode destinationNode)
-    {
-        PathNode openNode = openNodes[0];
-
-        float closestSqrDistance = (destinationNode.Position - openNode.Position).sqrMagnitude;
-
-        foreach (PathNode pathNode in openNodes)
-        {
-            float sqrDistance = (destinationNode.Position - pathNode.Position).sqrMagnitude;
-
-            if (pathNode.AccumulatedCost <= openNode.AccumulatedCost && sqrDistance < closestSqrDistance)
-            {
-                openNode = pathNode;
-                closestSqrDistance = sqrDistance;
-            }
-        }
-
-        return openNode;
+        pathCtx.Clear();
     }
 
     private Stack<PathNode> GeneratePath(PathNode destinationNode)
@@ -205,26 +113,27 @@ class PathFindingManager : MonoBehaviourSingleton<PathFindingManager>
 
     public Stack<PathNode> CreatePath(Vector3 origin, Vector3 destination)
     {
+        PathFindingContext pathCtx = new();
         Stack<PathNode> path = null;
 
         PathNode originNode = FindClosestNode(origin);
         PathNode destinationNode = FindClosestNode(destination);
 
-        OpenNode(originNode);
+        pathCtx.OpenNode(originNode);
 
-        while (openNodes.Count > 0 && path == null)
+        while (pathCtx.OpenNodes.Count > 0 && path == null)
         {
-            PathNode openNode = GetNextOpenNode(destinationNode);
+            PathNode openNode = _currentStrategy.GetNextOpenNode(pathCtx, destinationNode);
 
             if (openNode == destinationNode)
                 path = GeneratePath(destinationNode);
             else
-                OpenAdjacentNodes(openNode);
+                pathCtx.OpenAdjacentNodes(openNode);
 
-            CloseNode(openNode);
+            pathCtx.CloseNode(openNode);
         }
 
-        ResetNodes();
+        ResetNodes(pathCtx);
 
         return path;
     }

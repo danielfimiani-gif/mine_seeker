@@ -21,13 +21,22 @@ class PathNodeAgent : MonoBehaviour
             if (destination != null)
             {
                 currentPath = PathFindingManager.Instance.CreatePath(transform.position, destination.Value);
-                targetNode = currentPath.Pop();
-                HasReachedDestination = false;
+                if (currentPath is null)
+                {
+                    destination = null;
+                    HasReachedDestination = true;
+                    Debug.LogWarning("Create  Path does not return a valid path");
+                }
+                else
+                {
+                    targetNode = currentPath.Pop();
+                    HasReachedDestination = false;
+                }
             }
         }
     }
 
-    public float MoveventSpeed { get => movementSpeed; set => movementSpeed = value; }
+    public float MovementSpeed { get => movementSpeed; set => movementSpeed = value; }
 
     void Update()
     {
@@ -45,9 +54,9 @@ class PathNodeAgent : MonoBehaviour
 
         transform.SetPositionAndRotation(updatedPosition, updatedRotation);
 
-        if (diff.sqrMagnitude <= Mathf.Epsilon * Mathf.Epsilon)
+        if (updatedPosition == targetPosition)
         {
-            if (currentPath.Count > 0)
+            if (currentPath != null && currentPath.Count > 0)
                 targetNode = currentPath.Pop();
             else
                 HasReachedDestination = true;

@@ -9,7 +9,7 @@ class PathNodeGenerator
     public struct TerrainLayer
     {
         public string tag;
-        public float costMultiplayer;
+        public float costMultiplier;
     }
 
     [SerializeField] private Transform lowerLeftLimit;
@@ -55,7 +55,7 @@ class PathNodeGenerator
                             PathNode pathNode = new()
                             {
                                 Position = hitInfo.point,
-                                CostMultiplayer = terrainLayer.costMultiplayer,
+                                CostMultiplier = terrainLayer.costMultiplier,
                                 AccumulatedCost = 0f
                             };
 
