@@ -234,7 +234,7 @@ namespace nTools.PrefabPainter
                 Collider collider;
                 RectTransform rectTransform;
 
-                if(renderer != null && renderer.enabled && renderer is SkinnedMeshRenderer)
+                if (renderer != null && renderer.enabled && renderer is SkinnedMeshRenderer)
                 {
                     OctreeObject obj = new OctreeObject();
 
@@ -254,75 +254,75 @@ namespace nTools.PrefabPainter
                     return obj;
                 }
                 else
-                if (renderer != null && renderer.enabled && renderer is SpriteRenderer)
-                {
-                    OctreeObject obj = new OctreeObject();
+                    if (renderer != null && renderer.enabled && renderer is SpriteRenderer)
+                    {
+                        OctreeObject obj = new OctreeObject();
 
-                    obj.renderer = renderer;
-                    obj.bounds = renderer.bounds;
-                    obj.layer = 1 << gameObject.layer;
-                    obj.raycastOpID = s_RaycastOpID;
+                        obj.renderer = renderer;
+                        obj.bounds = renderer.bounds;
+                        obj.layer = 1 << gameObject.layer;
+                        obj.raycastOpID = s_RaycastOpID;
 
-                    obj.gameObject = gameObject;
+                        obj.gameObject = gameObject;
 
-                    return obj;
-                }
-                else
-                if (renderer != null && renderer.enabled &&
-                    meshFilter != null && meshFilter.sharedMesh != null)
-                {
-                    OctreeObject obj = new OctreeObject();
-
-                    obj.renderer = renderer;
-                    obj.bounds = renderer.bounds;
-                    obj.layer = 1 << gameObject.layer;
-                    obj.raycastOpID = s_RaycastOpID;
-
-                    obj.gameObject = gameObject;
-
-                    MeshRenderer meshRenderer = gameObject.GetComponent<MeshRenderer>();
-
-                    if (useAdditionalVertexStreams && meshRenderer != null && meshRenderer.additionalVertexStreams != null)
-                        obj.mesh = meshRenderer.additionalVertexStreams;
+                        return obj;
+                    }
                     else
-                        obj.mesh = meshFilter.sharedMesh;
+                        if (renderer != null && renderer.enabled &&
+                            meshFilter != null && meshFilter.sharedMesh != null)
+                        {
+                            OctreeObject obj = new OctreeObject();
 
-                    return obj;
-                }
-                else if ((collider = gameObject.GetComponent<Collider>()) != null && collider.enabled)
-                {
-                    OctreeObject obj = new OctreeObject();
+                            obj.renderer = renderer;
+                            obj.bounds = renderer.bounds;
+                            obj.layer = 1 << gameObject.layer;
+                            obj.raycastOpID = s_RaycastOpID;
 
-                    obj.collider = collider;
-                    obj.bounds = collider.bounds;
-                    obj.layer = 1 << gameObject.layer;
-                    obj.raycastOpID = s_RaycastOpID;
+                            obj.gameObject = gameObject;
 
-                    obj.gameObject = gameObject;
+                            MeshRenderer meshRenderer = gameObject.GetComponent<MeshRenderer>();
 
-                    return obj;
-                }
-                else if ((rectTransform = gameObject.GetComponent<RectTransform>()) != null)
-                {
-                    OctreeObject obj = new OctreeObject();
+                            if (useAdditionalVertexStreams && meshRenderer != null && meshRenderer.additionalVertexStreams != null)
+                                obj.mesh = meshRenderer.additionalVertexStreams;
+                            else
+                                obj.mesh = meshFilter.sharedMesh;
 
-                    rectTransform.GetWorldCorners(obj.cornerPoints);
+                            return obj;
+                        }
+                        else if ((collider = gameObject.GetComponent<Collider>()) != null && collider.enabled)
+                        {
+                            OctreeObject obj = new OctreeObject();
 
-                    Bounds bounds = new Bounds(obj.cornerPoints[0], Vector3.zero);
-                    bounds.Encapsulate(obj.cornerPoints[1]);
-                    bounds.Encapsulate(obj.cornerPoints[2]);
-                    bounds.Encapsulate(obj.cornerPoints[3]);
+                            obj.collider = collider;
+                            obj.bounds = collider.bounds;
+                            obj.layer = 1 << gameObject.layer;
+                            obj.raycastOpID = s_RaycastOpID;
 
-                    obj.rectTransform = rectTransform;
+                            obj.gameObject = gameObject;
 
-                    obj.bounds = bounds;
-                    obj.layer = 1 << gameObject.layer;
-                    obj.raycastOpID = s_RaycastOpID;
+                            return obj;
+                        }
+                        else if ((rectTransform = gameObject.GetComponent<RectTransform>()) != null)
+                        {
+                            OctreeObject obj = new OctreeObject();
 
-                    obj.gameObject = gameObject;
+                            rectTransform.GetWorldCorners(obj.cornerPoints);
 
-                    return obj;
-                }
+                            Bounds bounds = new Bounds(obj.cornerPoints[0], Vector3.zero);
+                            bounds.Encapsulate(obj.cornerPoints[1]);
+                            bounds.Encapsulate(obj.cornerPoints[2]);
+                            bounds.Encapsulate(obj.cornerPoints[3]);
+
+                            obj.rectTransform = rectTransform;
+
+                            obj.bounds = bounds;
+                            obj.layer = 1 << gameObject.layer;
+                            obj.raycastOpID = s_RaycastOpID;
+
+                            obj.gameObject = gameObject;
+
+                            return obj;
+                        }
 
                 return null;
             }
@@ -552,7 +552,7 @@ namespace nTools.PrefabPainter
 
             void SortedRaycast(ref RaycastData raycastData)
             {
-                for(int i = 0; i < m_SortedObjects.Count; i++)
+                for (int i = 0; i < m_SortedObjects.Count; i++)
                 {
                     OctreeObject obj = m_SortedObjects[i].obj;
 
@@ -647,7 +647,7 @@ namespace nTools.PrefabPainter
 
                 m_SortedObjects.Sort(delegate (SortedObject x, SortedObject y)
                 {
-                    if(x.boundsDistance < y.boundsDistance)
+                    if (x.boundsDistance < y.boundsDistance)
                         return -1;
                     return 1;
                 });
@@ -1050,10 +1050,10 @@ namespace nTools.PrefabPainter
             public List<Rigidbody2D> m_rigidbody2Ds;
 
             public bool noRigidBody;
-            
-            #if UNITY_2022_2_OR_NEWER
+
+#if UNITY_2022_2_OR_NEWER
             public SimulationMode lastSimulationMode;
-            #endif
+#endif
         }
 
         class PinTool
@@ -1565,11 +1565,11 @@ namespace nTools.PrefabPainter
         {
             switch (m_CurrentTool)
             {
-            case PaintTool.Move:
-                {
-                    MoveToolReloadSelection();
-                }
-                break;
+                case PaintTool.Move:
+                    {
+                        MoveToolReloadSelection();
+                    }
+                    break;
             }
 
             Repaint();
@@ -1595,7 +1595,7 @@ namespace nTools.PrefabPainter
                 Repaint();
             }
 
-            if(m_CurrentTool == PaintTool.Throw)
+            if (m_CurrentTool == PaintTool.Throw)
             {
                 if (Time.realtimeSinceStartup - m_LastPhysicsUpdateTime > m_Settings.throwPhysicsTimeStep)
                 {
@@ -1636,13 +1636,13 @@ namespace nTools.PrefabPainter
 
         void OnSelectionChange()
         {
-            switch(m_CurrentTool)
+            switch (m_CurrentTool)
             {
-            case PaintTool.Move:
-                {
-                    MoveToolReloadSelection();
-                }
-                break;
+                case PaintTool.Move:
+                    {
+                        MoveToolReloadSelection();
+                    }
+                    break;
             }
         }
 
@@ -1682,7 +1682,7 @@ namespace nTools.PrefabPainter
 
         public static GameObject GetPrefabRoot(GameObject gameObject)
         {
-            if(PrefabUtility.GetPrefabAssetType(gameObject) == PrefabAssetType.NotAPrefab)
+            if (PrefabUtility.GetPrefabAssetType(gameObject) == PrefabAssetType.NotAPrefab)
             {
                 return gameObject;
             }
@@ -1741,52 +1741,52 @@ namespace nTools.PrefabPainter
 
             switch (orientationMode)
             {
-            default:
-            case OrientationMode.SurfaceNormal:
-            case OrientationMode.SurfaceNormalNegative:
-                {
-                    upwards = normal;
-
-                    if (orientationMode == OrientationMode.SurfaceNormalNegative)
-                        upwards = -upwards;
-
-                    GetRightForward(upwards, out right, out forward);
-                    if (isRectTransform)
+                default:
+                case OrientationMode.SurfaceNormal:
+                case OrientationMode.SurfaceNormalNegative:
                     {
-                        upwards = forward;
-                        forward = -normal;
+                        upwards = normal;
+
+                        if (orientationMode == OrientationMode.SurfaceNormalNegative)
+                            upwards = -upwards;
+
+                        GetRightForward(upwards, out right, out forward);
+                        if (isRectTransform)
+                        {
+                            upwards = forward;
+                            forward = -normal;
+                        }
                     }
-                }
-                break;
-            case OrientationMode.X:
-            case OrientationMode.XNegative:
-                {
-                    upwards = new Vector3(1, 0, 0);
-                    if (orientationMode == OrientationMode.XNegative)
-                        upwards = -upwards;
-                    GetRightForward(upwards, out right, out forward);
+                    break;
+                case OrientationMode.X:
+                case OrientationMode.XNegative:
+                    {
+                        upwards = new Vector3(1, 0, 0);
+                        if (orientationMode == OrientationMode.XNegative)
+                            upwards = -upwards;
+                        GetRightForward(upwards, out right, out forward);
 
-                }
-                break;
-            case OrientationMode.Y:
-            case OrientationMode.YNegative:
-                {
-                    upwards = new Vector3(0, 1, 0);
-                    if (orientationMode == OrientationMode.YNegative)
-                        upwards = -upwards;
-                    GetRightForward(upwards, out right, out forward);
+                    }
+                    break;
+                case OrientationMode.Y:
+                case OrientationMode.YNegative:
+                    {
+                        upwards = new Vector3(0, 1, 0);
+                        if (orientationMode == OrientationMode.YNegative)
+                            upwards = -upwards;
+                        GetRightForward(upwards, out right, out forward);
 
-                }
-                break;
-            case OrientationMode.Z:
-            case OrientationMode.ZNegative:
-                {
-                    upwards = new Vector3(0, 0, 1);
-                    if (orientationMode == OrientationMode.ZNegative)
-                        upwards = -upwards;
-                    GetRightForward(upwards, out right, out forward);
-                }
-                break;
+                    }
+                    break;
+                case OrientationMode.Z:
+                case OrientationMode.ZNegative:
+                    {
+                        upwards = new Vector3(0, 0, 1);
+                        if (orientationMode == OrientationMode.ZNegative)
+                            upwards = -upwards;
+                        GetRightForward(upwards, out right, out forward);
+                    }
+                    break;
             }
 
             return Quaternion.LookRotation(forward, upwards);
@@ -1828,52 +1828,52 @@ namespace nTools.PrefabPainter
 
                 switch (brushSettings.orientationMode)
                 {
-                default:
-                case OrientationMode.SurfaceNormal:
-                case OrientationMode.SurfaceNormalNegative:
-                    {
-                        upwards = normal;
-
-                        if (brushSettings.orientationMode == OrientationMode.SurfaceNormalNegative)
-                            upwards = -upwards;
-
-                        GetRightForward(upwards, out right, out forward);
-                        if (isRectTransform)
+                    default:
+                    case OrientationMode.SurfaceNormal:
+                    case OrientationMode.SurfaceNormalNegative:
                         {
-                            upwards = forward;
-                            forward = -normal;
+                            upwards = normal;
+
+                            if (brushSettings.orientationMode == OrientationMode.SurfaceNormalNegative)
+                                upwards = -upwards;
+
+                            GetRightForward(upwards, out right, out forward);
+                            if (isRectTransform)
+                            {
+                                upwards = forward;
+                                forward = -normal;
+                            }
                         }
-                    }
-                    break;
-                case OrientationMode.X:
-                case OrientationMode.XNegative:
-                    {
-                        upwards = new Vector3(1, 0, 0);
-                        if (brushSettings.orientationMode == OrientationMode.XNegative)
-                            upwards = -upwards;
-                        GetRightForward(upwards, out right, out forward);
+                        break;
+                    case OrientationMode.X:
+                    case OrientationMode.XNegative:
+                        {
+                            upwards = new Vector3(1, 0, 0);
+                            if (brushSettings.orientationMode == OrientationMode.XNegative)
+                                upwards = -upwards;
+                            GetRightForward(upwards, out right, out forward);
 
-                    }
-                    break;
-                case OrientationMode.Y:
-                case OrientationMode.YNegative:
-                    {
-                        upwards = new Vector3(0, 1, 0);
-                        if (brushSettings.orientationMode == OrientationMode.YNegative)
-                            upwards = -upwards;
-                        GetRightForward(upwards, out right, out forward);
+                        }
+                        break;
+                    case OrientationMode.Y:
+                    case OrientationMode.YNegative:
+                        {
+                            upwards = new Vector3(0, 1, 0);
+                            if (brushSettings.orientationMode == OrientationMode.YNegative)
+                                upwards = -upwards;
+                            GetRightForward(upwards, out right, out forward);
 
-                    }
-                    break;
-                case OrientationMode.Z:
-                case OrientationMode.ZNegative:
-                    {
-                        upwards = new Vector3(0, 0, 1);
-                        if (brushSettings.orientationMode == OrientationMode.ZNegative)
-                            upwards = -upwards;
-                        GetRightForward(upwards, out right, out forward);
-                    }
-                    break;
+                        }
+                        break;
+                    case OrientationMode.Z:
+                    case OrientationMode.ZNegative:
+                        {
+                            upwards = new Vector3(0, 0, 1);
+                            if (brushSettings.orientationMode == OrientationMode.ZNegative)
+                                upwards = -upwards;
+                            GetRightForward(upwards, out right, out forward);
+                        }
+                        break;
                 }
 
                 if (brushSettings.alongBrushStroke)
@@ -1916,43 +1916,43 @@ namespace nTools.PrefabPainter
 
             switch (pivotMode)
             {
-            case PivotMode.BoundsTopCenter:
-                if(!GetObjectLocalBounds(gameObject, out bounds))
-                    return gameObject.transform.position;
+                case PivotMode.BoundsTopCenter:
+                    if (!GetObjectLocalBounds(gameObject, out bounds))
+                        return gameObject.transform.position;
 
-                pivot = bounds.center + new Vector3(0f, bounds.extents.y, 0f);
-                pivot = gameObject.transform.localToWorldMatrix.MultiplyPoint(pivot);
-                break;
-            case PivotMode.BoundsCenter:
-                if (!GetObjectLocalBounds(gameObject, out bounds))
-                    return gameObject.transform.position;
-                pivot = bounds.center;
-                pivot = gameObject.transform.localToWorldMatrix.MultiplyPoint(pivot);
-                break;
-            case PivotMode.BoundsBottomCenter:
-                if (!GetObjectLocalBounds(gameObject, out bounds))
-                    return gameObject.transform.position;
-                pivot = bounds.center - new Vector3(0f, bounds.extents.y, 0f);
-                pivot = gameObject.transform.localToWorldMatrix.MultiplyPoint(pivot);
-                break;
-            case PivotMode.WorldBoundsTopCenter:
-                if (!GetObjectWorldBounds(gameObject, out bounds))
-                    return gameObject.transform.position;
-                pivot = bounds.center + new Vector3(0f, bounds.extents.y, 0f);
-                break;
-            case PivotMode.WorldBoundsCenter:
-                if (!GetObjectWorldBounds(gameObject, out bounds))
-                    return gameObject.transform.position;
-                pivot = bounds.center;
-                break;
-            case PivotMode.WorldBoundsBottomCenter:
-                if (!GetObjectWorldBounds(gameObject, out bounds))
-                    return gameObject.transform.position;
-                pivot = bounds.center - new Vector3(0f, bounds.extents.y, 0f);
-                break;
-            default:
-                pivot = gameObject.transform.position;
-                break;
+                    pivot = bounds.center + new Vector3(0f, bounds.extents.y, 0f);
+                    pivot = gameObject.transform.localToWorldMatrix.MultiplyPoint(pivot);
+                    break;
+                case PivotMode.BoundsCenter:
+                    if (!GetObjectLocalBounds(gameObject, out bounds))
+                        return gameObject.transform.position;
+                    pivot = bounds.center;
+                    pivot = gameObject.transform.localToWorldMatrix.MultiplyPoint(pivot);
+                    break;
+                case PivotMode.BoundsBottomCenter:
+                    if (!GetObjectLocalBounds(gameObject, out bounds))
+                        return gameObject.transform.position;
+                    pivot = bounds.center - new Vector3(0f, bounds.extents.y, 0f);
+                    pivot = gameObject.transform.localToWorldMatrix.MultiplyPoint(pivot);
+                    break;
+                case PivotMode.WorldBoundsTopCenter:
+                    if (!GetObjectWorldBounds(gameObject, out bounds))
+                        return gameObject.transform.position;
+                    pivot = bounds.center + new Vector3(0f, bounds.extents.y, 0f);
+                    break;
+                case PivotMode.WorldBoundsCenter:
+                    if (!GetObjectWorldBounds(gameObject, out bounds))
+                        return gameObject.transform.position;
+                    pivot = bounds.center;
+                    break;
+                case PivotMode.WorldBoundsBottomCenter:
+                    if (!GetObjectWorldBounds(gameObject, out bounds))
+                        return gameObject.transform.position;
+                    pivot = bounds.center - new Vector3(0f, bounds.extents.y, 0f);
+                    break;
+                default:
+                    pivot = gameObject.transform.position;
+                    break;
             }
 
             return pivot;
@@ -2019,25 +2019,25 @@ namespace nTools.PrefabPainter
             Vector3 refVector = Vector3.up;
             switch (brush.settings.slopeVector)
             {
-            case SlopeVector.X:
-                refVector = new Vector3(1, 0, 0);
-                break;
-            case SlopeVector.Y:
-                refVector = new Vector3(0, 1, 0);
-                break;
-            case SlopeVector.Z:
-                refVector = new Vector3(0, 0, 1);
-                break;
-            case SlopeVector.View:
-                if (Camera.current != null)
-                    refVector = -Camera.current.transform.forward;
-                break;
-            case SlopeVector.FirstNormal:
-                refVector = m_BrushTool.firstNormal;
-                break;
-            case SlopeVector.Custom:
-                refVector = brush.settings.slopeVectorCustom.normalized;
-                break;
+                case SlopeVector.X:
+                    refVector = new Vector3(1, 0, 0);
+                    break;
+                case SlopeVector.Y:
+                    refVector = new Vector3(0, 1, 0);
+                    break;
+                case SlopeVector.Z:
+                    refVector = new Vector3(0, 0, 1);
+                    break;
+                case SlopeVector.View:
+                    if (Camera.current != null)
+                        refVector = -Camera.current.transform.forward;
+                    break;
+                case SlopeVector.FirstNormal:
+                    refVector = m_BrushTool.firstNormal;
+                    break;
+                case SlopeVector.Custom:
+                    refVector = brush.settings.slopeVectorCustom.normalized;
+                    break;
             }
 
             if (brush.settings.slopeVectorFlip)
@@ -2072,15 +2072,15 @@ namespace nTools.PrefabPainter
             List<GameObject> prefabList = null;
 
 
-            if(brushSettings.brushOverlapCheckObjects == OverlapCheckObjects.SameObjects)
+            if (brushSettings.brushOverlapCheckObjects == OverlapCheckObjects.SameObjects)
             {
                 prefabList = new List<GameObject>(BrushSettings.kNumMultibrushSlots);
 
-                if(brushSettings.multibrushEnabled)
+                if (brushSettings.multibrushEnabled)
                 {
-                    for(int i = 0; i < brush.prefabSlots.Length; i++)
+                    for (int i = 0; i < brush.prefabSlots.Length; i++)
                     {
-                        if(brush.prefabSlots[i].gameObject != null)
+                        if (brush.prefabSlots[i].gameObject != null)
                         {
                             prefabList.Add(brush.prefabSlots[i].gameObject);
                         }
@@ -2089,44 +2089,44 @@ namespace nTools.PrefabPainter
                 else
                 {
                     GameObject prefab = brush.GetFirstAssociatedPrefab();
-                    if(prefab != null)
+                    if (prefab != null)
                         prefabList.Add(prefab);
                 }
             }
 
 
-            if(brushSettings.brushOverlapCheckMode == OverlapCheckMode.Distance)
+            if (brushSettings.brushOverlapCheckMode == OverlapCheckMode.Distance)
             {
                 m_Octree.IntersectSphere(bounds.center, distance, (go) =>
                     {
-                        if(go == null)
+                        if (go == null)
                         {
                             return true;
                         }
 
-                        switch(brushSettings.brushOverlapCheckObjects)
+                        switch (brushSettings.brushOverlapCheckObjects)
                         {
-                        case OverlapCheckObjects.SameObjects:
-                            {
-                                GameObject prefabRoot = GetPrefabRoot(go);
-                                if(prefabRoot == null)
-                                    return true;
+                            case OverlapCheckObjects.SameObjects:
+                                {
+                                    GameObject prefabRoot = GetPrefabRoot(go);
+                                    if (prefabRoot == null)
+                                        return true;
 
-                                if(!prefabList.Contains(GetCorrespondingObjectFromSource(prefabRoot) as GameObject))
+                                    if (!prefabList.Contains(GetCorrespondingObjectFromSource(prefabRoot) as GameObject))
+                                        return true;
+                                }
+                                break;
+                            case OverlapCheckObjects.SamePlaceLayer:
+                                if (go.layer != m_Settings.prefabPlaceLayer)
                                     return true;
-                            }
-                            break;
-                        case OverlapCheckObjects.SamePlaceLayer:
-                            if(go.layer != m_Settings.prefabPlaceLayer)
-                                return true;
-                            break;
-                        case OverlapCheckObjects.OtherLayers:
-                            if(((1 << go.layer) & checkLayers) == 0)
-                                return true;
-                            break;
+                                break;
+                            case OverlapCheckObjects.OtherLayers:
+                                if (((1 << go.layer) & checkLayers) == 0)
+                                    return true;
+                                break;
                         }
 
-                        if((go.transform.position - bounds.center).magnitude < distance)
+                        if ((go.transform.position - bounds.center).magnitude < distance)
                         {
                             overlaps = true;
                             return false;
@@ -2141,31 +2141,31 @@ namespace nTools.PrefabPainter
                 m_Octree.IntersectBounds(bounds,
                     (go) =>
                     {
-                        if(go == null)
+                        if (go == null)
                         {
                             return true;
                         }
 
-                        switch(brushSettings.brushOverlapCheckObjects)
+                        switch (brushSettings.brushOverlapCheckObjects)
                         {
-                        case OverlapCheckObjects.SameObjects:
-                            {
-                                GameObject prefabRoot = GetPrefabRoot(go);
-                                if (prefabRoot == null)
-                                    return true;
+                            case OverlapCheckObjects.SameObjects:
+                                {
+                                    GameObject prefabRoot = GetPrefabRoot(go);
+                                    if (prefabRoot == null)
+                                        return true;
 
-                                if(!prefabList.Contains(GetCorrespondingObjectFromSource(prefabRoot) as GameObject))
+                                    if (!prefabList.Contains(GetCorrespondingObjectFromSource(prefabRoot) as GameObject))
+                                        return true;
+                                }
+                                break;
+                            case OverlapCheckObjects.SamePlaceLayer:
+                                if (go.layer != m_Settings.prefabPlaceLayer)
                                     return true;
-                            }
-                            break;
-                        case OverlapCheckObjects.SamePlaceLayer:
-                            if(go.layer != m_Settings.prefabPlaceLayer)
-                                return true;
-                            break;
-                        case OverlapCheckObjects.OtherLayers:
-                            if(((1 << go.layer) & checkLayers) == 0)
-                                return true;
-                            break;
+                                break;
+                            case OverlapCheckObjects.OtherLayers:
+                                if (((1 << go.layer) & checkLayers) == 0)
+                                    return true;
+                                break;
                         }
 
                         overlaps = true;
@@ -2193,7 +2193,7 @@ namespace nTools.PrefabPainter
             if (pivotObject == null)
                 return null;
 
-            if(StageUtility.GetCurrentStage() != StageUtility.GetMainStage())
+            if (StageUtility.GetCurrentStage() != StageUtility.GetMainStage())
                 StageUtility.PlaceGameObjectInCurrentStage(pivotObject);
 
             pivotObject.hideFlags = HideFlags.HideInHierarchy;
@@ -2292,7 +2292,7 @@ namespace nTools.PrefabPainter
         {
             placedObjectInfo.gameObject.transform.SetParent(null, true);
 
-            if(StageUtility.GetCurrentStage() != StageUtility.GetMainStage())
+            if (StageUtility.GetCurrentStage() != StageUtility.GetMainStage())
                 StageUtility.PlaceGameObjectInCurrentStage(placedObjectInfo.gameObject);
 
             // Round position
@@ -2330,23 +2330,24 @@ namespace nTools.PrefabPainter
         {
             GameObject placeLocation = null;
 
-            switch(m_Settings.placeUnder)
+            switch (m_Settings.placeUnder)
             {
-            case Placement.HitObject:
-                placeLocation = hitObject;
-                break;
-            case Placement.CustomObject:
-                if(StageUtility.GetCurrentStage() == StageUtility.GetMainStage())
-                    placeLocation = m_SceneSettings.parentForPrefabs;
-                break;
-            default: case Placement.World:
-                break;
+                case Placement.HitObject:
+                    placeLocation = hitObject;
+                    break;
+                case Placement.CustomObject:
+                    if (StageUtility.GetCurrentStage() == StageUtility.GetMainStage())
+                        placeLocation = m_SceneSettings.parentForPrefabs;
+                    break;
+                default:
+                case Placement.World:
+                    break;
             }
 
 
             // Group Prefabs
             // find group object by name
-            if(m_Settings.groupPrefabs)
+            if (m_Settings.groupPrefabs)
             {
                 Transform group = null;
                 string groupName = brushName + m_Settings.groupName;
@@ -2399,7 +2400,7 @@ namespace nTools.PrefabPainter
             {
                 gameObject.transform.SetParent(placeLocation.transform, true);
 
-                if(StageUtility.GetCurrentStage() != StageUtility.GetMainStage())
+                if (StageUtility.GetCurrentStage() != StageUtility.GetMainStage())
                     StageUtility.PlaceGameObjectInCurrentStage(placeLocation);
             }
         }
@@ -2410,28 +2411,28 @@ namespace nTools.PrefabPainter
         {
             switch (m_Settings.surfaceCoords)
             {
-            default:
-            case SurfaceCoords.AroundX:
-                forward = Vector3.Cross(Vector3.right, up).normalized;
-                if (forward.magnitude < 0.001f)
-                    forward = Vector3.forward;
+                default:
+                case SurfaceCoords.AroundX:
+                    forward = Vector3.Cross(Vector3.right, up).normalized;
+                    if (forward.magnitude < 0.001f)
+                        forward = Vector3.forward;
 
-                right = Vector3.Cross(up, forward).normalized;
-                break;
-            case SurfaceCoords.AroundY:
-                right = Vector3.Cross(up, Vector3.up).normalized;
-                if (right.magnitude < 0.001f)
-                    right = Vector3.right;
+                    right = Vector3.Cross(up, forward).normalized;
+                    break;
+                case SurfaceCoords.AroundY:
+                    right = Vector3.Cross(up, Vector3.up).normalized;
+                    if (right.magnitude < 0.001f)
+                        right = Vector3.right;
 
-                forward = Vector3.Cross(right, up).normalized;
-                break;
-            case SurfaceCoords.AroundZ:
-                right = Vector3.Cross(up, Vector3.forward).normalized;
-                if (right.magnitude < 0.001f)
-                    right = Vector3.right;
+                    forward = Vector3.Cross(right, up).normalized;
+                    break;
+                case SurfaceCoords.AroundZ:
+                    right = Vector3.Cross(up, Vector3.forward).normalized;
+                    if (right.magnitude < 0.001f)
+                        right = Vector3.right;
 
-                forward = Vector3.Cross(right, up).normalized;
-                break;
+                    forward = Vector3.Cross(right, up).normalized;
+                    break;
             }
         }
 
@@ -2439,31 +2440,31 @@ namespace nTools.PrefabPainter
         {
             switch (mode)
             {
-            case OrientationMode.SurfaceNormal:
-                upwards = surfaceNormal;
-                break;
-            case OrientationMode.SurfaceNormalNegative:
-                upwards = -surfaceNormal;
-                break;
-            case OrientationMode.X:
-                upwards = new Vector3(1, 0, 0);
-                break;
-            case OrientationMode.XNegative:
-                upwards = new Vector3(-1, 0, 0);
-                break;
-            default:
-            case OrientationMode.Y:
-                upwards = new Vector3(0, 1, 0);
-                break;
-            case OrientationMode.YNegative:
-                upwards = new Vector3(0, -1, 0);
-                break;
-            case OrientationMode.Z:
-                upwards = new Vector3(0, 0, 1);
-                break;
-            case OrientationMode.ZNegative:
-                upwards = new Vector3(0, 0, -1);
-                break;
+                case OrientationMode.SurfaceNormal:
+                    upwards = surfaceNormal;
+                    break;
+                case OrientationMode.SurfaceNormalNegative:
+                    upwards = -surfaceNormal;
+                    break;
+                case OrientationMode.X:
+                    upwards = new Vector3(1, 0, 0);
+                    break;
+                case OrientationMode.XNegative:
+                    upwards = new Vector3(-1, 0, 0);
+                    break;
+                default:
+                case OrientationMode.Y:
+                    upwards = new Vector3(0, 1, 0);
+                    break;
+                case OrientationMode.YNegative:
+                    upwards = new Vector3(0, -1, 0);
+                    break;
+                case OrientationMode.Z:
+                    upwards = new Vector3(0, 0, 1);
+                    break;
+                case OrientationMode.ZNegative:
+                    upwards = new Vector3(0, 0, -1);
+                    break;
             }
 
             GetRightForward(upwards, out right, out forward);
@@ -2615,18 +2616,18 @@ namespace nTools.PrefabPainter
             size *= 2.0f;
 
             if (size != 0.0f)
-               size = 1.0f / size;
+                size = 1.0f / size;
             else
-               size = 1.0f;
+                size = 1.0f;
 
             return localScale.x * size;
         }
-#endregion // Object Placement
+        #endregion // Object Placement
 
 
 
 
-#region Scene UI
+        #region Scene UI
 
 
         void DrawBrushHandles(RaycastInfo hit, Brush brush)
@@ -2643,7 +2644,8 @@ namespace nTools.PrefabPainter
                 Handles.DrawSolidDisc(hit.point, hit.normal, Mathf.Min(brush.settings.gridStep.x, brush.settings.gridStep.y) * 0.5f);
 
             }
-            else {
+            else
+            {
                 Handles.color = m_Settings.handlesColor;
                 Handles.CircleHandleCap(1, hit.point, Quaternion.LookRotation(hit.normal), brush.settings.brushRadius, EventType.Repaint);
 
@@ -2669,7 +2671,7 @@ namespace nTools.PrefabPainter
             Handles.color = new Color(0.5f, 0.5f, 0.5f, 0.1f);
             Handles.DrawSolidDisc(hit.point, hit.normal, m_Settings.eraseBrushRadius);
             Handles.color = m_Settings.handlesColor;
-            Handles.CircleHandleCap(1, hit.point, Quaternion.LookRotation (hit.normal), m_Settings.eraseBrushRadius, EventType.Repaint);
+            Handles.CircleHandleCap(1, hit.point, Quaternion.LookRotation(hit.normal), m_Settings.eraseBrushRadius, EventType.Repaint);
 
             Handles.color = m_Settings.handlesColor;
             Styles.handlesBoldTextStyle.normal.textColor = m_Settings.handlesColor;
@@ -2678,7 +2680,7 @@ namespace nTools.PrefabPainter
             Vector3 forward, right;
             GetRightForward(hit.normal, out right, out forward);
 
-            float handleSize = HandleUtility.GetHandleSize (hit.point) * 0.4f;
+            float handleSize = HandleUtility.GetHandleSize(hit.point) * 0.4f;
             Handles.color = m_Settings.handlesColor;
             Handles.DrawLine(hit.point + right * handleSize, hit.point + right * -handleSize);
             Handles.DrawLine(hit.point + forward * handleSize, hit.point + forward * -handleSize);
@@ -2692,11 +2694,11 @@ namespace nTools.PrefabPainter
             Handles.color = new Color(0.5f, 0.5f, 0.5f, 0.1f);
             Handles.DrawSolidDisc(hit.point, hit.normal, m_Settings.selectBrushRadius);
             Handles.color = m_Settings.handlesColor;
-            Handles.CircleHandleCap(1, hit.point, Quaternion.LookRotation (hit.normal), m_Settings.selectBrushRadius, EventType.Repaint);
+            Handles.CircleHandleCap(1, hit.point, Quaternion.LookRotation(hit.normal), m_Settings.selectBrushRadius, EventType.Repaint);
 
             Handles.color = m_Settings.handlesColor;
             Styles.handlesBoldTextStyle.normal.textColor = m_Settings.handlesColor;
-            if(Event.current.shift)
+            if (Event.current.shift)
                 Handles.Label(hit.point, "    Sl+", Styles.handlesBoldTextStyle);
             else if (Event.current.control)
                 Handles.Label(hit.point, "    Sl-", Styles.handlesBoldTextStyle);
@@ -2706,7 +2708,7 @@ namespace nTools.PrefabPainter
             Vector3 forward, right;
             GetRightForward(hit.normal, out right, out forward);
 
-            float handleSize = HandleUtility.GetHandleSize (hit.point) * 0.4f;
+            float handleSize = HandleUtility.GetHandleSize(hit.point) * 0.4f;
             Handles.color = m_Settings.handlesColor;
             Handles.DrawLine(hit.point + right * handleSize, hit.point + right * -handleSize);
             Handles.DrawLine(hit.point + forward * handleSize, hit.point + forward * -handleSize);
@@ -2797,14 +2799,14 @@ namespace nTools.PrefabPainter
             if (Event.current.type != EventType.Repaint)
                 return;
 
-            float handleSize = HandleUtility.GetHandleSize (hit.point) * 0.2f;
+            float handleSize = HandleUtility.GetHandleSize(hit.point) * 0.2f;
 
             Vector3 forward, right;
             GetRightForward(hit.normal, out right, out forward);
 
             Handles.color = m_Settings.handlesColor;
             Styles.handlesTextStyle.normal.textColor = m_Settings.handlesColor;
-            Handles.CircleHandleCap(1, hit.point, Quaternion.LookRotation (hit.normal), handleSize * 0.5f, EventType.Repaint);
+            Handles.CircleHandleCap(1, hit.point, Quaternion.LookRotation(hit.normal), handleSize * 0.5f, EventType.Repaint);
             Handles.DrawLine(hit.point + right * handleSize, hit.point + right * -handleSize);
             Handles.DrawLine(hit.point + forward * handleSize, hit.point + forward * -handleSize);
             if (hit.hitObject != null)
@@ -2816,16 +2818,16 @@ namespace nTools.PrefabPainter
             if (Event.current.type != EventType.Repaint)
                 return;
 
-            float handleSize = HandleUtility.GetHandleSize (hit.point) * 0.2f;
+            float handleSize = HandleUtility.GetHandleSize(hit.point) * 0.2f;
 
             Vector3 forward, right;
             GetRightForward(hit.normal, out right, out forward);
 
             Handles.color = m_Settings.handlesColor;
-            Handles.CircleHandleCap(1, hit.point, Quaternion.LookRotation (hit.normal), handleSize * 0.5f, EventType.Repaint);
+            Handles.CircleHandleCap(1, hit.point, Quaternion.LookRotation(hit.normal), handleSize * 0.5f, EventType.Repaint);
             Handles.DrawLine(hit.point + right * handleSize, hit.point + right * -handleSize);
             Handles.DrawLine(hit.point + forward * handleSize, hit.point + forward * -handleSize);
-            Handles.Label(hit.point, "      " +  message, Styles.handlesTextStyle);
+            Handles.Label(hit.point, "      " + message, Styles.handlesTextStyle);
         }
 
 
@@ -2877,7 +2879,7 @@ namespace nTools.PrefabPainter
             }
 
             Handles.color = m_Settings.handlesColor;
-            Handles.CircleHandleCap(1, m_PinTool.placedObjectInfo.raycastInfo.point, Quaternion.LookRotation (upwards), m_PinTool.radius, EventType.Repaint);
+            Handles.CircleHandleCap(1, m_PinTool.placedObjectInfo.raycastInfo.point, Quaternion.LookRotation(upwards), m_PinTool.radius, EventType.Repaint);
             Handles.DrawDottedLine(m_PinTool.placedObjectInfo.raycastInfo.point, m_PinTool.point, 4.0f);
             Handles.DrawDottedLine(m_PinTool.placedObjectInfo.raycastInfo.point, m_PinTool.placedObjectInfo.raycastInfo.point + forward * m_PinTool.radius, 4.0f);
 
@@ -2923,7 +2925,7 @@ namespace nTools.PrefabPainter
                 + " Z: " + (brush.settings.placeEulerAngles.z).ToString("F1"), Styles.handlesBoldTextStyle);
 
             //if (brush.settings.placeScale < 0.1f)
-                Handles.Label(m_PlaceTool.raycastInfo.point, "\n    Scale: " + brush.settings.placeScale.ToString("F2"), Styles.handlesBoldTextStyle);
+            Handles.Label(m_PlaceTool.raycastInfo.point, "\n    Scale: " + brush.settings.placeScale.ToString("F2"), Styles.handlesBoldTextStyle);
 
             GetRightForward(m_CurrentRaycast.normal, out right, out forward);
             DrawXYZCross(m_CurrentRaycast, m_CurrentRaycast.normal, right, forward);
@@ -2978,17 +2980,17 @@ namespace nTools.PrefabPainter
 
         Vector3 GetGridNormalVector(Brush brush)
         {
-            switch(brush.settings.gridPlane)
+            switch (brush.settings.gridPlane)
             {
-            case GridPlane.XY:
-                return new Vector3(0, 0, 1);
-            case GridPlane.XZ:
-                return new Vector3(0, 1, 0);
-            case GridPlane.YZ:
-                return new Vector3(1, 0, 0);
+                case GridPlane.XY:
+                    return new Vector3(0, 0, 1);
+                case GridPlane.XZ:
+                    return new Vector3(0, 1, 0);
+                case GridPlane.YZ:
+                    return new Vector3(1, 0, 0);
             }
 
-            if(brush.settings.gridNormal.magnitude < 0.001f)
+            if (brush.settings.gridNormal.magnitude < 0.001f)
                 return new Vector3(0, 1, 0);
 
             return brush.settings.gridNormal.normalized;
@@ -3005,11 +3007,11 @@ namespace nTools.PrefabPainter
                 return;
 
 
-            const int kSize     = Grid.kSize;
-            int halfSize        = kSize / 2;
-            float halfSizeInv   = 1.0f / halfSize;
-            Vector3 gridStep    = new Vector3(brush.settings.gridStep.x, brush.settings.gridStep.y, 1);
-            Vector3 gridNormal  = GetGridNormalVector(brush);
+            const int kSize = Grid.kSize;
+            int halfSize = kSize / 2;
+            float halfSizeInv = 1.0f / halfSize;
+            Vector3 gridStep = new Vector3(brush.settings.gridStep.x, brush.settings.gridStep.y, 1);
+            Vector3 gridNormal = GetGridNormalVector(brush);
             float gridBaseAlpha = 1.0f;
             //float raycastHeight = m_Settings.gridRaycastHeight;
 
@@ -3097,7 +3099,7 @@ namespace nTools.PrefabPainter
 
 
             halfSize += 1;
-            for(int x = -(halfSize-1); x < halfSize; x++)
+            for (int x = -(halfSize - 1); x < halfSize; x++)
             {
                 Vector3 point1 = new Vector3(x, -halfSize, 0);
                 Vector3 point2 = new Vector3(x, 0, 0);
@@ -3133,13 +3135,13 @@ namespace nTools.PrefabPainter
                 GL.PopMatrix();
             }
 
-            if(!m_Grid.inDeadZone)
+            if (!m_Grid.inDeadZone)
             {
                 // Draw origin point
                 Handles.color = m_Settings.handlesColor;
-                Handles.DotHandleCap(0, m_Grid.originRaycastInfo.point, Quaternion.identity, HandleUtility.GetHandleSize (m_Grid.originRaycastInfo.point) * 0.05f, EventType.Repaint);
+                Handles.DotHandleCap(0, m_Grid.originRaycastInfo.point, Quaternion.identity, HandleUtility.GetHandleSize(m_Grid.originRaycastInfo.point) * 0.05f, EventType.Repaint);
                 Handles.color = Color.white;
-                Handles.DotHandleCap(0, m_Grid.originRaycastInfo.point, Quaternion.identity, HandleUtility.GetHandleSize (m_Grid.originRaycastInfo.point) * 0.03f, EventType.Repaint);
+                Handles.DotHandleCap(0, m_Grid.originRaycastInfo.point, Quaternion.identity, HandleUtility.GetHandleSize(m_Grid.originRaycastInfo.point) * 0.03f, EventType.Repaint);
 
                 Handles.Label(m_CurrentRaycast.point, "\n\n     P: " + m_Grid.originRaycastInfo.point, Styles.handlesTextStyle);
             }
@@ -3151,15 +3153,15 @@ namespace nTools.PrefabPainter
 
         void UpdateGrid(Brush brush)
         {
-            Vector3 gridOrigin      = new Vector3(brush.settings.gridOrigin.x, brush.settings.gridOrigin.y, 0);
-            Vector3 gridStep        = new Vector3(brush.settings.gridStep.x, brush.settings.gridStep.y, 1);
-            Vector3 gridNormal      = GetGridNormalVector(brush);
-            float   gridAngle       = brush.settings.gridAngle;
-            Vector3 hitPoint        = m_CurrentRaycast.point;
-            float   raycastHeight   = m_Settings.gridRaycastHeight;
+            Vector3 gridOrigin = new Vector3(brush.settings.gridOrigin.x, brush.settings.gridOrigin.y, 0);
+            Vector3 gridStep = new Vector3(brush.settings.gridStep.x, brush.settings.gridStep.y, 1);
+            Vector3 gridNormal = GetGridNormalVector(brush);
+            float gridAngle = brush.settings.gridAngle;
+            Vector3 hitPoint = m_CurrentRaycast.point;
+            float raycastHeight = m_Settings.gridRaycastHeight;
 
 
-            if(!m_CurrentRaycast.isHit)
+            if (!m_CurrentRaycast.isHit)
             {
                 m_Grid.originRaycastInfo = new RaycastInfo();
                 return;
@@ -3186,7 +3188,7 @@ namespace nTools.PrefabPainter
             Ray ray;
 
             // offset raycast
-            if(Vector3.Dot(m_CurrentRaycast.normal, gridNormal) > 0f)
+            if (Vector3.Dot(m_CurrentRaycast.normal, gridNormal) > 0f)
             {
                 snappedHitPoint += gridNormal * raycastHeight;
                 ray = new Ray(snappedHitPoint, -gridNormal);
@@ -3201,21 +3203,21 @@ namespace nTools.PrefabPainter
 
             // if no hit - try slightly shift the ray
             // fixes situations where ray just touch objects
-            if(!m_Grid.originRaycastInfo.isHit)
+            if (!m_Grid.originRaycastInfo.isHit)
             {
-                for(int i = 0; i < 3; i++)
+                for (int i = 0; i < 3; i++)
                 {
                     Ray shiftedRay = new Ray(ray.origin + UnityEngine.Random.onUnitSphere * 0.001f, ray.direction);
                     Raycast(shiftedRay, out m_Grid.originRaycastInfo, m_Settings.paintLayers.value, m_Settings.ignoreLayers.value);
-                    if(m_Grid.originRaycastInfo.isHit)
+                    if (m_Grid.originRaycastInfo.isHit)
                         break;
                 }
             }
 
 
             RaycastInfo visualRaycast = new RaycastInfo();
-                Raycast(m_Grid.originRaycastInfo.ray, out visualRaycast, m_Settings.paintLayers.value, ~m_Settings.paintLayers.value);
-                m_Grid.visualOrigin = visualRaycast.point;
+            Raycast(m_Grid.originRaycastInfo.ray, out visualRaycast, m_Settings.paintLayers.value, ~m_Settings.paintLayers.value);
+            m_Grid.visualOrigin = visualRaycast.point;
         }
 
 
@@ -3228,13 +3230,13 @@ namespace nTools.PrefabPainter
             if (m_CurrentStage == StageUtility.GetMainStage())
             {
                 m_CurrentStageScene = SceneManager.GetActiveScene();
-                #if UNITY_2023_1_OR_NEWER
+#if UNITY_2023_1_OR_NEWER
                 sceneObjects = GameObject.FindObjectsByType<GameObject>(FindObjectsInactive.Exclude, FindObjectsSortMode.None);
-                #else
+#else
                 sceneObjects = GameObject.FindObjectsOfType<GameObject>(); 
-                #endif
+#endif
             }
-            else if(m_CurrentStage is PreviewSceneStage previewSceneStage)
+            else if (m_CurrentStage is PreviewSceneStage previewSceneStage)
             {
                 m_CurrentStageScene = previewSceneStage.scene;
 
@@ -3255,91 +3257,91 @@ namespace nTools.PrefabPainter
 
             switch (tool)
             {
-            case PaintTool.Brush:
-            case PaintTool.Pin:
-            case PaintTool.Place:
-            case PaintTool.Throw:
-            case PaintTool.Erase:
-            case PaintTool.Modify:
-            case PaintTool.PickObject:
-                {
-                    Tools.current = Tool.None;
-
-                    m_SelectedObjects = Selection.objects;
-
-                    Selection.objects = new UnityEngine.Object[0];
-
-                    m_Octree.Populate(sceneObjects, m_Settings.useAdditionalVertexStreams);
-
-                    if (tool == PaintTool.Throw)
+                case PaintTool.Brush:
+                case PaintTool.Pin:
+                case PaintTool.Place:
+                case PaintTool.Throw:
+                case PaintTool.Erase:
+                case PaintTool.Modify:
+                case PaintTool.PickObject:
                     {
-                        m_LastPhysicsUpdateTime = Time.realtimeSinceStartup;
-                        #if UNITY_2022_2_OR_NEWER
-                        m_ThrowTool.lastSimulationMode = Physics.simulationMode;
-                        Physics.simulationMode = SimulationMode.Script;
-                        #else
-                        Physics.autoSimulation = false;
-                        #endif
+                        Tools.current = Tool.None;
 
-                        m_ThrowTool.m_rigidbodys ??= new List<Rigidbody>();
-                        m_ThrowTool.m_rigidbody2Ds ??= new List<Rigidbody2D>();
+                        m_SelectedObjects = Selection.objects;
 
-                        m_ThrowTool.m_rigidbodys.Clear();
-                        m_ThrowTool.m_rigidbody2Ds.Clear();
+                        Selection.objects = new UnityEngine.Object[0];
 
-                        foreach (var root in m_CurrentStageScene.GetRootGameObjects())
+                        m_Octree.Populate(sceneObjects, m_Settings.useAdditionalVertexStreams);
+
+                        if (tool == PaintTool.Throw)
                         {
-                            Utility.ForAllInHierarchy(root, gameObject =>
+                            m_LastPhysicsUpdateTime = Time.realtimeSinceStartup;
+#if UNITY_2022_2_OR_NEWER
+                            m_ThrowTool.lastSimulationMode = Physics.simulationMode;
+                            Physics.simulationMode = SimulationMode.Script;
+#else
+                        Physics.autoSimulation = false;
+#endif
+
+                            m_ThrowTool.m_rigidbodys ??= new List<Rigidbody>();
+                            m_ThrowTool.m_rigidbody2Ds ??= new List<Rigidbody2D>();
+
+                            m_ThrowTool.m_rigidbodys.Clear();
+                            m_ThrowTool.m_rigidbody2Ds.Clear();
+
+                            foreach (var root in m_CurrentStageScene.GetRootGameObjects())
                             {
-                                Rigidbody rigidbody = gameObject.GetComponent<Rigidbody>();
-                                Rigidbody2D rigidbody2D = gameObject.GetComponent<Rigidbody2D>();
-
-                                if (rigidbody != null && rigidbody.isKinematic == false)
+                                Utility.ForAllInHierarchy(root, gameObject =>
                                 {
-                                    m_ThrowTool.m_rigidbodys.Add(rigidbody);
-                                    rigidbody.isKinematic = true;
-                                    rigidbody.Sleep();
-                                }
+                                    Rigidbody rigidbody = gameObject.GetComponent<Rigidbody>();
+                                    Rigidbody2D rigidbody2D = gameObject.GetComponent<Rigidbody2D>();
 
-                                if (rigidbody2D != null && rigidbody2D.isKinematic == false)
-                                {
-                                    m_ThrowTool.m_rigidbody2Ds.Add(rigidbody2D);
-                                    rigidbody2D.isKinematic = true;
-                                    rigidbody2D.Sleep();
-                                }
-                            });
+                                    if (rigidbody != null && rigidbody.isKinematic == false)
+                                    {
+                                        m_ThrowTool.m_rigidbodys.Add(rigidbody);
+                                        rigidbody.isKinematic = true;
+                                        rigidbody.Sleep();
+                                    }
+
+                                    if (rigidbody2D != null && rigidbody2D.bodyType != RigidbodyType2D.Kinematic)
+                                    {
+                                        m_ThrowTool.m_rigidbody2Ds.Add(rigidbody2D);
+                                        rigidbody2D.bodyType = RigidbodyType2D.Kinematic;
+                                        rigidbody2D.Sleep();
+                                    }
+                                });
+                            }
                         }
                     }
-                }
-                break;
-            case PaintTool.Orient:
-                {
-                    Tools.current = Tool.None;
-                    m_Octree.Populate(sceneObjects, m_Settings.useAdditionalVertexStreams);
+                    break;
+                case PaintTool.Orient:
+                    {
+                        Tools.current = Tool.None;
+                        m_Octree.Populate(sceneObjects, m_Settings.useAdditionalVertexStreams);
 
-                    m_SelectedObjects = null;
-                }
-                break;
-            case PaintTool.Move:
-                {
-                    Tools.current = Tool.None;
-                    m_Octree.Populate(sceneObjects, m_Settings.useAdditionalVertexStreams);
+                        m_SelectedObjects = null;
+                    }
+                    break;
+                case PaintTool.Move:
+                    {
+                        Tools.current = Tool.None;
+                        m_Octree.Populate(sceneObjects, m_Settings.useAdditionalVertexStreams);
 
-                    m_SelectedObjects = null;
+                        m_SelectedObjects = null;
 
-                    MoveToolReloadSelection();
-                }
-                break;
-            case PaintTool.Select:
-                {
-                    Tools.current = Tool.None;
-                    m_Octree.Populate(sceneObjects, m_Settings.useAdditionalVertexStreams);
+                        MoveToolReloadSelection();
+                    }
+                    break;
+                case PaintTool.Select:
+                    {
+                        Tools.current = Tool.None;
+                        m_Octree.Populate(sceneObjects, m_Settings.useAdditionalVertexStreams);
 
-                    m_SelectedObjects = null;
-                    m_SelectionTool.selectedObjects.Clear();
-                    m_SelectionTool.selectedObjects.AddRange(Selection.gameObjects);
-                }
-                break;
+                        m_SelectedObjects = null;
+                        m_SelectionTool.selectedObjects.Clear();
+                        m_SelectionTool.selectedObjects.AddRange(Selection.gameObjects);
+                    }
+                    break;
             }
         }
 
@@ -3357,44 +3359,44 @@ namespace nTools.PrefabPainter
 
             switch (tool)
             {
-            case PaintTool.Pin:
-                if (m_PinTool.placedObjectInfo != null)
-                {
-                    DestroyObject(m_PinTool.placedObjectInfo);
-                    m_PinTool.placedObjectInfo = null;
-                }
-                break;
-            case PaintTool.Place:
-                if(m_PlaceTool.placedObjectInfo != null)
-                {
-                    DestroyObject(m_PlaceTool.placedObjectInfo);
-                    m_PlaceTool.placedObjectInfo = null;
-                }
-                break;
-            case PaintTool.Throw:
-                {
-                    foreach (var rigidbody in m_ThrowTool.m_rigidbodys.Where(rigidbody => rigidbody != null))
+                case PaintTool.Pin:
+                    if (m_PinTool.placedObjectInfo != null)
                     {
-                        rigidbody.isKinematic = false;
+                        DestroyObject(m_PinTool.placedObjectInfo);
+                        m_PinTool.placedObjectInfo = null;
                     }
-
-                    foreach (var rigidbody2D in m_ThrowTool.m_rigidbody2Ds.Where(rigidbody2D => rigidbody2D != null))
+                    break;
+                case PaintTool.Place:
+                    if (m_PlaceTool.placedObjectInfo != null)
                     {
-                        rigidbody2D.isKinematic = false;
+                        DestroyObject(m_PlaceTool.placedObjectInfo);
+                        m_PlaceTool.placedObjectInfo = null;
                     }
+                    break;
+                case PaintTool.Throw:
+                    {
+                        foreach (var rigidbody in m_ThrowTool.m_rigidbodys.Where(rigidbody => rigidbody != null))
+                        {
+                            rigidbody.isKinematic = false;
+                        }
 
-                    #if UNITY_2022_2_OR_NEWER
-                    Physics.simulationMode = m_ThrowTool.lastSimulationMode;
-                    #else
+                        foreach (var rigidbody2D in m_ThrowTool.m_rigidbody2Ds.Where(rigidbody2D => rigidbody2D != null))
+                        {
+                            rigidbody2D.bodyType = RigidbodyType2D.Dynamic;
+                        }
+
+#if UNITY_2022_2_OR_NEWER
+                        Physics.simulationMode = m_ThrowTool.lastSimulationMode;
+#else
                     Physics.autoSimulation = true;
-                    #endif
-                }
-                break;
-            case PaintTool.Move:
-                {
-                    m_MoveTool.objects.Clear();
-                }
-                break;
+#endif
+                    }
+                    break;
+                case PaintTool.Move:
+                    {
+                        m_MoveTool.objects.Clear();
+                    }
+                    break;
             }
         }
 
@@ -3418,7 +3420,7 @@ namespace nTools.PrefabPainter
 
 
             // Stage changed during paint
-            if(StageUtility.GetCurrentStage() != StageUtility.GetMainStage() &&
+            if (StageUtility.GetCurrentStage() != StageUtility.GetMainStage() &&
                StageUtility.GetCurrentStage() != m_CurrentStage)
             {
                 m_CurrentTool = PaintTool.None;
@@ -3436,19 +3438,19 @@ namespace nTools.PrefabPainter
             // if any object selected - abort paint
             if (Selection.objects.Length > 0)
             {
-                switch(m_CurrentTool)
+                switch (m_CurrentTool)
                 {
-                case PaintTool.Brush:
-                case PaintTool.Pin:
-                case PaintTool.Place:
-                case PaintTool.Erase:
-                case PaintTool.Modify:
-                    {
-                        m_CurrentTool = PaintTool.None;
-                        m_SelectedObjects = null;
-                        Repaint();
-                    }
-                    break;
+                    case PaintTool.Brush:
+                    case PaintTool.Pin:
+                    case PaintTool.Place:
+                    case PaintTool.Erase:
+                    case PaintTool.Modify:
+                        {
+                            m_CurrentTool = PaintTool.None;
+                            m_SelectedObjects = null;
+                            Repaint();
+                        }
+                        break;
                 }
 
             }
@@ -3459,36 +3461,36 @@ namespace nTools.PrefabPainter
 
             switch (m_CurrentTool)
             {
-            case PaintTool.Brush:
-                DoBrushTool();
-                break;
-            case PaintTool.Pin:
-                DoPinTool();
-                break;
-            case PaintTool.Place:
-                DoPlaceTool();
-                break;
-            case PaintTool.Throw:
-                DoThrowTool();
-                break;
-            case PaintTool.Erase:
-                DoEraseTool();
-                break;
-            case PaintTool.Select:
-                DoSelectTool();
-                break;
-            case PaintTool.Modify:
-                DoModifyTool();
-                break;
-            case PaintTool.Orient:
-                DoOrientTool();
-                break;
-            case PaintTool.Move:
-                DoMoveTool();
-                break;
-            case PaintTool.PickObject:
-                DoPickObject();
-                break;
+                case PaintTool.Brush:
+                    DoBrushTool();
+                    break;
+                case PaintTool.Pin:
+                    DoPinTool();
+                    break;
+                case PaintTool.Place:
+                    DoPlaceTool();
+                    break;
+                case PaintTool.Throw:
+                    DoThrowTool();
+                    break;
+                case PaintTool.Erase:
+                    DoEraseTool();
+                    break;
+                case PaintTool.Select:
+                    DoSelectTool();
+                    break;
+                case PaintTool.Modify:
+                    DoModifyTool();
+                    break;
+                case PaintTool.Orient:
+                    DoOrientTool();
+                    break;
+                case PaintTool.Move:
+                    DoMoveTool();
+                    break;
+                case PaintTool.PickObject:
+                    DoPickObject();
+                    break;
             }
 
             HandleKeyboardEvents();
@@ -3506,34 +3508,35 @@ namespace nTools.PrefabPainter
 
             switch (e.GetTypeForControl(controlID))
             {
-            case EventType.MouseDown:
-                if (e.button == 0)
-                {
-                    Raycast(HandleUtility.GUIPointToWorldRay(e.mousePosition), out m_CurrentRaycast,
-                                                m_Settings.paintLayers.value, m_Settings.ignoreLayers.value);
-                    if (m_OnPickObjectAction != null)
+                case EventType.MouseDown:
+                    if (e.button == 0)
                     {
-                        m_OnPickObjectAction(m_CurrentRaycast);
-                        m_OnPickObjectAction = null;
-                    }
+                        Raycast(HandleUtility.GUIPointToWorldRay(e.mousePosition), out m_CurrentRaycast,
+                                                    m_Settings.paintLayers.value, m_Settings.ignoreLayers.value);
+                        if (m_OnPickObjectAction != null)
+                        {
+                            m_OnPickObjectAction(m_CurrentRaycast);
+                            m_OnPickObjectAction = null;
+                        }
 
-                    m_OnPickObjectMessage = "";
-                    m_CurrentTool = PaintTool.None;
-                }
-                break;
-            case EventType.MouseMove:
-                Raycast(HandleUtility.GUIPointToWorldRay(e.mousePosition), out m_CurrentRaycast,
-                                                m_Settings.paintLayers.value, m_Settings.ignoreLayers.value);
-                e.Use();
-                break;
-            case EventType.Repaint:
-                if(m_CurrentRaycast.isHit) {
-                    DrawPickObjectHandles(m_CurrentRaycast);
-                }
-                break;
-            case EventType.Layout:
-                HandleUtility.AddDefaultControl(controlID);
-                break;
+                        m_OnPickObjectMessage = "";
+                        m_CurrentTool = PaintTool.None;
+                    }
+                    break;
+                case EventType.MouseMove:
+                    Raycast(HandleUtility.GUIPointToWorldRay(e.mousePosition), out m_CurrentRaycast,
+                                                    m_Settings.paintLayers.value, m_Settings.ignoreLayers.value);
+                    e.Use();
+                    break;
+                case EventType.Repaint:
+                    if (m_CurrentRaycast.isHit)
+                    {
+                        DrawPickObjectHandles(m_CurrentRaycast);
+                    }
+                    break;
+                case EventType.Layout:
+                    HandleUtility.AddDefaultControl(controlID);
+                    break;
             }
         }
 
@@ -3549,133 +3552,164 @@ namespace nTools.PrefabPainter
 
             switch (e.GetTypeForControl(controlID))
             {
-            case EventType.MouseDown:
-                if (e.button == 0 && !e.alt && brush != null && !hasMultipleSelectedBrushes)
-                {
-                    Raycast(HandleUtility.GUIPointToWorldRay(e.mousePosition), out m_CurrentRaycast,
-                                               m_Settings.paintLayers.value, m_Settings.ignoreLayers.value);
-
-
-                    if (brush.settings.gridEnabled)
+                case EventType.MouseDown:
+                    if (e.button == 0 && !e.alt && brush != null && !hasMultipleSelectedBrushes)
                     {
-                        UpdateGrid(brush);
+                        Raycast(HandleUtility.GUIPointToWorldRay(e.mousePosition), out m_CurrentRaycast,
+                                                   m_Settings.paintLayers.value, m_Settings.ignoreLayers.value);
 
-                        m_BrushTool.raycastInfo = m_Grid.originRaycastInfo;
-                    }
-                    else
-                    {
-                        m_BrushTool.raycastInfo = m_CurrentRaycast;
-                    }
 
-                    m_BrushTool.dragDistance = 0;
-                    m_BrushTool.strokeDirection = new Vector3(1, 0, 0);
-                    m_BrushTool.lastPlacedObjectInfo = null;
-                    m_BrushTool.firstNormal = new Vector3(0, 0, 0);
-
-                    brush.BeginStroke();
-
-                    if(brush.settings.gridEnabled)
-                    {
-                        PlacedObjectInfo placedObjectInfo = BrushModePlaceObject(m_BrushTool.raycastInfo, brush);
-                        if (placedObjectInfo != null)
+                        if (brush.settings.gridEnabled)
                         {
-                            m_BrushTool.lastPlacedObjectInfo = placedObjectInfo;
-                            m_BrushTool.strokeDirectionRefPoint = m_CurrentRaycast.point;
+                            UpdateGrid(brush);
+
+                            m_BrushTool.raycastInfo = m_Grid.originRaycastInfo;
                         }
-                    }
-                    else
-                    if (m_BrushTool.raycastInfo.isHit)
-                    {
-                        RaycastInfo raycastInfo = new RaycastInfo();
-
-                        float brushRadius = brush.settings.brushRadius;
-                        Vector3 randomPoint = m_CurrentRaycast.point + Vector3.ProjectOnPlane(UnityEngine.Random.onUnitSphere, m_CurrentRaycast.normal) * brushRadius;
-
-                        Raycast(WorldPointToRay(randomPoint), out raycastInfo, m_Settings.paintLayers.value, m_Settings.ignoreLayers.value);
-
-                        if(raycastInfo.isHitTargetLayer)
+                        else
                         {
-                            PlacedObjectInfo placedObjectInfo = BrushModePlaceObject(raycastInfo, brush);
+                            m_BrushTool.raycastInfo = m_CurrentRaycast;
+                        }
+
+                        m_BrushTool.dragDistance = 0;
+                        m_BrushTool.strokeDirection = new Vector3(1, 0, 0);
+                        m_BrushTool.lastPlacedObjectInfo = null;
+                        m_BrushTool.firstNormal = new Vector3(0, 0, 0);
+
+                        brush.BeginStroke();
+
+                        if (brush.settings.gridEnabled)
+                        {
+                            PlacedObjectInfo placedObjectInfo = BrushModePlaceObject(m_BrushTool.raycastInfo, brush);
                             if (placedObjectInfo != null)
                             {
                                 m_BrushTool.lastPlacedObjectInfo = placedObjectInfo;
                                 m_BrushTool.strokeDirectionRefPoint = m_CurrentRaycast.point;
                             }
                         }
+                        else
+                            if (m_BrushTool.raycastInfo.isHit)
+                            {
+                                RaycastInfo raycastInfo = new RaycastInfo();
+
+                                float brushRadius = brush.settings.brushRadius;
+                                Vector3 randomPoint = m_CurrentRaycast.point + Vector3.ProjectOnPlane(UnityEngine.Random.onUnitSphere, m_CurrentRaycast.normal) * brushRadius;
+
+                                Raycast(WorldPointToRay(randomPoint), out raycastInfo, m_Settings.paintLayers.value, m_Settings.ignoreLayers.value);
+
+                                if (raycastInfo.isHitTargetLayer)
+                                {
+                                    PlacedObjectInfo placedObjectInfo = BrushModePlaceObject(raycastInfo, brush);
+                                    if (placedObjectInfo != null)
+                                    {
+                                        m_BrushTool.lastPlacedObjectInfo = placedObjectInfo;
+                                        m_BrushTool.strokeDirectionRefPoint = m_CurrentRaycast.point;
+                                    }
+                                }
+                            }
+
+                        GUIUtility.hotControl = controlID;
+                        e.Use();
                     }
-
-                    GUIUtility.hotControl = controlID;
-                    e.Use();
-                }
-                break;
-            case EventType.MouseDrag:
-                if (GUIUtility.hotControl == controlID && e.button == 0 && brush != null && !hasMultipleSelectedBrushes)
-                {
-                    Raycast(HandleUtility.GUIPointToWorldRay(e.mousePosition), out m_CurrentRaycast,
-                                               m_Settings.paintLayers.value, m_Settings.ignoreLayers.value);
-
-
-                    if (brush.settings.gridEnabled)
+                    break;
+                case EventType.MouseDrag:
+                    if (GUIUtility.hotControl == controlID && e.button == 0 && brush != null && !hasMultipleSelectedBrushes)
                     {
-                        UpdateGrid(brush);
-
-                        m_BrushTool.prevRaycast = m_BrushTool.raycastInfo;
-                        m_BrushTool.raycastInfo = m_Grid.originRaycastInfo;
-                    }
-                    else
-                    {
-                        m_BrushTool.prevRaycast = m_BrushTool.raycastInfo;
-                        m_BrushTool.raycastInfo = m_CurrentRaycast;
-                    }
-
-                    // loose surface - break stroke - don't orient last object
-                    if (!m_BrushTool.raycastInfo.isHit || !m_BrushTool.prevRaycast.isHit)
-                    {
-                        if (m_BrushTool.lastPlacedObjectInfo != null)
-                        {
-                            BrushModeFinishPlaceObject(m_BrushTool.lastPlacedObjectInfo);
-                            m_BrushTool.lastPlacedObjectInfo = null;
-                        }
-                    }
-
-                    if (m_BrushTool.firstNormal.magnitude < 0.1f && m_BrushTool.raycastInfo.isHit)
-                    {
-                        m_BrushTool.firstNormal = m_BrushTool.raycastInfo.normal;
-                    }
-
-                    if (m_BrushTool.raycastInfo.isHit || m_BrushTool.prevRaycast.isHit)
-                    {
-                        Vector3 hitPoint = m_BrushTool.raycastInfo.point;
-                        Vector3 lastHitPoint = m_BrushTool.prevRaycast.point;
-                        Vector3 hitNormal = m_BrushTool.raycastInfo.isHit ? m_BrushTool.raycastInfo.normal : m_BrushTool.prevRaycast.normal;
-
-                        bool isTwoPoints = true;
-
-                        // predict point
-                        if (!m_BrushTool.raycastInfo.isHit)
-                        {
-                            if (!m_BrushTool.prevRaycast.IntersectsHitPlane(m_BrushTool.raycastInfo.ray, out hitPoint))
-                                isTwoPoints = false;
-                        }
-
-                        // predict point
-                        if (!m_BrushTool.prevRaycast.isHit)
-                        {
-                            if (!m_BrushTool.raycastInfo.IntersectsHitPlane(m_BrushTool.prevRaycast.ray, out lastHitPoint))
-                                isTwoPoints = false;
-                        }
+                        Raycast(HandleUtility.GUIPointToWorldRay(e.mousePosition), out m_CurrentRaycast,
+                                                   m_Settings.paintLayers.value, m_Settings.ignoreLayers.value);
 
 
                         if (brush.settings.gridEnabled)
                         {
-                            if (m_BrushTool.raycastInfo.isHitTargetLayer && !m_Grid.inDeadZone &&
-                                (m_BrushTool.lastPlacedObjectInfo == null || !Utility.IsVector3Equal(hitPoint, m_BrushTool.lastPlacedObjectInfo.raycastInfo.point)))
+                            UpdateGrid(brush);
+
+                            m_BrushTool.prevRaycast = m_BrushTool.raycastInfo;
+                            m_BrushTool.raycastInfo = m_Grid.originRaycastInfo;
+                        }
+                        else
+                        {
+                            m_BrushTool.prevRaycast = m_BrushTool.raycastInfo;
+                            m_BrushTool.raycastInfo = m_CurrentRaycast;
+                        }
+
+                        // loose surface - break stroke - don't orient last object
+                        if (!m_BrushTool.raycastInfo.isHit || !m_BrushTool.prevRaycast.isHit)
+                        {
+                            if (m_BrushTool.lastPlacedObjectInfo != null)
                             {
-                                PlacedObjectInfo placedObjectInfo = BrushModePlaceObject(m_BrushTool.raycastInfo, brush);
-                                if (placedObjectInfo != null)
+                                BrushModeFinishPlaceObject(m_BrushTool.lastPlacedObjectInfo);
+                                m_BrushTool.lastPlacedObjectInfo = null;
+                            }
+                        }
+
+                        if (m_BrushTool.firstNormal.magnitude < 0.1f && m_BrushTool.raycastInfo.isHit)
+                        {
+                            m_BrushTool.firstNormal = m_BrushTool.raycastInfo.normal;
+                        }
+
+                        if (m_BrushTool.raycastInfo.isHit || m_BrushTool.prevRaycast.isHit)
+                        {
+                            Vector3 hitPoint = m_BrushTool.raycastInfo.point;
+                            Vector3 lastHitPoint = m_BrushTool.prevRaycast.point;
+                            Vector3 hitNormal = m_BrushTool.raycastInfo.isHit ? m_BrushTool.raycastInfo.normal : m_BrushTool.prevRaycast.normal;
+
+                            bool isTwoPoints = true;
+
+                            // predict point
+                            if (!m_BrushTool.raycastInfo.isHit)
+                            {
+                                if (!m_BrushTool.prevRaycast.IntersectsHitPlane(m_BrushTool.raycastInfo.ray, out hitPoint))
+                                    isTwoPoints = false;
+                            }
+
+                            // predict point
+                            if (!m_BrushTool.prevRaycast.isHit)
+                            {
+                                if (!m_BrushTool.raycastInfo.IntersectsHitPlane(m_BrushTool.prevRaycast.ray, out lastHitPoint))
+                                    isTwoPoints = false;
+                            }
+
+
+                            if (brush.settings.gridEnabled)
+                            {
+                                if (m_BrushTool.raycastInfo.isHitTargetLayer && !m_Grid.inDeadZone &&
+                                    (m_BrushTool.lastPlacedObjectInfo == null || !Utility.IsVector3Equal(hitPoint, m_BrushTool.lastPlacedObjectInfo.raycastInfo.point)))
                                 {
-                                    if (m_BrushTool.lastPlacedObjectInfo != null)
-                                        m_BrushTool.strokeDirection = (placedObjectInfo.raycastInfo.point - m_BrushTool.lastPlacedObjectInfo.raycastInfo.point).normalized;
+                                    PlacedObjectInfo placedObjectInfo = BrushModePlaceObject(m_BrushTool.raycastInfo, brush);
+                                    if (placedObjectInfo != null)
+                                    {
+                                        if (m_BrushTool.lastPlacedObjectInfo != null)
+                                            m_BrushTool.strokeDirection = (placedObjectInfo.raycastInfo.point - m_BrushTool.lastPlacedObjectInfo.raycastInfo.point).normalized;
+
+                                        // re-orient last object along stroke
+                                        if (brush.settings.alongBrushStroke && m_BrushTool.lastPlacedObjectInfo != null)
+                                        {
+                                            BrushModeOrientObject(m_BrushTool.lastPlacedObjectInfo);
+                                            PositionObject(m_BrushTool.lastPlacedObjectInfo);
+                                        }
+
+                                        if (m_BrushTool.lastPlacedObjectInfo != null)
+                                        {
+                                            BrushModeFinishPlaceObject(m_BrushTool.lastPlacedObjectInfo);
+                                            m_BrushTool.lastPlacedObjectInfo = null;
+                                        }
+                                        m_BrushTool.lastPlacedObjectInfo = placedObjectInfo;
+                                        m_BrushTool.strokeDirectionRefPoint = hitPoint;
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                if (isTwoPoints && !Utility.IsVector3Equal(hitPoint, lastHitPoint))
+                                {
+                                    float brushRadius = brush.settings.brushRadius;
+                                    float brushSpacing = Mathf.Max(0.01f, brush.settings.brushSpacing);
+                                    Vector3 moveVector = (hitPoint - lastHitPoint);
+                                    float moveLenght = moveVector.magnitude;
+                                    Vector3 moveDirection = moveVector.normalized;
+
+
+                                    m_BrushTool.strokeDirection = (hitPoint - m_BrushTool.strokeDirectionRefPoint).normalized;
+
 
                                     // re-orient last object along stroke
                                     if (brush.settings.alongBrushStroke && m_BrushTool.lastPlacedObjectInfo != null)
@@ -3684,72 +3718,17 @@ namespace nTools.PrefabPainter
                                         PositionObject(m_BrushTool.lastPlacedObjectInfo);
                                     }
 
-                                    if (m_BrushTool.lastPlacedObjectInfo != null)
+
+                                    if (m_BrushTool.dragDistance + moveLenght >= brushSpacing)
                                     {
-                                        BrushModeFinishPlaceObject(m_BrushTool.lastPlacedObjectInfo);
-                                        m_BrushTool.lastPlacedObjectInfo = null;
-                                    }
-                                    m_BrushTool.lastPlacedObjectInfo = placedObjectInfo;
-                                    m_BrushTool.strokeDirectionRefPoint = hitPoint;
-                                }
-                            }
-                        }
-                        else
-                        {
-                            if (isTwoPoints && !Utility.IsVector3Equal(hitPoint, lastHitPoint))
-                            {
-                                float brushRadius = brush.settings.brushRadius;
-                                float brushSpacing = Mathf.Max(0.01f, brush.settings.brushSpacing);
-                                Vector3 moveVector = (hitPoint - lastHitPoint);
-                                float moveLenght = moveVector.magnitude;
-                                Vector3 moveDirection = moveVector.normalized;
+                                        float d = brushSpacing - m_BrushTool.dragDistance;
+                                        Vector3 drawPoint = lastHitPoint + moveDirection * d;
+                                        m_BrushTool.dragDistance = 0;
+                                        moveLenght -= d;
 
+                                        Vector3 randomPoint = drawPoint + Vector3.ProjectOnPlane(UnityEngine.Random.onUnitSphere, hitNormal) * brushRadius;
 
-                                m_BrushTool.strokeDirection = (hitPoint - m_BrushTool.strokeDirectionRefPoint).normalized;
-
-
-                                // re-orient last object along stroke
-                                if (brush.settings.alongBrushStroke && m_BrushTool.lastPlacedObjectInfo != null)
-                                {
-                                    BrushModeOrientObject(m_BrushTool.lastPlacedObjectInfo);
-                                    PositionObject(m_BrushTool.lastPlacedObjectInfo);
-                                }
-
-
-                                if (m_BrushTool.dragDistance + moveLenght >= brushSpacing)
-                                {
-                                    float d = brushSpacing - m_BrushTool.dragDistance;
-                                    Vector3 drawPoint = lastHitPoint + moveDirection * d;
-                                    m_BrushTool.dragDistance = 0;
-                                    moveLenght -= d;
-
-                                    Vector3 randomPoint = drawPoint + Vector3.ProjectOnPlane(UnityEngine.Random.onUnitSphere, hitNormal) * brushRadius;
-
-                                    RaycastInfo raycastInfo = new RaycastInfo();
-                                    Raycast(WorldPointToRay(randomPoint), out raycastInfo, m_Settings.paintLayers.value, m_Settings.ignoreLayers.value);
-
-                                    if (raycastInfo.isHitTargetLayer)
-                                    {
-                                        PlacedObjectInfo placedObjectInfo = BrushModePlaceObject(raycastInfo, brush);
-                                        if (placedObjectInfo != null)
-                                        {
-                                            if (m_BrushTool.lastPlacedObjectInfo != null)
-                                            {
-                                                BrushModeFinishPlaceObject(m_BrushTool.lastPlacedObjectInfo);
-                                                m_BrushTool.lastPlacedObjectInfo = null;
-                                            }
-                                            m_BrushTool.lastPlacedObjectInfo = placedObjectInfo;
-                                            m_BrushTool.strokeDirectionRefPoint = hitPoint;
-                                        }
-                                    }
-
-                                    while (moveLenght >= brushSpacing)
-                                    {
-                                        moveLenght -= brushSpacing;
-                                        drawPoint += moveDirection * brushSpacing;
-
-                                        randomPoint = drawPoint + Vector3.ProjectOnPlane(UnityEngine.Random.onUnitSphere, hitNormal) * brushRadius;
-
+                                        RaycastInfo raycastInfo = new RaycastInfo();
                                         Raycast(WorldPointToRay(randomPoint), out raycastInfo, m_Settings.paintLayers.value, m_Settings.ignoreLayers.value);
 
                                         if (raycastInfo.isHitTargetLayer)
@@ -3766,92 +3745,116 @@ namespace nTools.PrefabPainter
                                                 m_BrushTool.strokeDirectionRefPoint = hitPoint;
                                             }
                                         }
-                                    }
-                                }
 
-                                m_BrushTool.dragDistance += moveLenght;
+                                        while (moveLenght >= brushSpacing)
+                                        {
+                                            moveLenght -= brushSpacing;
+                                            drawPoint += moveDirection * brushSpacing;
+
+                                            randomPoint = drawPoint + Vector3.ProjectOnPlane(UnityEngine.Random.onUnitSphere, hitNormal) * brushRadius;
+
+                                            Raycast(WorldPointToRay(randomPoint), out raycastInfo, m_Settings.paintLayers.value, m_Settings.ignoreLayers.value);
+
+                                            if (raycastInfo.isHitTargetLayer)
+                                            {
+                                                PlacedObjectInfo placedObjectInfo = BrushModePlaceObject(raycastInfo, brush);
+                                                if (placedObjectInfo != null)
+                                                {
+                                                    if (m_BrushTool.lastPlacedObjectInfo != null)
+                                                    {
+                                                        BrushModeFinishPlaceObject(m_BrushTool.lastPlacedObjectInfo);
+                                                        m_BrushTool.lastPlacedObjectInfo = null;
+                                                    }
+                                                    m_BrushTool.lastPlacedObjectInfo = placedObjectInfo;
+                                                    m_BrushTool.strokeDirectionRefPoint = hitPoint;
+                                                }
+                                            }
+                                        }
+                                    }
+
+                                    m_BrushTool.dragDistance += moveLenght;
+                                }
                             }
                         }
-                    }
 
 
 
-                    e.Use();
-                }
-                break;
-            case EventType.MouseUp:
-                if (GUIUtility.hotControl == controlID && e.button == 0)
-                {
-                    brush.EndStroke();
-
-                    if (m_BrushTool.lastPlacedObjectInfo != null)
-                    {
-                        BrushModeFinishPlaceObject(m_BrushTool.lastPlacedObjectInfo);
-                        m_BrushTool.lastPlacedObjectInfo = null;
-                    }
-
-                    GUIUtility.hotControl = 0;
-                    e.Use();
-                }
-                break;
-            case EventType.MouseMove:
-                {
-                    Raycast(HandleUtility.GUIPointToWorldRay(e.mousePosition), out m_CurrentRaycast,
-                                               m_Settings.paintLayers.value, m_Settings.ignoreLayers.value);
-
-                    // for slope handles info
-                    m_BrushTool.firstNormal = m_CurrentRaycast.normal;
-
-                    if (brush != null && brush.settings.gridEnabled)
-                        UpdateGrid(brush);
-
-                    e.Use();
-                }
-                break;
-            case EventType.Repaint:
-                if (m_CurrentRaycast.isHit)
-                {
-                    if (brush == null)
-                    {
-                        DrawErrorHandles(m_CurrentRaycast, Strings.selectBrush);
-                    }
-                    else
-                    if (hasMultipleSelectedBrushes)
-                    {
-                        DrawErrorHandles(m_CurrentRaycast, Strings.multiSelBrush);
-                    }
-                    else
-                    if (m_CurrentRaycast.isHitMaskedLayer)
-                    {
-                        DrawMaskedHandles(m_CurrentRaycast, brush);
-                    }
-                    else
-                    {
-                        if (brush.settings.gridEnabled)
-                            DrawGrid(brush);
-                        DrawBrushHandles(m_CurrentRaycast, brush);
-                    }
-                }
-                break;
-            case EventType.Layout:
-                HandleUtility.AddDefaultControl(controlID);
-                break;
-            case EventType.KeyDown:
-                switch (e.keyCode)
-                {
-                case KeyCode.F:
-                    // F key - Frame camera on brush hit point
-                    if (IsModifierDown(EventModifiers.None) && m_CurrentRaycast.isHit)
-                    {
-                        if(brush != null && !brush.settings.gridEnabled)
-                            SceneView.lastActiveSceneView.LookAt(m_CurrentRaycast.point, SceneView.lastActiveSceneView.rotation, brush.settings.brushRadius * 25f);
-                        else
-                            SceneView.lastActiveSceneView.LookAt(m_CurrentRaycast.point, SceneView.lastActiveSceneView.rotation, Mathf.Max(brush.settings.gridStep.x, brush.settings.gridStep.y) * 10f);
                         e.Use();
                     }
                     break;
-                }
-                break;
+                case EventType.MouseUp:
+                    if (GUIUtility.hotControl == controlID && e.button == 0)
+                    {
+                        brush.EndStroke();
+
+                        if (m_BrushTool.lastPlacedObjectInfo != null)
+                        {
+                            BrushModeFinishPlaceObject(m_BrushTool.lastPlacedObjectInfo);
+                            m_BrushTool.lastPlacedObjectInfo = null;
+                        }
+
+                        GUIUtility.hotControl = 0;
+                        e.Use();
+                    }
+                    break;
+                case EventType.MouseMove:
+                    {
+                        Raycast(HandleUtility.GUIPointToWorldRay(e.mousePosition), out m_CurrentRaycast,
+                                                   m_Settings.paintLayers.value, m_Settings.ignoreLayers.value);
+
+                        // for slope handles info
+                        m_BrushTool.firstNormal = m_CurrentRaycast.normal;
+
+                        if (brush != null && brush.settings.gridEnabled)
+                            UpdateGrid(brush);
+
+                        e.Use();
+                    }
+                    break;
+                case EventType.Repaint:
+                    if (m_CurrentRaycast.isHit)
+                    {
+                        if (brush == null)
+                        {
+                            DrawErrorHandles(m_CurrentRaycast, Strings.selectBrush);
+                        }
+                        else
+                            if (hasMultipleSelectedBrushes)
+                            {
+                                DrawErrorHandles(m_CurrentRaycast, Strings.multiSelBrush);
+                            }
+                            else
+                                if (m_CurrentRaycast.isHitMaskedLayer)
+                                {
+                                    DrawMaskedHandles(m_CurrentRaycast, brush);
+                                }
+                                else
+                                {
+                                    if (brush.settings.gridEnabled)
+                                        DrawGrid(brush);
+                                    DrawBrushHandles(m_CurrentRaycast, brush);
+                                }
+                    }
+                    break;
+                case EventType.Layout:
+                    HandleUtility.AddDefaultControl(controlID);
+                    break;
+                case EventType.KeyDown:
+                    switch (e.keyCode)
+                    {
+                        case KeyCode.F:
+                            // F key - Frame camera on brush hit point
+                            if (IsModifierDown(EventModifiers.None) && m_CurrentRaycast.isHit)
+                            {
+                                if (brush != null && !brush.settings.gridEnabled)
+                                    SceneView.lastActiveSceneView.LookAt(m_CurrentRaycast.point, SceneView.lastActiveSceneView.rotation, brush.settings.brushRadius * 25f);
+                                else
+                                    SceneView.lastActiveSceneView.LookAt(m_CurrentRaycast.point, SceneView.lastActiveSceneView.rotation, Mathf.Max(brush.settings.gridStep.x, brush.settings.gridStep.y) * 10f);
+                                e.Use();
+                            }
+                            break;
+                    }
+                    break;
             }
         }
 
@@ -3866,196 +3869,197 @@ namespace nTools.PrefabPainter
 
             switch (e.GetTypeForControl(controlID))
             {
-            case EventType.MouseDown:
-                if (e.button == 0 && !e.alt && brush != null && !hasMultipleSelectedBrushes)
-                {
-                    Raycast(HandleUtility.GUIPointToWorldRay(e.mousePosition), out m_CurrentRaycast,
-                                            m_Settings.paintLayers.value, m_Settings.ignoreLayers.value);
-
-                    if (brush.settings.gridEnabled)
+                case EventType.MouseDown:
+                    if (e.button == 0 && !e.alt && brush != null && !hasMultipleSelectedBrushes)
                     {
-                        m_CurrentRaycast = m_Grid.originRaycastInfo;
-                    }
+                        Raycast(HandleUtility.GUIPointToWorldRay(e.mousePosition), out m_CurrentRaycast,
+                                                m_Settings.paintLayers.value, m_Settings.ignoreLayers.value);
 
-                    if (m_CurrentRaycast.isHitTargetLayer)
-                    {
-                        brush.BeginStroke();
-
-                        m_PinTool.placedObjectInfo = PlaceObject(m_CurrentRaycast, brush);
-                        if (m_PinTool.placedObjectInfo == null)
-                            return;
-
-                        brush.EndStroke();
-
-                        m_PinTool.point = m_CurrentRaycast.point;
-                        GetOrientation(m_CurrentRaycast.normal, brush.settings.orientationMode, out m_PinTool.upwards, out m_PinTool.right, out m_PinTool.forward);
-
-
-
-                        if (brush.settings.pinFixedRotation)
-                            OrientObject(m_PinTool.placedObjectInfo, brush.settings.pinFixedRotationValue);
-                        else
-                            OrientObject(m_PinTool.placedObjectInfo, new Vector3(0, m_PinTool.angle, 0));
-
-
-                        m_PinTool.scaleFactor = GetObjectScaleFactor(m_PinTool.placedObjectInfo.pivotObject, m_CurrentRaycast);
-
-
-                        if (brush.settings.pinFixedScale) {
-                            m_PinTool.placedObjectInfo.pivotObject.transform.localScale = brush.settings.pinFixedScaleValue;
-                        }
-                        else
-                            m_PinTool.placedObjectInfo.pivotObject.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
-
-                        m_PinTool.radius = 0f;
-                    }
-
-                    GUIUtility.hotControl = controlID;
-                    e.Use();
-                }
-                break;
-            case EventType.MouseDrag:
-                if (GUIUtility.hotControl == controlID && e.button == 0 && m_PinTool.placedObjectInfo != null)
-                {
-                    if (m_PinTool.IntersectsHitPlane(HandleUtility.GUIPointToWorldRay(e.mousePosition), out m_PinTool.point))
-                    {
-                        Vector3 vector = m_PinTool.point - m_PinTool.placedObjectInfo.raycastInfo.point;
-                        float vectorLength = vector.magnitude;
-
-                        if (vectorLength < 0.01f)
-                        {
-                            vector = Vector3.up * 0.01f;
-                            vectorLength = 0.01f;
-                        }
-
-                        m_PinTool.angle = Vector3.Angle(m_PinTool.forward, vector.normalized);
-                        if (Vector3.Dot(vector.normalized, m_PinTool.right) < 0.0f)
-                            m_PinTool.angle = -m_PinTool.angle;
-
-
-                        bool snapScale = e.shift ? !m_Settings.pinSnapScale : m_Settings.pinSnapScale;
-                        bool snapRotation = e.control ? !m_Settings.pinSnapRotation : m_Settings.pinSnapRotation;
-
-                        // snap angle
-                        if (snapRotation && m_Settings.pinSnapRotationValue > 0)
-                            m_PinTool.angle = Mathf.Round(m_PinTool.angle / m_Settings.pinSnapRotationValue) * m_Settings.pinSnapRotationValue;
-
-
-                        float scale = 2.0f * vectorLength * m_PinTool.scaleFactor;
-
-                        // snap scale
-                        if (snapScale && m_Settings.pinSnapScaleValue > 0)
-                        {
-                            scale = Mathf.Round(scale / m_Settings.pinSnapScaleValue) * m_Settings.pinSnapScaleValue;
-                            scale = Mathf.Max(scale, 0.01f);
-                        }
-
-                        m_PinTool.radius = scale / (m_PinTool.scaleFactor * 2f);
-
-                        if (!brush.settings.pinFixedRotation)
-                            OrientObject(m_PinTool.placedObjectInfo, new Vector3(0, m_PinTool.angle, 0));
-
-                        if (!brush.settings.pinFixedScale)
-                        {
-                            m_PinTool.placedObjectInfo.pivotObject.transform.localScale = new Vector3(scale, scale, scale);
-                        }
-
-                        PivotMode pivotMode = brush.settings.multibrushSlots[m_PinTool.placedObjectInfo.prefabSlot].pivotMode;
-
-                        switch(pivotMode)
-                        {
-                        case PivotMode.WorldBoundsBottomCenter: pivotMode = PivotMode.BoundsBottomCenter; break;
-                        case PivotMode.WorldBoundsCenter: pivotMode = PivotMode.BoundsCenter; break;
-                        case PivotMode.WorldBoundsTopCenter: pivotMode = PivotMode.BoundsTopCenter; break;
-                        }
-
-                        Vector3 pivot = GetObjectPivot(m_PinTool.placedObjectInfo.pivotObject, pivotMode);
-
-                        m_PinTool.placedObjectInfo.pivotObject.transform.position = m_PinTool.placedObjectInfo.raycastInfo.point
-                            - (pivot - m_PinTool.placedObjectInfo.pivotObject.transform.position)
-                            + brush.settings.surfaceOffset * m_PinTool.placedObjectInfo.raycastInfo.normal;
-                    }
-
-                    e.Use();
-                }
-                break;
-            case EventType.MouseUp:
-                if (GUIUtility.hotControl == controlID && e.button == 0)
-                {
-                    if (m_PinTool.placedObjectInfo != null)
-                    {
-                        FinishPlaceObject(m_PinTool.placedObjectInfo);
-
-                        if (brush.settings.pinFixedScale == false)
-                        {
-                            Vector2 placeSrceenPoint = HandleUtility.WorldToGUIPoint(m_PinTool.placedObjectInfo.raycastInfo.point);
-
-                            if ((e.mousePosition - placeSrceenPoint).magnitude < 5f)
-                            {
-                                GameObject.DestroyImmediate(m_PinTool.placedObjectInfo.gameObject);
-                            }
-                        }
-
-                        m_PinTool.placedObjectInfo = null;
-                    }
-
-                    GUIUtility.hotControl = 0;
-                    e.Use();
-                }
-                break;
-            case EventType.MouseMove:
-                {
-                    Raycast(HandleUtility.GUIPointToWorldRay(e.mousePosition), out m_CurrentRaycast,
-                                               m_Settings.paintLayers.value, m_Settings.ignoreLayers.value);
-
-                    if (brush != null && brush.settings.gridEnabled)
-                        UpdateGrid(brush);
-
-                    e.Use();
-                }
-                break;
-            case EventType.Repaint:
-                if (m_CurrentRaycast.isHit)
-                {
-                    if (brush == null)
-                    {
-                        DrawErrorHandles(m_CurrentRaycast, Strings.selectBrush);
-                    }
-                    else
-                    if (hasMultipleSelectedBrushes)
-                    {
-                        DrawErrorHandles(m_CurrentRaycast, Strings.multiSelBrush);
-                    }
-                    else
-                    if (m_CurrentRaycast.isHitMaskedLayer)
-                    {
-                        DrawMaskedHandles(m_CurrentRaycast, brush);
-                    }
-                    else
-                    {
                         if (brush.settings.gridEnabled)
-                            DrawGrid(brush);
+                        {
+                            m_CurrentRaycast = m_Grid.originRaycastInfo;
+                        }
 
-                        DrawPinToolHandles(brush);
-                    }
-                }
-                break;
-            case EventType.Layout:
-                HandleUtility.AddDefaultControl(controlID);
-                break;
-            case EventType.KeyDown:
-                switch (e.keyCode)
-                {
-                case KeyCode.F:
-                    // F key - Frame camera on brush hit point
-                    if (IsModifierDown(EventModifiers.None) && m_CurrentRaycast.isHit)
-                    {
-                        SceneView.lastActiveSceneView.LookAt(m_CurrentRaycast.point);
+                        if (m_CurrentRaycast.isHitTargetLayer)
+                        {
+                            brush.BeginStroke();
+
+                            m_PinTool.placedObjectInfo = PlaceObject(m_CurrentRaycast, brush);
+                            if (m_PinTool.placedObjectInfo == null)
+                                return;
+
+                            brush.EndStroke();
+
+                            m_PinTool.point = m_CurrentRaycast.point;
+                            GetOrientation(m_CurrentRaycast.normal, brush.settings.orientationMode, out m_PinTool.upwards, out m_PinTool.right, out m_PinTool.forward);
+
+
+
+                            if (brush.settings.pinFixedRotation)
+                                OrientObject(m_PinTool.placedObjectInfo, brush.settings.pinFixedRotationValue);
+                            else
+                                OrientObject(m_PinTool.placedObjectInfo, new Vector3(0, m_PinTool.angle, 0));
+
+
+                            m_PinTool.scaleFactor = GetObjectScaleFactor(m_PinTool.placedObjectInfo.pivotObject, m_CurrentRaycast);
+
+
+                            if (brush.settings.pinFixedScale)
+                            {
+                                m_PinTool.placedObjectInfo.pivotObject.transform.localScale = brush.settings.pinFixedScaleValue;
+                            }
+                            else
+                                m_PinTool.placedObjectInfo.pivotObject.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
+
+                            m_PinTool.radius = 0f;
+                        }
+
+                        GUIUtility.hotControl = controlID;
                         e.Use();
                     }
                     break;
-                }
-                break;
+                case EventType.MouseDrag:
+                    if (GUIUtility.hotControl == controlID && e.button == 0 && m_PinTool.placedObjectInfo != null)
+                    {
+                        if (m_PinTool.IntersectsHitPlane(HandleUtility.GUIPointToWorldRay(e.mousePosition), out m_PinTool.point))
+                        {
+                            Vector3 vector = m_PinTool.point - m_PinTool.placedObjectInfo.raycastInfo.point;
+                            float vectorLength = vector.magnitude;
+
+                            if (vectorLength < 0.01f)
+                            {
+                                vector = Vector3.up * 0.01f;
+                                vectorLength = 0.01f;
+                            }
+
+                            m_PinTool.angle = Vector3.Angle(m_PinTool.forward, vector.normalized);
+                            if (Vector3.Dot(vector.normalized, m_PinTool.right) < 0.0f)
+                                m_PinTool.angle = -m_PinTool.angle;
+
+
+                            bool snapScale = e.shift ? !m_Settings.pinSnapScale : m_Settings.pinSnapScale;
+                            bool snapRotation = e.control ? !m_Settings.pinSnapRotation : m_Settings.pinSnapRotation;
+
+                            // snap angle
+                            if (snapRotation && m_Settings.pinSnapRotationValue > 0)
+                                m_PinTool.angle = Mathf.Round(m_PinTool.angle / m_Settings.pinSnapRotationValue) * m_Settings.pinSnapRotationValue;
+
+
+                            float scale = 2.0f * vectorLength * m_PinTool.scaleFactor;
+
+                            // snap scale
+                            if (snapScale && m_Settings.pinSnapScaleValue > 0)
+                            {
+                                scale = Mathf.Round(scale / m_Settings.pinSnapScaleValue) * m_Settings.pinSnapScaleValue;
+                                scale = Mathf.Max(scale, 0.01f);
+                            }
+
+                            m_PinTool.radius = scale / (m_PinTool.scaleFactor * 2f);
+
+                            if (!brush.settings.pinFixedRotation)
+                                OrientObject(m_PinTool.placedObjectInfo, new Vector3(0, m_PinTool.angle, 0));
+
+                            if (!brush.settings.pinFixedScale)
+                            {
+                                m_PinTool.placedObjectInfo.pivotObject.transform.localScale = new Vector3(scale, scale, scale);
+                            }
+
+                            PivotMode pivotMode = brush.settings.multibrushSlots[m_PinTool.placedObjectInfo.prefabSlot].pivotMode;
+
+                            switch (pivotMode)
+                            {
+                                case PivotMode.WorldBoundsBottomCenter: pivotMode = PivotMode.BoundsBottomCenter; break;
+                                case PivotMode.WorldBoundsCenter: pivotMode = PivotMode.BoundsCenter; break;
+                                case PivotMode.WorldBoundsTopCenter: pivotMode = PivotMode.BoundsTopCenter; break;
+                            }
+
+                            Vector3 pivot = GetObjectPivot(m_PinTool.placedObjectInfo.pivotObject, pivotMode);
+
+                            m_PinTool.placedObjectInfo.pivotObject.transform.position = m_PinTool.placedObjectInfo.raycastInfo.point
+                                - (pivot - m_PinTool.placedObjectInfo.pivotObject.transform.position)
+                                + brush.settings.surfaceOffset * m_PinTool.placedObjectInfo.raycastInfo.normal;
+                        }
+
+                        e.Use();
+                    }
+                    break;
+                case EventType.MouseUp:
+                    if (GUIUtility.hotControl == controlID && e.button == 0)
+                    {
+                        if (m_PinTool.placedObjectInfo != null)
+                        {
+                            FinishPlaceObject(m_PinTool.placedObjectInfo);
+
+                            if (brush.settings.pinFixedScale == false)
+                            {
+                                Vector2 placeSrceenPoint = HandleUtility.WorldToGUIPoint(m_PinTool.placedObjectInfo.raycastInfo.point);
+
+                                if ((e.mousePosition - placeSrceenPoint).magnitude < 5f)
+                                {
+                                    GameObject.DestroyImmediate(m_PinTool.placedObjectInfo.gameObject);
+                                }
+                            }
+
+                            m_PinTool.placedObjectInfo = null;
+                        }
+
+                        GUIUtility.hotControl = 0;
+                        e.Use();
+                    }
+                    break;
+                case EventType.MouseMove:
+                    {
+                        Raycast(HandleUtility.GUIPointToWorldRay(e.mousePosition), out m_CurrentRaycast,
+                                                   m_Settings.paintLayers.value, m_Settings.ignoreLayers.value);
+
+                        if (brush != null && brush.settings.gridEnabled)
+                            UpdateGrid(brush);
+
+                        e.Use();
+                    }
+                    break;
+                case EventType.Repaint:
+                    if (m_CurrentRaycast.isHit)
+                    {
+                        if (brush == null)
+                        {
+                            DrawErrorHandles(m_CurrentRaycast, Strings.selectBrush);
+                        }
+                        else
+                            if (hasMultipleSelectedBrushes)
+                            {
+                                DrawErrorHandles(m_CurrentRaycast, Strings.multiSelBrush);
+                            }
+                            else
+                                if (m_CurrentRaycast.isHitMaskedLayer)
+                                {
+                                    DrawMaskedHandles(m_CurrentRaycast, brush);
+                                }
+                                else
+                                {
+                                    if (brush.settings.gridEnabled)
+                                        DrawGrid(brush);
+
+                                    DrawPinToolHandles(brush);
+                                }
+                    }
+                    break;
+                case EventType.Layout:
+                    HandleUtility.AddDefaultControl(controlID);
+                    break;
+                case EventType.KeyDown:
+                    switch (e.keyCode)
+                    {
+                        case KeyCode.F:
+                            // F key - Frame camera on brush hit point
+                            if (IsModifierDown(EventModifiers.None) && m_CurrentRaycast.isHit)
+                            {
+                                SceneView.lastActiveSceneView.LookAt(m_CurrentRaycast.point);
+                                e.Use();
+                            }
+                            break;
+                    }
+                    break;
             }
         }
 
@@ -4070,147 +4074,147 @@ namespace nTools.PrefabPainter
 
             switch (e.GetTypeForControl(controlID))
             {
-            case EventType.MouseDown:
-                if (e.button == 0 && !e.alt && brush != null && !hasMultipleSelectedBrushes && m_PlaceTool.placedObjectInfo != null)
-                {
-                    GetOrientation(m_CurrentRaycast.normal, brush.settings.orientationMode, out m_PlaceTool.upwards, out m_PlaceTool.right, out m_PlaceTool.forward);
-
-                    GUIUtility.hotControl = controlID;
-                    e.Use();
-                }
-                break;
-            case EventType.MouseUp:
-                if (GUIUtility.hotControl == controlID && e.button == 0)
-                {
-                    if (m_PlaceTool.raycastInfo.isHitTargetLayer)
+                case EventType.MouseDown:
+                    if (e.button == 0 && !e.alt && brush != null && !hasMultipleSelectedBrushes && m_PlaceTool.placedObjectInfo != null)
                     {
-                        FinishPlaceObject(m_PlaceTool.placedObjectInfo);
-                        m_PlaceTool.placedObjectInfo = null;
-                    }
+                        GetOrientation(m_CurrentRaycast.normal, brush.settings.orientationMode, out m_PlaceTool.upwards, out m_PlaceTool.right, out m_PlaceTool.forward);
 
-                    GUIUtility.hotControl = 0;
-                    e.Use();
-                }
-                break;
-            case EventType.MouseMove:
-                Raycast(HandleUtility.GUIPointToWorldRay(e.mousePosition), out m_CurrentRaycast,
-                                               m_Settings.paintLayers.value, m_Settings.ignoreLayers.value);
-
-                if (brush != null && !hasMultipleSelectedBrushes && brush.settings.gridEnabled)
-                {
-                    UpdateGrid(brush);
-
-                    m_PlaceTool.raycastInfo = m_Grid.originRaycastInfo;
-                }
-                else
-                {
-                    m_PlaceTool.raycastInfo = m_CurrentRaycast;
-                }
-
-
-                e.Use();
-                break;
-            case EventType.Repaint:
-                if (m_PlaceTool.raycastInfo.isHit)
-                {
-                    if (m_PlaceTool.placedObjectInfo != null &&
-                        (brush == null || hasMultipleSelectedBrushes || m_PlaceTool.placedObjectInfo.brush != brush))
-                    {
-                        DestroyObject(m_PlaceTool.placedObjectInfo);
-                        m_PlaceTool.placedObjectInfo = null;
-                    }
-
-                    if (brush != null && !hasMultipleSelectedBrushes)
-                    {
-                        // Create preview object
-                        if (m_PlaceTool.placedObjectInfo == null && m_PlaceTool.raycastInfo.isHit)
-                        {
-                            brush.BeginStroke();
-                            m_PlaceTool.placedObjectInfo = PlaceObject(m_PlaceTool.raycastInfo, brush);
-                            brush.EndStroke();
-                        }
-                    }
-
-                    // Update object transform
-                    if (m_PlaceTool.placedObjectInfo != null)
-                    {
-                        m_PlaceTool.placedObjectInfo.raycastInfo = m_PlaceTool.raycastInfo;
-
-                        if (brush.settings.placeScale <= 0f)
-                            brush.settings.placeScale = 0.1f;
-
-                        OrientObject(m_PlaceTool.placedObjectInfo, brush.settings.placeEulerAngles);
-                        m_PlaceTool.placedObjectInfo.pivotObject.transform.localScale = new Vector3(brush.settings.placeScale, brush.settings.placeScale, brush.settings.placeScale);
-
-                        Vector3 pivot = GetObjectPivot(m_PlaceTool.placedObjectInfo.pivotObject, brush.settings.multibrushSlots[m_PlaceTool.placedObjectInfo.prefabSlot].pivotMode);
-
-                        m_PlaceTool.placedObjectInfo.pivotObject.transform.position = m_PlaceTool.placedObjectInfo.raycastInfo.point
-                            - (pivot - m_PlaceTool.placedObjectInfo.pivotObject.transform.position)
-                            + brush.settings.surfaceOffset * m_PlaceTool.placedObjectInfo.raycastInfo.normal;
-
-
-                        m_PlaceTool.placedObjectInfo.pivotObject.transform.position =
-                            Utility.RoundVector(m_PlaceTool.placedObjectInfo.pivotObject.transform.position, 3);
-                    }
-                }
-
-                if (m_CurrentRaycast.isHit)
-                {
-
-                    if (brush == null)
-                    {
-                        DrawErrorHandles(m_CurrentRaycast, Strings.selectBrush);
-                    }
-                    else
-                    if (hasMultipleSelectedBrushes)
-                    {
-                        DrawErrorHandles(m_CurrentRaycast, Strings.multiSelBrush);
-                    }
-                    else
-                    if (m_CurrentRaycast.isHitMaskedLayer)
-                    {
-                        DrawMaskedHandles(m_CurrentRaycast, brush);
-                    }
-                    else
-                    {
-                        if (brush.settings.gridEnabled)
-                            DrawGrid(brush);
-
-                        DrawPlaceToolHandles(brush);
-                    }
-                }
-                break;
-            case EventType.Layout:
-                HandleUtility.AddDefaultControl(controlID);
-                break;
-            case EventType.KeyDown:
-                switch (e.keyCode)
-                {
-                case KeyCode.F:
-                    // F key - Frame camera on brush hit point
-                    if (IsModifierDown(EventModifiers.None) && m_CurrentRaycast.isHit)
-                    {
-                        if (m_PlaceTool.placedObjectInfo != null)
-                        {
-                            Bounds bounds;
-                            GetObjectWorldBounds(m_PlaceTool.placedObjectInfo.pivotObject, out bounds);
-
-                            if (m_CurrentRaycast.isHit)
-                                bounds.Encapsulate(m_CurrentRaycast.point);
-
-                            if(bounds.size.magnitude > Mathf.Epsilon)
-                                SceneView.lastActiveSceneView.LookAt(bounds.center, SceneView.lastActiveSceneView.rotation, bounds.size.magnitude * 6f);
-                            else
-                                SceneView.lastActiveSceneView.LookAt(bounds.center);
-                        }
-                        else
-                            SceneView.lastActiveSceneView.LookAt(m_CurrentRaycast.point);
-
+                        GUIUtility.hotControl = controlID;
                         e.Use();
                     }
                     break;
-                }
-                break;
+                case EventType.MouseUp:
+                    if (GUIUtility.hotControl == controlID && e.button == 0)
+                    {
+                        if (m_PlaceTool.raycastInfo.isHitTargetLayer)
+                        {
+                            FinishPlaceObject(m_PlaceTool.placedObjectInfo);
+                            m_PlaceTool.placedObjectInfo = null;
+                        }
+
+                        GUIUtility.hotControl = 0;
+                        e.Use();
+                    }
+                    break;
+                case EventType.MouseMove:
+                    Raycast(HandleUtility.GUIPointToWorldRay(e.mousePosition), out m_CurrentRaycast,
+                                                   m_Settings.paintLayers.value, m_Settings.ignoreLayers.value);
+
+                    if (brush != null && !hasMultipleSelectedBrushes && brush.settings.gridEnabled)
+                    {
+                        UpdateGrid(brush);
+
+                        m_PlaceTool.raycastInfo = m_Grid.originRaycastInfo;
+                    }
+                    else
+                    {
+                        m_PlaceTool.raycastInfo = m_CurrentRaycast;
+                    }
+
+
+                    e.Use();
+                    break;
+                case EventType.Repaint:
+                    if (m_PlaceTool.raycastInfo.isHit)
+                    {
+                        if (m_PlaceTool.placedObjectInfo != null &&
+                            (brush == null || hasMultipleSelectedBrushes || m_PlaceTool.placedObjectInfo.brush != brush))
+                        {
+                            DestroyObject(m_PlaceTool.placedObjectInfo);
+                            m_PlaceTool.placedObjectInfo = null;
+                        }
+
+                        if (brush != null && !hasMultipleSelectedBrushes)
+                        {
+                            // Create preview object
+                            if (m_PlaceTool.placedObjectInfo == null && m_PlaceTool.raycastInfo.isHit)
+                            {
+                                brush.BeginStroke();
+                                m_PlaceTool.placedObjectInfo = PlaceObject(m_PlaceTool.raycastInfo, brush);
+                                brush.EndStroke();
+                            }
+                        }
+
+                        // Update object transform
+                        if (m_PlaceTool.placedObjectInfo != null)
+                        {
+                            m_PlaceTool.placedObjectInfo.raycastInfo = m_PlaceTool.raycastInfo;
+
+                            if (brush.settings.placeScale <= 0f)
+                                brush.settings.placeScale = 0.1f;
+
+                            OrientObject(m_PlaceTool.placedObjectInfo, brush.settings.placeEulerAngles);
+                            m_PlaceTool.placedObjectInfo.pivotObject.transform.localScale = new Vector3(brush.settings.placeScale, brush.settings.placeScale, brush.settings.placeScale);
+
+                            Vector3 pivot = GetObjectPivot(m_PlaceTool.placedObjectInfo.pivotObject, brush.settings.multibrushSlots[m_PlaceTool.placedObjectInfo.prefabSlot].pivotMode);
+
+                            m_PlaceTool.placedObjectInfo.pivotObject.transform.position = m_PlaceTool.placedObjectInfo.raycastInfo.point
+                                - (pivot - m_PlaceTool.placedObjectInfo.pivotObject.transform.position)
+                                + brush.settings.surfaceOffset * m_PlaceTool.placedObjectInfo.raycastInfo.normal;
+
+
+                            m_PlaceTool.placedObjectInfo.pivotObject.transform.position =
+                                Utility.RoundVector(m_PlaceTool.placedObjectInfo.pivotObject.transform.position, 3);
+                        }
+                    }
+
+                    if (m_CurrentRaycast.isHit)
+                    {
+
+                        if (brush == null)
+                        {
+                            DrawErrorHandles(m_CurrentRaycast, Strings.selectBrush);
+                        }
+                        else
+                            if (hasMultipleSelectedBrushes)
+                            {
+                                DrawErrorHandles(m_CurrentRaycast, Strings.multiSelBrush);
+                            }
+                            else
+                                if (m_CurrentRaycast.isHitMaskedLayer)
+                                {
+                                    DrawMaskedHandles(m_CurrentRaycast, brush);
+                                }
+                                else
+                                {
+                                    if (brush.settings.gridEnabled)
+                                        DrawGrid(brush);
+
+                                    DrawPlaceToolHandles(brush);
+                                }
+                    }
+                    break;
+                case EventType.Layout:
+                    HandleUtility.AddDefaultControl(controlID);
+                    break;
+                case EventType.KeyDown:
+                    switch (e.keyCode)
+                    {
+                        case KeyCode.F:
+                            // F key - Frame camera on brush hit point
+                            if (IsModifierDown(EventModifiers.None) && m_CurrentRaycast.isHit)
+                            {
+                                if (m_PlaceTool.placedObjectInfo != null)
+                                {
+                                    Bounds bounds;
+                                    GetObjectWorldBounds(m_PlaceTool.placedObjectInfo.pivotObject, out bounds);
+
+                                    if (m_CurrentRaycast.isHit)
+                                        bounds.Encapsulate(m_CurrentRaycast.point);
+
+                                    if (bounds.size.magnitude > Mathf.Epsilon)
+                                        SceneView.lastActiveSceneView.LookAt(bounds.center, SceneView.lastActiveSceneView.rotation, bounds.size.magnitude * 6f);
+                                    else
+                                        SceneView.lastActiveSceneView.LookAt(bounds.center);
+                                }
+                                else
+                                    SceneView.lastActiveSceneView.LookAt(m_CurrentRaycast.point);
+
+                                e.Use();
+                            }
+                            break;
+                    }
+                    break;
             }
         }
 
@@ -4230,7 +4234,8 @@ namespace nTools.PrefabPainter
 
             Undo.RegisterCreatedObjectUndo(gameObject, "PP: Drop Object(s)");
 
-            if (m_Settings.overwritePrefabLayer) {
+            if (m_Settings.overwritePrefabLayer)
+            {
                 Utility.ForAllInHierarchy(gameObject, go => { go.layer = m_Settings.prefabPlaceLayer; });
             }
 
@@ -4267,118 +4272,20 @@ namespace nTools.PrefabPainter
 
             switch (e.GetTypeForControl(controlID))
             {
-            case EventType.MouseDown:
-                if (e.button == 0 && !e.alt && brush != null && !hasMultipleSelectedBrushes)
-                {
-                    m_ThrowTool.raycastInfo = m_CurrentRaycast;
-                    m_ThrowTool.dragDistance = 0;
-
-                    brush.BeginStroke();
-
-                    if (m_ThrowTool.raycastInfo.isHit)
+                case EventType.MouseDown:
+                    if (e.button == 0 && !e.alt && brush != null && !hasMultipleSelectedBrushes)
                     {
-                        RaycastInfo raycastInfo = new RaycastInfo();
-                        Vector3 randomPoint = m_CurrentRaycast.point
-                                              + Vector3.ProjectOnPlane(UnityEngine.Random.onUnitSphere, m_CurrentRaycast.normal)
-                                              * brush.settings.throwRadius;;
-
-                        Raycast(WorldPointToRay(randomPoint), out raycastInfo, m_Settings.paintLayers.value, m_Settings.ignoreLayers.value);
-
-                        if(raycastInfo.isHitTargetLayer)
-                        {
-                            ThrowObject(raycastInfo, brush);
-                        }
-                    }
-
-                    GUIUtility.hotControl = controlID;
-                    e.Use();
-                }
-
-                // Freeze
-                if (e.button == 1 && !e.alt)
-                {
-                    foreach (var root in m_CurrentStageScene.GetRootGameObjects())
-                        Utility.ForAllInHierarchy(root, obj =>
-                        {
-                            var rigidbody = obj.GetComponent<Rigidbody>();
-                            var rigidbody2D = obj.GetComponent<Rigidbody2D>();
-                            if(rigidbody != null) rigidbody.Sleep();
-                            if(rigidbody2D != null) rigidbody2D.Sleep();
-                        });
-                    e.Use();
-                }
-
-                break;
-            case EventType.MouseUp:
-                if (GUIUtility.hotControl == controlID && e.button == 0)
-                {
-                    brush.EndStroke();
-
-                    GUIUtility.hotControl = 0;
-                    e.Use();
-                }
-                break;
-            case EventType.MouseDrag:
-                if (GUIUtility.hotControl == controlID && e.button == 0 && brush != null && !hasMultipleSelectedBrushes)
-                {
-                    Raycast(HandleUtility.GUIPointToWorldRay(e.mousePosition), out m_CurrentRaycast,
-                                               m_Settings.paintLayers.value, m_Settings.ignoreLayers.value);
-
-                    m_ThrowTool.prevRaycast = m_ThrowTool.raycastInfo;
-                    m_ThrowTool.raycastInfo = m_CurrentRaycast;
-
-                    if (!m_ThrowTool.raycastInfo.isHit && m_ThrowTool.prevRaycast.isHit)
-                        break;
-
-                    Vector3 hitPoint = m_ThrowTool.raycastInfo.point;
-                    Vector3 lastHitPoint = m_ThrowTool.prevRaycast.point;
-                    Vector3 hitNormal = m_ThrowTool.raycastInfo.isHit ? m_ThrowTool.raycastInfo.normal : m_ThrowTool.prevRaycast.normal;
-
-                    bool isTwoPoints = true;
-
-                    if (!m_ThrowTool.raycastInfo.isHit) {
-                        if (!m_ThrowTool.prevRaycast.IntersectsHitPlane(m_ThrowTool.raycastInfo.ray, out hitPoint))
-                            isTwoPoints = false;
-                    }
-
-                    if (!m_ThrowTool.prevRaycast.isHit) {
-                        if (!m_ThrowTool.raycastInfo.IntersectsHitPlane(m_ThrowTool.prevRaycast.ray, out lastHitPoint))
-                            isTwoPoints = false;
-                    }
-
-                    if (!isTwoPoints || Utility.IsVector3Equal(hitPoint, lastHitPoint))
-                        break;
-
-                    float throwRadius = brush.settings.throwRadius;
-                    float throwSpacing = Mathf.Max(0.01f, brush.settings.throwSpacing);
-                    Vector3 moveVector = (hitPoint - lastHitPoint);
-                    float moveLenght = moveVector.magnitude;
-                    Vector3 moveDirection = moveVector.normalized;
-
-
-                    if (m_ThrowTool.dragDistance + moveLenght >= throwSpacing)
-                    {
-                        float d = throwSpacing - m_ThrowTool.dragDistance;
-                        Vector3 drawPoint = lastHitPoint + moveDirection * d;
+                        m_ThrowTool.raycastInfo = m_CurrentRaycast;
                         m_ThrowTool.dragDistance = 0;
-                        moveLenght -= d;
 
-                        Vector3 randomPoint = drawPoint + Vector3.ProjectOnPlane(UnityEngine.Random.onUnitSphere, hitNormal) * throwRadius;
+                        brush.BeginStroke();
 
-                        RaycastInfo raycastInfo = new RaycastInfo();
-                        Raycast(WorldPointToRay(randomPoint), out raycastInfo, m_Settings.paintLayers.value, m_Settings.ignoreLayers.value);
-
-                        if (raycastInfo.isHitTargetLayer)
+                        if (m_ThrowTool.raycastInfo.isHit)
                         {
-                            ThrowObject(raycastInfo, brush);
-                        }
-
-                        while (moveLenght >= throwSpacing)
-                        {
-                            moveLenght -= throwSpacing;
-                            drawPoint += moveDirection * throwSpacing;
-
-                            randomPoint = drawPoint + Vector3.ProjectOnPlane(UnityEngine.Random.onUnitSphere, hitNormal) * throwRadius;
+                            RaycastInfo raycastInfo = new RaycastInfo();
+                            Vector3 randomPoint = m_CurrentRaycast.point
+                                                  + Vector3.ProjectOnPlane(UnityEngine.Random.onUnitSphere, m_CurrentRaycast.normal)
+                                                  * brush.settings.throwRadius; ;
 
                             Raycast(WorldPointToRay(randomPoint), out raycastInfo, m_Settings.paintLayers.value, m_Settings.ignoreLayers.value);
 
@@ -4387,67 +4294,167 @@ namespace nTools.PrefabPainter
                                 ThrowObject(raycastInfo, brush);
                             }
                         }
+
+                        GUIUtility.hotControl = controlID;
+                        e.Use();
                     }
 
-                    m_ThrowTool.dragDistance += moveLenght;
+                    // Freeze
+                    if (e.button == 1 && !e.alt)
+                    {
+                        foreach (var root in m_CurrentStageScene.GetRootGameObjects())
+                            Utility.ForAllInHierarchy(root, obj =>
+                            {
+                                var rigidbody = obj.GetComponent<Rigidbody>();
+                                var rigidbody2D = obj.GetComponent<Rigidbody2D>();
+                                if (rigidbody != null) rigidbody.Sleep();
+                                if (rigidbody2D != null) rigidbody2D.Sleep();
+                            });
+                        e.Use();
+                    }
 
-
-                    e.Use();
-                }
-                break;
-            case EventType.MouseMove:
-                Raycast(HandleUtility.GUIPointToWorldRay(e.mousePosition), out m_CurrentRaycast,
-                                               m_Settings.paintLayers.value, m_Settings.ignoreLayers.value);
-
-                m_ThrowTool.raycastInfo = m_CurrentRaycast;
-
-                e.Use();
                     break;
-            case EventType.Repaint:
-                if (m_PlaceTool.raycastInfo.isHit)
-                {
-                }
+                case EventType.MouseUp:
+                    if (GUIUtility.hotControl == controlID && e.button == 0)
+                    {
+                        brush.EndStroke();
 
-                if (m_CurrentRaycast.isHit)
-                {
-                    if (brush == null)
-                    {
-                        DrawErrorHandles(m_CurrentRaycast, Strings.selectBrush);
+                        GUIUtility.hotControl = 0;
+                        e.Use();
                     }
-                    else
-                    if (hasMultipleSelectedBrushes)
+                    break;
+                case EventType.MouseDrag:
+                    if (GUIUtility.hotControl == controlID && e.button == 0 && brush != null && !hasMultipleSelectedBrushes)
                     {
-                        DrawErrorHandles(m_CurrentRaycast, Strings.multiSelBrush);
-                    }
-                    else
-                    if (m_CurrentRaycast.isHitMaskedLayer)
-                    {
-                        DrawMaskedHandles(m_CurrentRaycast, brush);
-                    }
-                    else
-                    {
-                        DrawDropHandles(m_CurrentRaycast, brush);
-                    }
-                }
-                break;
-            case EventType.Layout:
-                HandleUtility.AddDefaultControl(controlID);
-                break;
-            case EventType.KeyDown:
-                switch (e.keyCode)
-                {
-                case KeyCode.F:
-                    // F key - Frame camera on brush hit point
-                    if (IsModifierDown(EventModifiers.None) && m_CurrentRaycast.isHit)
-                    {
-                        SceneView.lastActiveSceneView.LookAt(m_CurrentRaycast.point, SceneView.lastActiveSceneView.rotation,
-                            brush.settings.throwRadius * 25f);
+                        Raycast(HandleUtility.GUIPointToWorldRay(e.mousePosition), out m_CurrentRaycast,
+                                                   m_Settings.paintLayers.value, m_Settings.ignoreLayers.value);
+
+                        m_ThrowTool.prevRaycast = m_ThrowTool.raycastInfo;
+                        m_ThrowTool.raycastInfo = m_CurrentRaycast;
+
+                        if (!m_ThrowTool.raycastInfo.isHit && m_ThrowTool.prevRaycast.isHit)
+                            break;
+
+                        Vector3 hitPoint = m_ThrowTool.raycastInfo.point;
+                        Vector3 lastHitPoint = m_ThrowTool.prevRaycast.point;
+                        Vector3 hitNormal = m_ThrowTool.raycastInfo.isHit ? m_ThrowTool.raycastInfo.normal : m_ThrowTool.prevRaycast.normal;
+
+                        bool isTwoPoints = true;
+
+                        if (!m_ThrowTool.raycastInfo.isHit)
+                        {
+                            if (!m_ThrowTool.prevRaycast.IntersectsHitPlane(m_ThrowTool.raycastInfo.ray, out hitPoint))
+                                isTwoPoints = false;
+                        }
+
+                        if (!m_ThrowTool.prevRaycast.isHit)
+                        {
+                            if (!m_ThrowTool.raycastInfo.IntersectsHitPlane(m_ThrowTool.prevRaycast.ray, out lastHitPoint))
+                                isTwoPoints = false;
+                        }
+
+                        if (!isTwoPoints || Utility.IsVector3Equal(hitPoint, lastHitPoint))
+                            break;
+
+                        float throwRadius = brush.settings.throwRadius;
+                        float throwSpacing = Mathf.Max(0.01f, brush.settings.throwSpacing);
+                        Vector3 moveVector = (hitPoint - lastHitPoint);
+                        float moveLenght = moveVector.magnitude;
+                        Vector3 moveDirection = moveVector.normalized;
+
+
+                        if (m_ThrowTool.dragDistance + moveLenght >= throwSpacing)
+                        {
+                            float d = throwSpacing - m_ThrowTool.dragDistance;
+                            Vector3 drawPoint = lastHitPoint + moveDirection * d;
+                            m_ThrowTool.dragDistance = 0;
+                            moveLenght -= d;
+
+                            Vector3 randomPoint = drawPoint + Vector3.ProjectOnPlane(UnityEngine.Random.onUnitSphere, hitNormal) * throwRadius;
+
+                            RaycastInfo raycastInfo = new RaycastInfo();
+                            Raycast(WorldPointToRay(randomPoint), out raycastInfo, m_Settings.paintLayers.value, m_Settings.ignoreLayers.value);
+
+                            if (raycastInfo.isHitTargetLayer)
+                            {
+                                ThrowObject(raycastInfo, brush);
+                            }
+
+                            while (moveLenght >= throwSpacing)
+                            {
+                                moveLenght -= throwSpacing;
+                                drawPoint += moveDirection * throwSpacing;
+
+                                randomPoint = drawPoint + Vector3.ProjectOnPlane(UnityEngine.Random.onUnitSphere, hitNormal) * throwRadius;
+
+                                Raycast(WorldPointToRay(randomPoint), out raycastInfo, m_Settings.paintLayers.value, m_Settings.ignoreLayers.value);
+
+                                if (raycastInfo.isHitTargetLayer)
+                                {
+                                    ThrowObject(raycastInfo, brush);
+                                }
+                            }
+                        }
+
+                        m_ThrowTool.dragDistance += moveLenght;
+
 
                         e.Use();
                     }
                     break;
-                }
-                break;
+                case EventType.MouseMove:
+                    Raycast(HandleUtility.GUIPointToWorldRay(e.mousePosition), out m_CurrentRaycast,
+                                                   m_Settings.paintLayers.value, m_Settings.ignoreLayers.value);
+
+                    m_ThrowTool.raycastInfo = m_CurrentRaycast;
+
+                    e.Use();
+                    break;
+                case EventType.Repaint:
+                    if (m_PlaceTool.raycastInfo.isHit)
+                    {
+                    }
+
+                    if (m_CurrentRaycast.isHit)
+                    {
+                        if (brush == null)
+                        {
+                            DrawErrorHandles(m_CurrentRaycast, Strings.selectBrush);
+                        }
+                        else
+                            if (hasMultipleSelectedBrushes)
+                            {
+                                DrawErrorHandles(m_CurrentRaycast, Strings.multiSelBrush);
+                            }
+                            else
+                                if (m_CurrentRaycast.isHitMaskedLayer)
+                                {
+                                    DrawMaskedHandles(m_CurrentRaycast, brush);
+                                }
+                                else
+                                {
+                                    DrawDropHandles(m_CurrentRaycast, brush);
+                                }
+                    }
+                    break;
+                case EventType.Layout:
+                    HandleUtility.AddDefaultControl(controlID);
+                    break;
+                case EventType.KeyDown:
+                    switch (e.keyCode)
+                    {
+                        case KeyCode.F:
+                            // F key - Frame camera on brush hit point
+                            if (IsModifierDown(EventModifiers.None) && m_CurrentRaycast.isHit)
+                            {
+                                SceneView.lastActiveSceneView.LookAt(m_CurrentRaycast.point, SceneView.lastActiveSceneView.rotation,
+                                    brush.settings.throwRadius * 25f);
+
+                                e.Use();
+                            }
+                            break;
+                    }
+                    break;
             }
         }
 
@@ -4462,117 +4469,118 @@ namespace nTools.PrefabPainter
 
             switch (eventType)
             {
-            case EventType.MouseDown:
-            case EventType.MouseDrag:
+                case EventType.MouseDown:
+                case EventType.MouseDrag:
 
-                if (eventType == EventType.MouseDown && e.button == 0 && !e.alt)
-                {
-                    // on MouseDown make list of selected prefabs
-                    if (!m_Settings.eraseByLayer && brush != null)
+                    if (eventType == EventType.MouseDown && e.button == 0 && !e.alt)
+                    {
+                        // on MouseDown make list of selected prefabs
+                        if (!m_Settings.eraseByLayer && brush != null)
+                        {
+                            m_EraseTool.prefabList.Clear();
+
+                            m_Settings.GetActiveTab().brushes.ForEach((b) =>
+                            {
+                                if (b.selected)
+                                {
+                                    if (b.settings.multibrushEnabled)
+                                    {
+                                        for (int i = 0; i < b.prefabSlots.Length; i++)
+                                        {
+                                            if (b.prefabSlots[i].gameObject != null && b.settings.multibrushSlots[i].enabled)
+                                            {
+                                                m_EraseTool.prefabList.Add(b.prefabSlots[i].gameObject);
+                                            }
+                                        }
+                                    }
+                                    else
+                                    {
+                                        GameObject prefab = b.GetFirstAssociatedPrefab();
+                                        if (prefab != null)
+                                            m_EraseTool.prefabList.Add(prefab);
+                                    }
+                                }
+                            });
+                        }
+
+                        GUIUtility.hotControl = controlID;
+                    }
+
+
+                    if (GUIUtility.hotControl == controlID)
+                    {
+                        Raycast(HandleUtility.GUIPointToWorldRay(e.mousePosition), out m_CurrentRaycast,
+                                                   ~0, m_Settings.ignoreLayers.value);
+
+                        m_Octree.IntersectSphere(m_CurrentRaycast.point, m_Settings.eraseBrushRadius, (go) =>
+                        {
+                            if (go == null)
+                                return true;
+
+                            GameObject prefabRoot = GetPrefabRoot(go);
+                            if (prefabRoot == null)
+                                return true;
+
+                            if (m_Settings.eraseByLayer)
+                            {
+                                if (((1 << prefabRoot.layer) & m_Settings.eraseLayers.value) != 0)
+                                    DestroyObjectImmediate(prefabRoot);
+                            }
+                            else if (m_EraseTool.prefabList.Contains(GetCorrespondingObjectFromSource(prefabRoot) as GameObject))
+                            {
+                                DestroyObjectImmediate(prefabRoot);
+                            }
+
+                            return true;
+                        });
+
+                        e.Use();
+                    }
+
+
+                    break;
+                case EventType.MouseUp:
+                    if (GUIUtility.hotControl == controlID && e.button == 0)
                     {
                         m_EraseTool.prefabList.Clear();
 
-                        m_Settings.GetActiveTab().brushes.ForEach((b) => {
-                            if (b.selected)
-                            {
-                                if (b.settings.multibrushEnabled)
-                                {
-                                    for (int i = 0; i < b.prefabSlots.Length; i++)
-                                    {
-                                        if (b.prefabSlots[i].gameObject != null && b.settings.multibrushSlots[i].enabled)
-                                        {
-                                            m_EraseTool.prefabList.Add(b.prefabSlots[i].gameObject);
-                                        }
-                                    }
-                                }
-                                else
-                                {
-                                    GameObject prefab = b.GetFirstAssociatedPrefab();
-                                    if (prefab != null)
-                                        m_EraseTool.prefabList.Add(prefab);
-                                }
-                            }
-                        });
-                    }
-
-                    GUIUtility.hotControl = controlID;
-                }
-
-
-                if (GUIUtility.hotControl == controlID)
-                {
-                    Raycast(HandleUtility.GUIPointToWorldRay(e.mousePosition), out m_CurrentRaycast,
-                                               ~0, m_Settings.ignoreLayers.value);
-
-                    m_Octree.IntersectSphere(m_CurrentRaycast.point, m_Settings.eraseBrushRadius, (go) =>
-                    {
-                        if (go == null)
-                            return true;
-
-                        GameObject prefabRoot = GetPrefabRoot(go);
-                        if (prefabRoot == null)
-                            return true;
-
-                        if (m_Settings.eraseByLayer)
-                        {
-                            if (((1 << prefabRoot.layer) & m_Settings.eraseLayers.value) != 0)
-                                DestroyObjectImmediate(prefabRoot);
-                        }
-                        else if (m_EraseTool.prefabList.Contains(GetCorrespondingObjectFromSource(prefabRoot) as GameObject))
-                        {
-                            DestroyObjectImmediate(prefabRoot);
-                        }
-
-                        return true;
-                    });
-
-                    e.Use();
-                }
-
-
-                break;
-            case EventType.MouseUp:
-                if (GUIUtility.hotControl == controlID && e.button == 0)
-                {
-                    m_EraseTool.prefabList.Clear();
-
-                    GUIUtility.hotControl = 0;
-                    e.Use();
-                }
-                break;
-            case EventType.MouseMove:
-                {
-                    Raycast(HandleUtility.GUIPointToWorldRay(e.mousePosition), out m_CurrentRaycast,
-                                               ~0, m_Settings.ignoreLayers.value);
-
-                    e.Use();
-                }
-                break;
-            case EventType.Repaint:
-                if (m_CurrentRaycast.isHit)
-                {
-                    if (!m_Settings.eraseByLayer && brush == null)
-                        DrawErrorHandles(m_CurrentRaycast, Strings.selectBrush);
-                    else
-                        DrawEraseHandles(m_CurrentRaycast, brush);
-                }
-                break;
-            case EventType.Layout:
-                HandleUtility.AddDefaultControl(controlID);
-                break;
-            case EventType.KeyDown:
-                switch (e.keyCode)
-                {
-                case KeyCode.F:
-                    // F key - Frame camera on brush hit point
-                    if (IsModifierDown(EventModifiers.None) && m_CurrentRaycast.isHit)
-                    {
-                        SceneView.lastActiveSceneView.LookAt(m_CurrentRaycast.point, SceneView.lastActiveSceneView.rotation, m_Settings.eraseBrushRadius * 25f);
+                        GUIUtility.hotControl = 0;
                         e.Use();
                     }
                     break;
-                }
-                break;
+                case EventType.MouseMove:
+                    {
+                        Raycast(HandleUtility.GUIPointToWorldRay(e.mousePosition), out m_CurrentRaycast,
+                                                   ~0, m_Settings.ignoreLayers.value);
+
+                        e.Use();
+                    }
+                    break;
+                case EventType.Repaint:
+                    if (m_CurrentRaycast.isHit)
+                    {
+                        if (!m_Settings.eraseByLayer && brush == null)
+                            DrawErrorHandles(m_CurrentRaycast, Strings.selectBrush);
+                        else
+                            DrawEraseHandles(m_CurrentRaycast, brush);
+                    }
+                    break;
+                case EventType.Layout:
+                    HandleUtility.AddDefaultControl(controlID);
+                    break;
+                case EventType.KeyDown:
+                    switch (e.keyCode)
+                    {
+                        case KeyCode.F:
+                            // F key - Frame camera on brush hit point
+                            if (IsModifierDown(EventModifiers.None) && m_CurrentRaycast.isHit)
+                            {
+                                SceneView.lastActiveSceneView.LookAt(m_CurrentRaycast.point, SceneView.lastActiveSceneView.rotation, m_Settings.eraseBrushRadius * 25f);
+                                e.Use();
+                            }
+                            break;
+                    }
+                    break;
             }
         }
 
@@ -4588,151 +4596,152 @@ namespace nTools.PrefabPainter
 
             switch (eventType)
             {
-            case EventType.MouseDown:
-            case EventType.MouseDrag:
+                case EventType.MouseDown:
+                case EventType.MouseDrag:
 
-                SelectMode selectMode;
-                if (e.shift)
-                    selectMode = SelectMode.Add;
-                else if (e.control)
-                    selectMode = SelectMode.Substract;
-                else
-                    selectMode = SelectMode.Replace;
+                    SelectMode selectMode;
+                    if (e.shift)
+                        selectMode = SelectMode.Add;
+                    else if (e.control)
+                        selectMode = SelectMode.Substract;
+                    else
+                        selectMode = SelectMode.Replace;
 
 
-                if (eventType == EventType.MouseDown && e.button == 0 && !e.alt)
-                {
-                    switch (selectMode)
+                    if (eventType == EventType.MouseDown && e.button == 0 && !e.alt)
                     {
-                    case SelectMode.Replace:
-                        m_SelectionTool.selectedObjects.Clear();
-                        selectionChanged = true;
-                        break;
-                    default:
-                        m_SelectionTool.selectedObjects.Clear();
-                        m_SelectionTool.selectedObjects.AddRange(Selection.gameObjects);
-                        break;
-                    }
-
-                    // on MouseDown make list of selected prefabs
-                    if (!m_Settings.selectByLayer && brush != null)
-                    {
-                        m_SelectionTool.prefabList.Clear();
-
-                        // on MouseDown make list of selected prefabs
-                        m_Settings.GetActiveTab().brushes.ForEach((b) => {
-                            if (b.selected)
-                            {
-                                if (b.settings.multibrushEnabled)
-                                {
-                                    for (int i = 0; i < b.prefabSlots.Length; i++)
-                                    {
-                                        if (b.prefabSlots[i].gameObject != null && b.settings.multibrushSlots[i].enabled)
-                                        {
-                                            m_SelectionTool.prefabList.Add(b.prefabSlots[i].gameObject);
-                                        }
-                                    }
-                                }
-                                else
-                                {
-                                    GameObject prefab = b.GetFirstAssociatedPrefab();
-                                    if (prefab != null)
-                                        m_SelectionTool.prefabList.Add(prefab);
-                                }
-                            }
-                        });
-                    }
-
-                    GUIUtility.hotControl = controlID;
-                }
-
-                if (GUIUtility.hotControl == controlID)
-                {
-                    Raycast(HandleUtility.GUIPointToWorldRay(e.mousePosition), out m_CurrentRaycast,
-                                               ~0, m_Settings.ignoreLayers.value);
-
-                    m_Octree.IntersectSphere(m_CurrentRaycast.point, m_Settings.selectBrushRadius, (go) =>
-                    {
-                        if (go == null)
-                            return true;
-
-                        GameObject prefabRoot = GetPrefabRoot(go);
-                        if (prefabRoot == null)
-                            return true;
-
-                        if (m_Settings.selectByLayer)
-                        {
-                            if (((1 << prefabRoot.layer) & m_Settings.selectLayers.value) == 0)
-                                return true;
-                        }
-                        else if (!m_SelectionTool.prefabList.Contains(GetCorrespondingObjectFromSource(prefabRoot) as GameObject))
-                            return true;
-
                         switch (selectMode)
                         {
-                        case SelectMode.Replace:
-                        case SelectMode.Add:
-                            m_SelectionTool.selectedObjects.Add(prefabRoot);
-                            selectionChanged = true;
-                            break;
-                        case SelectMode.Substract:
-                            if (m_SelectionTool.selectedObjects.Contains(prefabRoot))
-                            {
-                                m_SelectionTool.selectedObjects.Remove(prefabRoot);
+                            case SelectMode.Replace:
+                                m_SelectionTool.selectedObjects.Clear();
                                 selectionChanged = true;
-                            }
-                            break;
+                                break;
+                            default:
+                                m_SelectionTool.selectedObjects.Clear();
+                                m_SelectionTool.selectedObjects.AddRange(Selection.gameObjects);
+                                break;
                         }
-                        return true;
-                    });
 
-                    if (selectionChanged)
-                        Selection.objects = m_SelectionTool.selectedObjects.ToArray();
+                        // on MouseDown make list of selected prefabs
+                        if (!m_Settings.selectByLayer && brush != null)
+                        {
+                            m_SelectionTool.prefabList.Clear();
 
-                    e.Use();
-                }
-                break;
-            case EventType.MouseUp:
-                if (GUIUtility.hotControl == controlID && e.button == 0)
-                {
-                    m_SelectionTool.prefabList.Clear();
+                            // on MouseDown make list of selected prefabs
+                            m_Settings.GetActiveTab().brushes.ForEach((b) =>
+                            {
+                                if (b.selected)
+                                {
+                                    if (b.settings.multibrushEnabled)
+                                    {
+                                        for (int i = 0; i < b.prefabSlots.Length; i++)
+                                        {
+                                            if (b.prefabSlots[i].gameObject != null && b.settings.multibrushSlots[i].enabled)
+                                            {
+                                                m_SelectionTool.prefabList.Add(b.prefabSlots[i].gameObject);
+                                            }
+                                        }
+                                    }
+                                    else
+                                    {
+                                        GameObject prefab = b.GetFirstAssociatedPrefab();
+                                        if (prefab != null)
+                                            m_SelectionTool.prefabList.Add(prefab);
+                                    }
+                                }
+                            });
+                        }
 
-                    GUIUtility.hotControl = 0;
-                    e.Use();
-                }
-                break;
-            case EventType.MouseMove:
-                {
-                    Raycast(HandleUtility.GUIPointToWorldRay(e.mousePosition), out m_CurrentRaycast,
-                                               ~0, m_Settings.ignoreLayers.value);
-                    e.Use();
-                }
-                break;
-            case EventType.Repaint:
-                if (m_CurrentRaycast.isHit)
-                {
-                    if (!m_Settings.selectByLayer && brush == null)
-                        DrawErrorHandles(m_CurrentRaycast, Strings.selectBrush);
-                    else
-                        DrawSelectHandles(m_CurrentRaycast, brush);
-                }
-                break;
-            case EventType.Layout:
-                HandleUtility.AddDefaultControl(controlID);
-                break;
-            case EventType.KeyDown:
-                switch (e.keyCode)
-                {
-                case KeyCode.F:
-                    // F key - Frame camera on brush hit point
-                    if (IsModifierDown(EventModifiers.None) && m_CurrentRaycast.isHit)
+                        GUIUtility.hotControl = controlID;
+                    }
+
+                    if (GUIUtility.hotControl == controlID)
                     {
-                        SceneView.lastActiveSceneView.LookAt(m_CurrentRaycast.point, SceneView.lastActiveSceneView.rotation, m_Settings.selectBrushRadius * 25f);
+                        Raycast(HandleUtility.GUIPointToWorldRay(e.mousePosition), out m_CurrentRaycast,
+                                                   ~0, m_Settings.ignoreLayers.value);
+
+                        m_Octree.IntersectSphere(m_CurrentRaycast.point, m_Settings.selectBrushRadius, (go) =>
+                        {
+                            if (go == null)
+                                return true;
+
+                            GameObject prefabRoot = GetPrefabRoot(go);
+                            if (prefabRoot == null)
+                                return true;
+
+                            if (m_Settings.selectByLayer)
+                            {
+                                if (((1 << prefabRoot.layer) & m_Settings.selectLayers.value) == 0)
+                                    return true;
+                            }
+                            else if (!m_SelectionTool.prefabList.Contains(GetCorrespondingObjectFromSource(prefabRoot) as GameObject))
+                                return true;
+
+                            switch (selectMode)
+                            {
+                                case SelectMode.Replace:
+                                case SelectMode.Add:
+                                    m_SelectionTool.selectedObjects.Add(prefabRoot);
+                                    selectionChanged = true;
+                                    break;
+                                case SelectMode.Substract:
+                                    if (m_SelectionTool.selectedObjects.Contains(prefabRoot))
+                                    {
+                                        m_SelectionTool.selectedObjects.Remove(prefabRoot);
+                                        selectionChanged = true;
+                                    }
+                                    break;
+                            }
+                            return true;
+                        });
+
+                        if (selectionChanged)
+                            Selection.objects = m_SelectionTool.selectedObjects.ToArray();
+
                         e.Use();
                     }
                     break;
-                }
-                break;
+                case EventType.MouseUp:
+                    if (GUIUtility.hotControl == controlID && e.button == 0)
+                    {
+                        m_SelectionTool.prefabList.Clear();
+
+                        GUIUtility.hotControl = 0;
+                        e.Use();
+                    }
+                    break;
+                case EventType.MouseMove:
+                    {
+                        Raycast(HandleUtility.GUIPointToWorldRay(e.mousePosition), out m_CurrentRaycast,
+                                                   ~0, m_Settings.ignoreLayers.value);
+                        e.Use();
+                    }
+                    break;
+                case EventType.Repaint:
+                    if (m_CurrentRaycast.isHit)
+                    {
+                        if (!m_Settings.selectByLayer && brush == null)
+                            DrawErrorHandles(m_CurrentRaycast, Strings.selectBrush);
+                        else
+                            DrawSelectHandles(m_CurrentRaycast, brush);
+                    }
+                    break;
+                case EventType.Layout:
+                    HandleUtility.AddDefaultControl(controlID);
+                    break;
+                case EventType.KeyDown:
+                    switch (e.keyCode)
+                    {
+                        case KeyCode.F:
+                            // F key - Frame camera on brush hit point
+                            if (IsModifierDown(EventModifiers.None) && m_CurrentRaycast.isHit)
+                            {
+                                SceneView.lastActiveSceneView.LookAt(m_CurrentRaycast.point, SceneView.lastActiveSceneView.rotation, m_Settings.selectBrushRadius * 25f);
+                                e.Use();
+                            }
+                            break;
+                    }
+                    break;
             }
         }
 
@@ -4749,187 +4758,188 @@ namespace nTools.PrefabPainter
 
             switch (eventType)
             {
-            case EventType.MouseDown:
-            case EventType.MouseDrag:
+                case EventType.MouseDown:
+                case EventType.MouseDrag:
 
-                Raycast(HandleUtility.GUIPointToWorldRay(e.mousePosition), out m_CurrentRaycast,
-                                               ~0, m_Settings.ignoreLayers.value);
+                    Raycast(HandleUtility.GUIPointToWorldRay(e.mousePosition), out m_CurrentRaycast,
+                                                   ~0, m_Settings.ignoreLayers.value);
 
 
-                if (eventType == EventType.MouseDown && e.button == 0 && !e.alt)
-                {
-                    // on MouseDown make list of selected prefabs
-                    if (!m_Settings.modifyByLayer && brush != null)
+                    if (eventType == EventType.MouseDown && e.button == 0 && !e.alt)
                     {
-                        m_ModifyTool.prefabList.Clear();
+                        // on MouseDown make list of selected prefabs
+                        if (!m_Settings.modifyByLayer && brush != null)
+                        {
+                            m_ModifyTool.prefabList.Clear();
 
-                        m_Settings.GetActiveTab().brushes.ForEach((b) => {
-                            if (b.selected)
+                            m_Settings.GetActiveTab().brushes.ForEach((b) =>
                             {
-                                if (b.settings.multibrushEnabled)
+                                if (b.selected)
                                 {
-                                    for (int i = 0; i < b.prefabSlots.Length; i++)
+                                    if (b.settings.multibrushEnabled)
                                     {
-                                        if (b.prefabSlots[i].gameObject != null && b.settings.multibrushSlots[i].enabled)
+                                        for (int i = 0; i < b.prefabSlots.Length; i++)
                                         {
-                                            m_ModifyTool.prefabList.Add(b.prefabSlots[i].gameObject);
+                                            if (b.prefabSlots[i].gameObject != null && b.settings.multibrushSlots[i].enabled)
+                                            {
+                                                m_ModifyTool.prefabList.Add(b.prefabSlots[i].gameObject);
+                                            }
                                         }
                                     }
+                                    else
+                                    {
+                                        GameObject prefab = b.GetFirstAssociatedPrefab();
+                                        if (prefab != null)
+                                            m_ModifyTool.prefabList.Add(prefab);
+                                    }
                                 }
-                                else
-                                {
-                                    GameObject prefab = b.GetFirstAssociatedPrefab();
-                                    if (prefab != null)
-                                        m_ModifyTool.prefabList.Add(prefab);
-                                }
-                            }
-                        });
+                            });
+                        }
+
+                        m_ModifyTool.updateTicks = 0;
+
+                        GUIUtility.hotControl = controlID;
+                        e.Use();
                     }
 
-                    m_ModifyTool.updateTicks = 0;
 
-                    GUIUtility.hotControl = controlID;
-                    e.Use();
-                }
-
-
-                if (eventType == EventType.MouseDrag && e.button == 0 && !e.alt && GUIUtility.hotControl == controlID)
-                {
-                    ModifyTool.ModifyInfo modifyInfo = new ModifyTool.ModifyInfo();
-
-                    m_ModifyTool.updateTicks++;
-
-                    m_Octree.IntersectSphere(m_CurrentRaycast.point, m_Settings.modifyBrushRadius, (go) =>
+                    if (eventType == EventType.MouseDrag && e.button == 0 && !e.alt && GUIUtility.hotControl == controlID)
                     {
-                        if (go == null)
-                            return true;
+                        ModifyTool.ModifyInfo modifyInfo = new ModifyTool.ModifyInfo();
 
-                        GameObject prefabRoot = GetPrefabRoot(go);
-                        if (prefabRoot == null)
-                            return true;
+                        m_ModifyTool.updateTicks++;
 
-                        if (m_Settings.modifyByLayer)
+                        m_Octree.IntersectSphere(m_CurrentRaycast.point, m_Settings.modifyBrushRadius, (go) =>
                         {
-                            if (((1 << prefabRoot.layer) & m_Settings.modifyLayers.value) == 0)
+                            if (go == null)
                                 return true;
-                        }
-                        else
-                        {
-                            if (!m_ModifyTool.prefabList.Contains(GetCorrespondingObjectFromSource(prefabRoot) as GameObject))
+
+                            GameObject prefabRoot = GetPrefabRoot(go);
+                            if (prefabRoot == null)
                                 return true;
-                        }
 
-                        if (!m_ModifyTool.modifiedObjects.TryGetValue(prefabRoot, out modifyInfo))
-                        {
-                            modifyInfo.pivot = GetObjectPivot(prefabRoot, m_Settings.modifyPivotMode);
-                            modifyInfo.initialPosition = prefabRoot.transform.position;
-                            modifyInfo.initialRotation = prefabRoot.transform.rotation;
-                            modifyInfo.initialScale = prefabRoot.transform.localScale;
-                            modifyInfo.initialUp = prefabRoot.transform.up;
-
-                            modifyInfo.randomScale = 1f - UnityEngine.Random.value * (m_Settings.modifyScaleRandomize * 0.01f);
-
-                            Vector3 randomVector = UnityEngine.Random.insideUnitSphere;
-
-                            modifyInfo.randomRotation = new Vector3(
-                                m_Settings.modifyRandomRotationValues.x * randomVector.x,
-                                m_Settings.modifyRandomRotationValues.y * randomVector.y,
-                                m_Settings.modifyRandomRotationValues.z * randomVector.z);
-
-                            modifyInfo.currentScale = 1.0f;
-
-                            Undo.RegisterCompleteObjectUndo(prefabRoot.transform, "Modify");
-
-                            m_Octree.RemoveGameObject(prefabRoot);
-                            m_Octree.AddDynamicObject(prefabRoot, m_Settings.useAdditionalVertexStreams);
-                        }
-
-
-
-                        if (modifyInfo.lastUpdate != m_ModifyTool.updateTicks)
-                        {
-                            modifyInfo.lastUpdate = m_ModifyTool.updateTicks;
-
-                            Transform transform = prefabRoot.transform;
-
-                            float moveLenght = e.delta.magnitude;
-                            float distance = Mathf.Min((m_CurrentRaycast.point - modifyInfo.pivot).magnitude, m_Settings.modifyBrushRadius);
-                            float falloff = 2f - distance / Mathf.Max(m_Settings.modifyBrushRadius, 0.001f);
-                            float strength = m_Settings.modifyStrength * moveLenght;
-
-                            modifyInfo.currentScale += m_Settings.modifyScale * strength * falloff * modifyInfo.randomScale * 0.005f;
-
-
-                            Quaternion qRotation;
-                            if(m_Settings.modifyRandomRotation)
+                            if (m_Settings.modifyByLayer)
                             {
-                                qRotation = transform.rotation * Quaternion.Euler(modifyInfo.randomRotation * falloff * strength * 0.1f);
+                                if (((1 << prefabRoot.layer) & m_Settings.modifyLayers.value) == 0)
+                                    return true;
                             }
                             else
                             {
-                                qRotation = transform.rotation * Quaternion.Euler(m_Settings.modifyRotationValues * falloff * strength * 0.1f);
+                                if (!m_ModifyTool.prefabList.Contains(GetCorrespondingObjectFromSource(prefabRoot) as GameObject))
+                                    return true;
                             }
 
-                            Quaternion qPosition = qRotation * Quaternion.Inverse(modifyInfo.initialRotation);
+                            if (!m_ModifyTool.modifiedObjects.TryGetValue(prefabRoot, out modifyInfo))
+                            {
+                                modifyInfo.pivot = GetObjectPivot(prefabRoot, m_Settings.modifyPivotMode);
+                                modifyInfo.initialPosition = prefabRoot.transform.position;
+                                modifyInfo.initialRotation = prefabRoot.transform.rotation;
+                                modifyInfo.initialScale = prefabRoot.transform.localScale;
+                                modifyInfo.initialUp = prefabRoot.transform.up;
 
-                            transform.rotation = qRotation;
-                            transform.position = modifyInfo.pivot + modifyInfo.currentScale * (qPosition * (modifyInfo.initialPosition - modifyInfo.pivot));
-                            transform.localScale = modifyInfo.initialScale * modifyInfo.currentScale;
-                        }
+                                modifyInfo.randomScale = 1f - UnityEngine.Random.value * (m_Settings.modifyScaleRandomize * 0.01f);
+
+                                Vector3 randomVector = UnityEngine.Random.insideUnitSphere;
+
+                                modifyInfo.randomRotation = new Vector3(
+                                    m_Settings.modifyRandomRotationValues.x * randomVector.x,
+                                    m_Settings.modifyRandomRotationValues.y * randomVector.y,
+                                    m_Settings.modifyRandomRotationValues.z * randomVector.z);
+
+                                modifyInfo.currentScale = 1.0f;
+
+                                Undo.RegisterCompleteObjectUndo(prefabRoot.transform, "Modify");
+
+                                m_Octree.RemoveGameObject(prefabRoot);
+                                m_Octree.AddDynamicObject(prefabRoot, m_Settings.useAdditionalVertexStreams);
+                            }
 
 
-                        m_ModifyTool.modifiedObjects[prefabRoot] = modifyInfo;
 
-                        return true;
-                    });
+                            if (modifyInfo.lastUpdate != m_ModifyTool.updateTicks)
+                            {
+                                modifyInfo.lastUpdate = m_ModifyTool.updateTicks;
 
-                    e.Use();
-                }
+                                Transform transform = prefabRoot.transform;
 
-                break;
-            case EventType.MouseUp:
-                if (GUIUtility.hotControl == controlID && e.button == 0)
-                {
-                    m_ModifyTool.prefabList.Clear();
-                    m_ModifyTool.modifiedObjects.Clear();
+                                float moveLenght = e.delta.magnitude;
+                                float distance = Mathf.Min((m_CurrentRaycast.point - modifyInfo.pivot).magnitude, m_Settings.modifyBrushRadius);
+                                float falloff = 2f - distance / Mathf.Max(m_Settings.modifyBrushRadius, 0.001f);
+                                float strength = m_Settings.modifyStrength * moveLenght;
 
-                    GUIUtility.hotControl = 0;
-                    e.Use();
-                }
-                break;
-            case EventType.MouseMove:
-                {
-                    Raycast(HandleUtility.GUIPointToWorldRay(e.mousePosition), out m_CurrentRaycast,
-                                               ~0, m_Settings.ignoreLayers.value);
+                                modifyInfo.currentScale += m_Settings.modifyScale * strength * falloff * modifyInfo.randomScale * 0.005f;
 
-                    e.Use();
-                }
-                break;
-            case EventType.Repaint:
-                if (m_CurrentRaycast.isHit)
-                {
-                    if (!m_Settings.modifyByLayer && brush == null)
-                        DrawErrorHandles(m_CurrentRaycast, Strings.selectBrush);
-                    else
-                        DrawModifyHandles(m_CurrentRaycast, brush);
-                }
-                break;
-            case EventType.Layout:
-                HandleUtility.AddDefaultControl(controlID);
-                break;
-            case EventType.KeyDown:
-                switch (e.keyCode)
-                {
-                case KeyCode.F:
-                    // F key - Frame camera on brush hit point
-                    if (IsModifierDown(EventModifiers.None) && m_CurrentRaycast.isHit)
+
+                                Quaternion qRotation;
+                                if (m_Settings.modifyRandomRotation)
+                                {
+                                    qRotation = transform.rotation * Quaternion.Euler(modifyInfo.randomRotation * falloff * strength * 0.1f);
+                                }
+                                else
+                                {
+                                    qRotation = transform.rotation * Quaternion.Euler(m_Settings.modifyRotationValues * falloff * strength * 0.1f);
+                                }
+
+                                Quaternion qPosition = qRotation * Quaternion.Inverse(modifyInfo.initialRotation);
+
+                                transform.rotation = qRotation;
+                                transform.position = modifyInfo.pivot + modifyInfo.currentScale * (qPosition * (modifyInfo.initialPosition - modifyInfo.pivot));
+                                transform.localScale = modifyInfo.initialScale * modifyInfo.currentScale;
+                            }
+
+
+                            m_ModifyTool.modifiedObjects[prefabRoot] = modifyInfo;
+
+                            return true;
+                        });
+
+                        e.Use();
+                    }
+
+                    break;
+                case EventType.MouseUp:
+                    if (GUIUtility.hotControl == controlID && e.button == 0)
                     {
-                        SceneView.lastActiveSceneView.LookAt(m_CurrentRaycast.point, SceneView.lastActiveSceneView.rotation, m_Settings.modifyBrushRadius * 10f);
+                        m_ModifyTool.prefabList.Clear();
+                        m_ModifyTool.modifiedObjects.Clear();
+
+                        GUIUtility.hotControl = 0;
                         e.Use();
                     }
                     break;
-                }
-                break;
+                case EventType.MouseMove:
+                    {
+                        Raycast(HandleUtility.GUIPointToWorldRay(e.mousePosition), out m_CurrentRaycast,
+                                                   ~0, m_Settings.ignoreLayers.value);
+
+                        e.Use();
+                    }
+                    break;
+                case EventType.Repaint:
+                    if (m_CurrentRaycast.isHit)
+                    {
+                        if (!m_Settings.modifyByLayer && brush == null)
+                            DrawErrorHandles(m_CurrentRaycast, Strings.selectBrush);
+                        else
+                            DrawModifyHandles(m_CurrentRaycast, brush);
+                    }
+                    break;
+                case EventType.Layout:
+                    HandleUtility.AddDefaultControl(controlID);
+                    break;
+                case EventType.KeyDown:
+                    switch (e.keyCode)
+                    {
+                        case KeyCode.F:
+                            // F key - Frame camera on brush hit point
+                            if (IsModifierDown(EventModifiers.None) && m_CurrentRaycast.isHit)
+                            {
+                                SceneView.lastActiveSceneView.LookAt(m_CurrentRaycast.point, SceneView.lastActiveSceneView.rotation, m_Settings.modifyBrushRadius * 10f);
+                                e.Use();
+                            }
+                            break;
+                    }
+                    break;
             }
         }
 
@@ -4943,109 +4953,109 @@ namespace nTools.PrefabPainter
 
             switch (eventType)
             {
-            case EventType.MouseDown:
-            case EventType.MouseDrag:
+                case EventType.MouseDown:
+                case EventType.MouseDrag:
 
-                Raycast(HandleUtility.GUIPointToWorldRay(e.mousePosition), out m_CurrentRaycast,
-                                               m_Settings.paintLayers.value, m_Settings.ignoreLayers.value);
+                    Raycast(HandleUtility.GUIPointToWorldRay(e.mousePosition), out m_CurrentRaycast,
+                                                   m_Settings.paintLayers.value, m_Settings.ignoreLayers.value);
 
-                if (eventType == EventType.MouseDown && e.button == 0 && !e.alt)
-                {
-                    GameObject[] selectedObjects = Selection.gameObjects;
-                    for(int i = 0; i < selectedObjects.Length; i++)
+                    if (eventType == EventType.MouseDown && e.button == 0 && !e.alt)
                     {
-                        GameObject gameObject = selectedObjects[i];
+                        GameObject[] selectedObjects = Selection.gameObjects;
+                        for (int i = 0; i < selectedObjects.Length; i++)
+                        {
+                            GameObject gameObject = selectedObjects[i];
 
-                        if (GetPrefabRoot(gameObject) == null)
-                            continue;
+                            if (GetPrefabRoot(gameObject) == null)
+                                continue;
 
-                        OrientTool.ObjectInfo objectInfo = new OrientTool.ObjectInfo();
-                        objectInfo.prefabRoot = gameObject;
-                        objectInfo.initialPosition = gameObject.transform.position;
-                        objectInfo.initialRotation = gameObject.transform.rotation;
-                        objectInfo.initialUp = gameObject.transform.up;
-                        objectInfo.pivot = GetObjectPivot(gameObject, m_Settings.orientPivotMode);
+                            OrientTool.ObjectInfo objectInfo = new OrientTool.ObjectInfo();
+                            objectInfo.prefabRoot = gameObject;
+                            objectInfo.initialPosition = gameObject.transform.position;
+                            objectInfo.initialRotation = gameObject.transform.rotation;
+                            objectInfo.initialUp = gameObject.transform.up;
+                            objectInfo.pivot = GetObjectPivot(gameObject, m_Settings.orientPivotMode);
 
-                        if (i == 0)
-                            m_OrientTool.objectsCenter = objectInfo.pivot;
-                        else
-                            m_OrientTool.objectsCenter = (m_OrientTool.objectsCenter + objectInfo.pivot) * 0.5f;
+                            if (i == 0)
+                                m_OrientTool.objectsCenter = objectInfo.pivot;
+                            else
+                                m_OrientTool.objectsCenter = (m_OrientTool.objectsCenter + objectInfo.pivot) * 0.5f;
 
-                        m_OrientTool.objects.Add(objectInfo);
+                            m_OrientTool.objects.Add(objectInfo);
+                        }
+
+                        GUIUtility.hotControl = controlID;
+                        e.Use();
                     }
 
-                    GUIUtility.hotControl = controlID;
+
+                    if (e.button == 0 && !e.alt && GUIUtility.hotControl == controlID)
+                    {
+                        if (m_CurrentRaycast.isHit)
+                        {
+                            foreach (OrientTool.ObjectInfo objectInfo in m_OrientTool.objects)
+                            {
+                                Transform transform = objectInfo.prefabRoot.transform;
+                                Vector3 forward;
+
+                                if (m_Settings.orientSameDirection)
+                                    forward = (m_CurrentRaycast.point - m_OrientTool.objectsCenter).normalized;
+                                else
+                                    forward = (m_CurrentRaycast.point - objectInfo.pivot).normalized;
+
+                                if (m_Settings.orientFlipDirection)
+                                    forward = -forward;
+
+                                if (m_Settings.orientLockUp)
+                                    forward = Vector3.ProjectOnPlane(forward, objectInfo.initialUp).normalized;
+
+                                Quaternion quaternion = Quaternion.LookRotation(forward, objectInfo.initialUp) * Quaternion.Euler(m_Settings.orientRotation);
+                                Quaternion qPos = quaternion * Quaternion.Inverse(objectInfo.initialRotation);
+
+                                Undo.RegisterCompleteObjectUndo(transform, "Orient Object(s)");
+
+                                transform.position = objectInfo.pivot + qPos * (objectInfo.initialPosition - objectInfo.pivot);
+                                transform.rotation = quaternion;
+                            }
+                        }
+
+                        e.Use();
+                    }
+
+                    break;
+                case EventType.MouseUp:
+                    if (GUIUtility.hotControl == controlID && e.button == 0)
+                    {
+                        m_OrientTool.objects.Clear();
+                        GUIUtility.hotControl = 0;
+                        e.Use();
+                    }
+                    break;
+                case EventType.MouseMove:
+                    Raycast(HandleUtility.GUIPointToWorldRay(e.mousePosition), out m_CurrentRaycast,
+                                                   m_Settings.paintLayers.value, m_Settings.ignoreLayers.value);
+
+
                     e.Use();
-                }
-
-
-                if (e.button == 0 && !e.alt && GUIUtility.hotControl == controlID)
-                {
+                    break;
+                case EventType.Repaint:
                     if (m_CurrentRaycast.isHit)
                     {
-                        foreach (OrientTool.ObjectInfo objectInfo in m_OrientTool.objects)
+                        if (GUIUtility.hotControl == controlID)
                         {
-                            Transform transform = objectInfo.prefabRoot.transform;
-                            Vector3 forward;
-
-                            if(m_Settings.orientSameDirection)
-                                forward = (m_CurrentRaycast.point - m_OrientTool.objectsCenter).normalized;
+                            if (m_OrientTool.objects.Count > 0)
+                                DrawOrientToolHandles(m_CurrentRaycast, true);
                             else
-                                forward = (m_CurrentRaycast.point - objectInfo.pivot).normalized;
-
-                            if (m_Settings.orientFlipDirection)
-                                forward = -forward;
-
-                            if (m_Settings.orientLockUp)
-                                forward = Vector3.ProjectOnPlane(forward, objectInfo.initialUp).normalized;
-
-                            Quaternion quaternion = Quaternion.LookRotation(forward, objectInfo.initialUp) * Quaternion.Euler(m_Settings.orientRotation);
-                            Quaternion qPos = quaternion * Quaternion.Inverse(objectInfo.initialRotation);
-
-                            Undo.RegisterCompleteObjectUndo(transform, "Orient Object(s)");
-
-                            transform.position = objectInfo.pivot + qPos * (objectInfo.initialPosition - objectInfo.pivot);
-                            transform.rotation = quaternion;
+                                DrawErrorHandles(m_CurrentRaycast, "Select objects");
                         }
-                    }
-
-                    e.Use();
-                }
-
-                break;
-            case EventType.MouseUp:
-                if (GUIUtility.hotControl == controlID && e.button == 0)
-                {
-                    m_OrientTool.objects.Clear();
-                    GUIUtility.hotControl = 0;
-                    e.Use();
-                }
-                break;
-            case EventType.MouseMove:
-                Raycast(HandleUtility.GUIPointToWorldRay(e.mousePosition), out m_CurrentRaycast,
-                                               m_Settings.paintLayers.value, m_Settings.ignoreLayers.value);
-
-
-                e.Use();
-                break;
-            case EventType.Repaint:
-                if (m_CurrentRaycast.isHit)
-                {
-                    if(GUIUtility.hotControl == controlID)
-                    {
-                        if (m_OrientTool.objects.Count > 0)
-                            DrawOrientToolHandles(m_CurrentRaycast, true);
                         else
-                            DrawErrorHandles(m_CurrentRaycast, "Select objects");
-                    }
-                    else
-                        DrawOrientToolHandles(m_CurrentRaycast, false);
+                            DrawOrientToolHandles(m_CurrentRaycast, false);
 
-                }
-                break;
-            case EventType.Layout:
-                HandleUtility.AddDefaultControl(controlID);
-                break;
+                    }
+                    break;
+                case EventType.Layout:
+                    HandleUtility.AddDefaultControl(controlID);
+                    break;
             }
         }
 
@@ -5097,163 +5107,163 @@ namespace nTools.PrefabPainter
 
             switch (eventType)
             {
-            case EventType.MouseDown:
-            case EventType.MouseDrag:
+                case EventType.MouseDown:
+                case EventType.MouseDrag:
 
-                Raycast(HandleUtility.GUIPointToWorldRay(e.mousePosition), out m_CurrentRaycast,
-                                               m_Settings.paintLayers.value, m_Settings.ignoreLayers.value);
+                    Raycast(HandleUtility.GUIPointToWorldRay(e.mousePosition), out m_CurrentRaycast,
+                                                   m_Settings.paintLayers.value, m_Settings.ignoreLayers.value);
 
-                if (m_CurrentRaycast.isHit)
-                    m_MoveTool.lastHitRaycast = m_CurrentRaycast;
+                    if (m_CurrentRaycast.isHit)
+                        m_MoveTool.lastHitRaycast = m_CurrentRaycast;
 
-                if (eventType == EventType.MouseDown && e.button == 0 && !e.alt && m_MoveTool.objects.Count > 0)
-                {
-                    Ray ray = HandleUtility.GUIPointToWorldRay(e.mousePosition);
-
-                    if (PointLineDistance(m_MoveTool.objectsCenter, ray.origin, ray.direction) < m_MoveTool.handleDiskSize)
+                    if (eventType == EventType.MouseDown && e.button == 0 && !e.alt && m_MoveTool.objects.Count > 0)
                     {
-                        if (m_CurrentRaycast.isHit)
-                        {
-                            m_MoveTool.dragStart = m_CurrentRaycast.point;
-                            GUIUtility.hotControl = controlID;
-                            e.Use();
-                        }
-                        else
-                        {
-                            Plane diskHandlePlane = new Plane(-ray.direction, m_MoveTool.objectsCenter);
+                        Ray ray = HandleUtility.GUIPointToWorldRay(e.mousePosition);
 
-                            float enter;
-
-                            if (diskHandlePlane.Raycast(ray, out enter))
+                        if (PointLineDistance(m_MoveTool.objectsCenter, ray.origin, ray.direction) < m_MoveTool.handleDiskSize)
+                        {
+                            if (m_CurrentRaycast.isHit)
                             {
-                                m_MoveTool.dragStart = ray.GetPoint(enter);
+                                m_MoveTool.dragStart = m_CurrentRaycast.point;
                                 GUIUtility.hotControl = controlID;
                                 e.Use();
                             }
-                        }
-                    }
-                }
-
-
-                if (e.button == 0 && !e.alt && GUIUtility.hotControl == controlID)
-                {
-                    Vector3 hitPoint;
-
-                    if (m_CurrentRaycast.isHit)
-                        hitPoint = m_CurrentRaycast.point;
-                    else
-                    {
-                        if (m_MoveTool.lastHitRaycast.isHit)
-                            m_MoveTool.lastHitRaycast.IntersectsHitPlane(HandleUtility.GUIPointToWorldRay(e.mousePosition), out hitPoint);
-                        else
-                            hitPoint = m_MoveTool.dragStart;
-                    }
-
-
-                    Vector3 move = hitPoint - m_MoveTool.dragStart;
-                    m_MoveTool.objectsCenter = m_MoveTool.initialObjectsCenter + move;
-
-
-                    int objCount = m_MoveTool.objects.Count;
-                    for (int i = 0; i < objCount; i++)
-                    {
-                        MoveTool.ObjectInfo objectInfo = m_MoveTool.objects[i];
-                        Transform transform = objectInfo.prefabRoot.transform;
-
-                        Vector3 surfaceNormal = transform.up;
-                        Vector3 newpos = objectInfo.pivot + move;
-                        Ray ray = WorldPointToRay(newpos);
-
-                        RaycastInfo raycast;
-                        if (Raycast(ray, out raycast, m_Settings.paintLayers.value, m_Settings.ignoreLayers.value))
-                        {
-                            newpos = raycast.point;
-                            surfaceNormal = raycast.normal;
-                        }
-                        else
-                        {
-                            if (m_MoveTool.lastHitRaycast.isHit && m_MoveTool.lastHitRaycast.IntersectsHitPlane(ray, out hitPoint))
+                            else
                             {
-                                newpos = hitPoint;
-                                surfaceNormal = m_MoveTool.lastHitRaycast.normal;
+                                Plane diskHandlePlane = new Plane(-ray.direction, m_MoveTool.objectsCenter);
+
+                                float enter;
+
+                                if (diskHandlePlane.Raycast(ray, out enter))
+                                {
+                                    m_MoveTool.dragStart = ray.GetPoint(enter);
+                                    GUIUtility.hotControl = controlID;
+                                    e.Use();
+                                }
+                            }
+                        }
+                    }
+
+
+                    if (e.button == 0 && !e.alt && GUIUtility.hotControl == controlID)
+                    {
+                        Vector3 hitPoint;
+
+                        if (m_CurrentRaycast.isHit)
+                            hitPoint = m_CurrentRaycast.point;
+                        else
+                        {
+                            if (m_MoveTool.lastHitRaycast.isHit)
+                                m_MoveTool.lastHitRaycast.IntersectsHitPlane(HandleUtility.GUIPointToWorldRay(e.mousePosition), out hitPoint);
+                            else
+                                hitPoint = m_MoveTool.dragStart;
+                        }
+
+
+                        Vector3 move = hitPoint - m_MoveTool.dragStart;
+                        m_MoveTool.objectsCenter = m_MoveTool.initialObjectsCenter + move;
+
+
+                        int objCount = m_MoveTool.objects.Count;
+                        for (int i = 0; i < objCount; i++)
+                        {
+                            MoveTool.ObjectInfo objectInfo = m_MoveTool.objects[i];
+                            Transform transform = objectInfo.prefabRoot.transform;
+
+                            Vector3 surfaceNormal = transform.up;
+                            Vector3 newpos = objectInfo.pivot + move;
+                            Ray ray = WorldPointToRay(newpos);
+
+                            RaycastInfo raycast;
+                            if (Raycast(ray, out raycast, m_Settings.paintLayers.value, m_Settings.ignoreLayers.value))
+                            {
+                                newpos = raycast.point;
+                                surfaceNormal = raycast.normal;
                             }
                             else
-                                newpos = transform.position;
-                        }
-
-                        Undo.RegisterCompleteObjectUndo(transform, "Move Object(s)");
-
-                        newpos = newpos + surfaceNormal.normalized * m_Settings.moveSurfaceOffset;
-
-                        Quaternion rotation = objectInfo.initialRotation;
-
-                        if (!m_Settings.moveLockUp)
-                        {
-                            Vector3 upwards;
-                            switch (m_Settings.moveOrientationMode)
                             {
-                            default: case OrientationMode.SurfaceNormal: upwards = surfaceNormal; break;
-                            case OrientationMode.SurfaceNormalNegative: upwards = -surfaceNormal; break;
-                            case OrientationMode.X: upwards = new Vector3(1, 0, 0); break;
-                            case OrientationMode.XNegative: upwards = new Vector3(-1, 0, 0); break;
-                            case OrientationMode.Y: upwards = new Vector3(0, 1, 0); break;
-                            case OrientationMode.YNegative: upwards = new Vector3(0, -1, 0); break;
-                            case OrientationMode.Z: upwards = new Vector3(0, 0, 1); break;
-                            case OrientationMode.ZNegative: upwards = new Vector3(0, 0, -1); break;
+                                if (m_MoveTool.lastHitRaycast.isHit && m_MoveTool.lastHitRaycast.IntersectsHitPlane(ray, out hitPoint))
+                                {
+                                    newpos = hitPoint;
+                                    surfaceNormal = m_MoveTool.lastHitRaycast.normal;
+                                }
+                                else
+                                    newpos = transform.position;
                             }
 
-                            Vector3 right = Vector3.Cross(objectInfo.initialForward, upwards);
-                            Vector3 forward = Vector3.Cross(upwards, right);
+                            Undo.RegisterCompleteObjectUndo(transform, "Move Object(s)");
 
-                            rotation = Quaternion.LookRotation(forward, upwards);
+                            newpos = newpos + surfaceNormal.normalized * m_Settings.moveSurfaceOffset;
+
+                            Quaternion rotation = objectInfo.initialRotation;
+
+                            if (!m_Settings.moveLockUp)
+                            {
+                                Vector3 upwards;
+                                switch (m_Settings.moveOrientationMode)
+                                {
+                                    default: case OrientationMode.SurfaceNormal: upwards = surfaceNormal; break;
+                                    case OrientationMode.SurfaceNormalNegative: upwards = -surfaceNormal; break;
+                                    case OrientationMode.X: upwards = new Vector3(1, 0, 0); break;
+                                    case OrientationMode.XNegative: upwards = new Vector3(-1, 0, 0); break;
+                                    case OrientationMode.Y: upwards = new Vector3(0, 1, 0); break;
+                                    case OrientationMode.YNegative: upwards = new Vector3(0, -1, 0); break;
+                                    case OrientationMode.Z: upwards = new Vector3(0, 0, 1); break;
+                                    case OrientationMode.ZNegative: upwards = new Vector3(0, 0, -1); break;
+                                }
+
+                                Vector3 right = Vector3.Cross(objectInfo.initialForward, upwards);
+                                Vector3 forward = Vector3.Cross(upwards, right);
+
+                                rotation = Quaternion.LookRotation(forward, upwards);
+                            }
+
+                            Quaternion qPos = rotation * Quaternion.Inverse(objectInfo.initialRotation);
+
+                            transform.rotation = rotation;
+                            transform.position = newpos + qPos * (objectInfo.initialPosition - objectInfo.pivot);
                         }
 
-                        Quaternion qPos = rotation * Quaternion.Inverse(objectInfo.initialRotation);
-
-                        transform.rotation = rotation;
-                        transform.position = newpos +  qPos * (objectInfo.initialPosition - objectInfo.pivot);
+                        e.Use();
                     }
 
+                    break;
+                case EventType.MouseUp:
+                    if (GUIUtility.hotControl == controlID && e.button == 0)
+                    {
+                        MoveToolReloadSelection();
+
+                        GUIUtility.hotControl = 0;
+                        e.Use();
+                    }
+                    break;
+                case EventType.MouseMove:
+                    Raycast(HandleUtility.GUIPointToWorldRay(e.mousePosition), out m_CurrentRaycast,
+                                                   m_Settings.paintLayers.value, m_Settings.ignoreLayers.value);
+
                     e.Use();
-                }
-
-                break;
-            case EventType.MouseUp:
-                if (GUIUtility.hotControl == controlID && e.button == 0)
-                {
-                    MoveToolReloadSelection();
-
-                    GUIUtility.hotControl = 0;
-                    e.Use();
-                }
-                break;
-            case EventType.MouseMove:
-                Raycast(HandleUtility.GUIPointToWorldRay(e.mousePosition), out m_CurrentRaycast,
-                                               m_Settings.paintLayers.value, m_Settings.ignoreLayers.value);
-
-                e.Use();
-                break;
-            case EventType.Repaint:
-                if (m_MoveTool.objects.Count > 0)
-                    DrawMoveToolHandles(GUIUtility.hotControl == controlID);
-                break;
-            case EventType.Layout:
-                if (m_MoveTool.objects.Count > 0)
-                    HandleUtility.AddControl(controlID, HandleUtility.DistanceToDisc(m_MoveTool.objectsCenter, -HandleUtility.GUIPointToWorldRay(e.mousePosition).direction, m_MoveTool.handleDiskSize));
-                break;
+                    break;
+                case EventType.Repaint:
+                    if (m_MoveTool.objects.Count > 0)
+                        DrawMoveToolHandles(GUIUtility.hotControl == controlID);
+                    break;
+                case EventType.Layout:
+                    if (m_MoveTool.objects.Count > 0)
+                        HandleUtility.AddControl(controlID, HandleUtility.DistanceToDisc(m_MoveTool.objectsCenter, -HandleUtility.GUIPointToWorldRay(e.mousePosition).direction, m_MoveTool.handleDiskSize));
+                    break;
             }
         }
 
 
         Ray WorldPointToRay(Vector3 worldSpacePoint)
         {
-            if(Camera.current == null)
+            if (Camera.current == null)
                 return new Ray();
             return new Ray(Camera.current.transform.position, (worldSpacePoint - Camera.current.transform.position).normalized);
         }
 
 
-#endregion // Scene UI
+        #endregion // Scene UI
 
     } // class PrefabPainter
 

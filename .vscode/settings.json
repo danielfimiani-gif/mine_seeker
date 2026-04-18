@@ -68,5 +68,9 @@
         "*.slnx": "*.csproj"
     },
     "dotnet.defaultSolution": "mine_seeker.slnx",
-    "editor.formatOnSave": true
+    "editor.formatOnSave": true,
+    "cSpell.words": [
+        "Behaviour",
+        "Scriptable"
+    ]
 }

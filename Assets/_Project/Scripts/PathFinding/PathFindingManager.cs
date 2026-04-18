@@ -137,4 +137,13 @@ class PathFindingManager : MonoBehaviourSingleton<PathFindingManager>
 
         return path;
     }
+
+    public float GetPathCost(Stack<PathNode> path)
+    {
+        if (path is null)
+            return float.PositiveInfinity;
+        if (path.Count < 2)
+            return 0f;
+        return _currentStrategy.EvaluatePathCost(path);
+    }
 }
