@@ -10,7 +10,7 @@ class ReturnToBaseState : FsmState<Miner>
     protected override void OnInitialize()
     {
         _agent = Owner.GetComponent<PathNodeAgent>();
-        _animator = Owner.GetComponent<Animator>();
+        _animator = Owner.GetComponentInChildren<Animator>();
     }
 
     public override void OnEnter()

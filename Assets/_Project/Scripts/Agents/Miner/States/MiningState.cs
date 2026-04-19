@@ -4,6 +4,8 @@ using UnityEngine;
 [Serializable]
 class MiningState : FsmState<Miner>
 {
+    [SerializeField] private GameObject pickAxe;
+
     private float _timer;
 
     private PathNodeAgent _agent;
@@ -12,7 +14,7 @@ class MiningState : FsmState<Miner>
     protected override void OnInitialize()
     {
         _agent = Owner.GetComponent<PathNodeAgent>();
-        _animator = Owner.GetComponent<Animator>();
+        _animator = Owner.GetComponentInChildren<Animator>();
     }
 
     public override void OnEnter()
@@ -20,6 +22,7 @@ class MiningState : FsmState<Miner>
         _timer = Owner.Config.MiningSpeed;
         _agent.MovementSpeed = 0f;
         _animator.SetBool("IsMining", true);
+        pickAxe.SetActive(true);
     }
 
     public override void OnUpdate()
@@ -29,6 +32,7 @@ class MiningState : FsmState<Miner>
 
     public override void OnExit()
     {
+        pickAxe.SetActive(false);
         _animator.SetBool("IsMining", false);
     }
 

@@ -11,7 +11,7 @@ class UnloadState : FsmState<Miner>
     protected override void OnInitialize()
     {
         _agent = Owner.GetComponent<PathNodeAgent>();
-        _animator = Owner.GetComponent<Animator>();
+        _animator = Owner.GetComponentInChildren<Animator>();
     }
 
     public override void OnEnter()
@@ -23,15 +23,20 @@ class UnloadState : FsmState<Miner>
 
     public override void OnUpdate()
     {
-        _timer -= Time.deltaTime;
-
-        if (_timer <= 0)
-            UnloadInventory();
+        HandleUnloadInventory();
     }
 
     public override void OnExit()
     {
         Debug.Log("[Miner] Exiting Unload State");
+    }
+
+    private void HandleUnloadInventory()
+    {
+        _timer -= Time.deltaTime;
+
+        if (_timer <= 0)
+            UnloadInventory();
     }
 
     private void UnloadInventory()

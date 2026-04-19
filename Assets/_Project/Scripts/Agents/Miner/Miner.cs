@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-[RequireComponent(typeof(PathNodeAgent), typeof(Animator))]
+[RequireComponent(typeof(PathNodeAgent))]
 class Miner : MonoBehaviour
 {
     [Header("Config")]
