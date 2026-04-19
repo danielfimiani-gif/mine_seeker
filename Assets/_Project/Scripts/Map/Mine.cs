@@ -6,7 +6,8 @@ class Mine : MonoBehaviour
     [SerializeField] private bool isOccupied;
 
     private float _currentOre;
-    public bool HasOre { get => oreAmount > 0; }
+    public bool HasOre { get => _currentOre > 0; }
+    public float OreAmount => oreAmount;
 
     void Awake()
     {
