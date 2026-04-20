@@ -3,6 +3,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "MinerStats", menuName = "Data/Miner/Stats", order = 100)]
 class MinerStats : ScriptableObject
 {
+    [SerializeField, Range(10f, 250f)] float maxHP;
     [SerializeField, Range(10f, 150f)] float maxOreCapacity;
     [SerializeField, Range(0.5f, 2f)] float miningSpeed;
     [SerializeField, Range(1f, 50f)] float walkSpeed;
@@ -16,6 +17,7 @@ class MinerStats : ScriptableObject
     public float RunSpeed => runSpeed;
     public float OrePerHit => orePerHit;
     public float UnloadSpeed => unloadSpeed;
+    public float MaxHP => maxHP;
 
     public float GetWalkSpeed(bool hasOre)
     {

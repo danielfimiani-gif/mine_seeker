@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: MinerStats
   m_EditorClassIdentifier: 
   maxOreCapacity: 25
-  miningSpeed: 1
+  miningSpeed: 1.5
   walkSpeed: 5
   walkWithOreSpeed: 3
   runSpeed: 7
   orePerHit: 5
-  unloadSpeed: 3
+  unloadSpeed: 2

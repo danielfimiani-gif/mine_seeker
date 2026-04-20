@@ -23,16 +23,18 @@ class Miner : MonoBehaviour
     public UnityEvent OnVeinEmpty { get; private set; } = new UnityEvent();
     public UnityEvent OnArrivedAtBase { get; private set; } = new UnityEvent();
     public UnityEvent OnGoldUnloaded { get; private set; } = new UnityEvent();
+    public UnityEvent OnKilled { get; private set; } = new UnityEvent();
 
     public MinerStats Config => config;
     public Base OreBase => oreBase;
-
+    public bool IsAlive => Context.IsAlive;
     public MinerContext Context { get; private set; } = new MinerContext();
 
     private FiniteStateMachine<Miner> _fsm;
 
     void Awake()
     {
+        Context.InitializeHP(Config.MaxHP);
         idleState.Initialize(this);
         goToMineState.Initialize(this);
         miningState.Initialize(this);
@@ -61,6 +63,16 @@ class Miner : MonoBehaviour
 
     void Update()
     {
-        _fsm.Update();
+        if (IsAlive) _fsm.Update();
+    }
+
+    public void TakeDamage(float amount)
+    {
+        if (!IsAlive) return;
+
+        Context.TakeDamage(amount);
+
+        if (!IsAlive)
+            OnKilled?.Invoke();
     }
 }

@@ -1,10 +1,11 @@
 using System;
+using System.Collections;
 using UnityEngine;
 
 [Serializable]
 class UnloadState : FsmState<Miner>
 {
-    private float _timer;
+    private Coroutine _unloadRoutine;
     private Animator _animator;
     private PathNodeAgent _agent;
 
@@ -16,33 +17,39 @@ class UnloadState : FsmState<Miner>
 
     public override void OnEnter()
     {
-        _timer = Owner.Config.UnloadSpeed;
         _agent.MovementSpeed = 0f;
         _animator.SetBool("IsWalking", false);
+        _unloadRoutine = Owner.StartCoroutine(UnloadRoutine());
+        FaceTarget();
     }
 
-    public override void OnUpdate()
-    {
-        HandleUnloadInventory();
-    }
+    public override void OnUpdate() { }
 
     public override void OnExit()
     {
-        Debug.Log("[Miner] Exiting Unload State");
+        if (_unloadRoutine != null)
+            Owner.StopCoroutine(_unloadRoutine);
     }
 
-    private void HandleUnloadInventory()
+    private IEnumerator UnloadRoutine()
     {
-        _timer -= Time.deltaTime;
+        while (Owner.Context.CurrentOre > 0)
+        {
+            yield return new WaitForSeconds(Owner.Config.UnloadSpeed);
+            float chunk = Mathf.Min(Owner.Config.OrePerHit, Owner.Context.CurrentOre);
+            Owner.OreBase.DepositOre(chunk);
+            Owner.Context.RemoveOre(chunk);
+        }
 
-        if (_timer <= 0)
-            UnloadInventory();
-    }
-
-    private void UnloadInventory()
-    {
-        Owner.OreBase.DepositOre(Owner.Context.CurrentOre);
-        Owner.Context.ResetOre();
         Owner.OnGoldUnloaded?.Invoke();
+    }
+
+    private void FaceTarget()
+    {
+        Vector3 target = Owner.OreBase.transform.position;
+        Vector3 dir = target - Owner.transform.position;
+        dir.y = 0f;
+        if (dir.sqrMagnitude > 0.0001f)
+            Owner.transform.rotation = Quaternion.LookRotation(dir);
     }
 }
