@@ -71,6 +71,7 @@
     "editor.formatOnSave": true,
     "cSpell.words": [
         "Behaviour",
+        "pathfinding",
         "Scriptable"
     ]
 }

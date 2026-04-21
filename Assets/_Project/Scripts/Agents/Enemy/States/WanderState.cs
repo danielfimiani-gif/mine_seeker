@@ -2,13 +2,8 @@ using System;
 using UnityEngine;
 
 [Serializable]
-public class WanderState : FsmState<Enemy>
+class WanderState : FsmState<Enemy>
 {
-    [SerializeField, Range(0f, 20f)] private float wanderSpeed = 5f;
-    [SerializeField, Range(0f, 20f)] private float searchRadius = 5f;
-    [SerializeField, Range(0f, 20f)] private float circleWanderRadius = 2f;
-    [SerializeField, Range(4, 64)] private int circleSearchPrecision = 16;
-
     private PathNodeAgent agent;
     private Vector3 wanderStartPoint;
     private float currentWanderAngle = 0f;
@@ -21,8 +16,9 @@ public class WanderState : FsmState<Enemy>
     public override void OnEnter()
     {
         wanderStartPoint = Owner.transform.position;
-        agent.MovementSpeed = wanderSpeed;
+        agent.MovementSpeed = Owner.Config.WanderSpeed;
         agent.Destination = GetNextDestination();
+        Owner.EndPursuit();
     }
 
     public override void OnUpdate()
@@ -30,8 +26,12 @@ public class WanderState : FsmState<Enemy>
         if (agent.HasReachedDestination)
             agent.Destination = GetNextDestination();
 
-        if (IsInChaseRange())
+        Miner nearest = FindNearestMinerInRange();
+        if (nearest != null)
+        {
+            Owner.BeginPursuit(nearest);
             Owner.OnPlayerDetected?.Invoke();
+        }
     }
 
     public override void OnExit()
@@ -40,24 +40,40 @@ public class WanderState : FsmState<Enemy>
         currentWanderAngle = 0f;
     }
 
-    private bool IsInChaseRange()
+    private Miner FindNearestMinerInRange()
     {
-        float sqrDistanceToTarget = (Owner.AttackTarget.position - Owner.transform.position).sqrMagnitude;
+        float searchSqr = Owner.Config.SearchRadius * Owner.Config.SearchRadius;
+        Miner nearest = null;
+        float nearestSqrDist = float.MaxValue;
 
-        return sqrDistanceToTarget <= searchRadius * searchRadius;
+        foreach (Miner miner in GameManager.Instance.Miners)
+        {
+            if (!miner.IsAlive)
+                continue;
+
+            float sqrDist = (miner.transform.position - Owner.transform.position).sqrMagnitude;
+            if (sqrDist > searchSqr)
+                continue;
+
+            if (sqrDist < nearestSqrDist)
+            {
+                nearestSqrDist = sqrDist;
+                nearest = miner;
+            }
+        }
+
+        return nearest;
     }
 
     private Vector3 GetNextDestination()
     {
-        Vector3 nextDestination;
-
         float radians = currentWanderAngle * Mathf.Deg2Rad;
         float offsetX = Mathf.Cos(radians);
         float offsetZ = Mathf.Sin(radians);
 
-        nextDestination = wanderStartPoint + new Vector3(offsetX, 0f, offsetZ) * circleWanderRadius;
+        Vector3 nextDestination = wanderStartPoint + new Vector3(offsetX, 0f, offsetZ) * Owner.Config.CircleWanderRadius;
 
-        currentWanderAngle += 360f / circleSearchPrecision;
+        currentWanderAngle += 360f / Owner.Config.CircleSearchPrecision;
 
         if (currentWanderAngle > 360f)
             currentWanderAngle -= 360f;

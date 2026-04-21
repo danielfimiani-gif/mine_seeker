@@ -2,12 +2,8 @@ using System;
 using UnityEngine;
 
 [Serializable]
-public class ChaseState : FsmState<Enemy>
+class ChaseState : FsmState<Enemy>
 {
-    [SerializeField, Range(0f, 20f)] private float chaseSpeed = 5f;
-    [SerializeField, Range(0f, 20f)] private float loseTrackRange = 5f;
-    [SerializeField, Range(0f, 1f)] private float pathfindingIntervals = 0.5f;
-
     private PathNodeAgent agent;
     private float pathfindingTimer;
     private float selfRadius;
@@ -17,12 +13,12 @@ public class ChaseState : FsmState<Enemy>
     {
         agent = Owner.GetComponent<PathNodeAgent>();
         selfRadius = Owner.GetComponentInChildren<CapsuleCollider>().radius;
-        targetRadius = Owner.AttackTarget.GetComponentInChildren<CapsuleCollider>().radius;
     }
 
     public override void OnEnter()
     {
-        agent.MovementSpeed = chaseSpeed;
+        agent.MovementSpeed = Owner.Config.ChaseSpeed;
+        targetRadius = Owner.CurrentTarget.GetComponentInChildren<CapsuleCollider>().radius;
         agent.Destination = GetTargetPosition();
     }
 
@@ -30,14 +26,20 @@ public class ChaseState : FsmState<Enemy>
     {
         pathfindingTimer += Time.deltaTime;
 
-        if (pathfindingTimer >= pathfindingIntervals)
+        if (pathfindingTimer >= Owner.Config.PathfindingIntervals)
         {
             agent.Destination = GetTargetPosition();
-            pathfindingTimer -= pathfindingIntervals;
+            pathfindingTimer -= Owner.Config.PathfindingIntervals;
         }
 
         if (IsOutOfRange())
+        {
             Owner.OnPlayerOutOfRange?.Invoke();
+            return;
+        }
+
+        if (agent.HasReachedDestination)
+            Owner.OnTargetInAttackRange?.Invoke();
     }
 
     public override void OnExit()
@@ -47,15 +49,20 @@ public class ChaseState : FsmState<Enemy>
 
     private Vector3 GetTargetPosition()
     {
-        Vector3 targetDir = (Owner.AttackTarget.position - Owner.transform.position).normalized;
+        Vector3 targetPos = Owner.CurrentTarget.transform.position;
+        Vector3 targetDir = (targetPos - Owner.transform.position).normalized;
 
-        return Owner.AttackTarget.position - targetDir * (selfRadius + targetRadius);
+        return targetPos - targetDir * (selfRadius + targetRadius);
     }
 
     private bool IsOutOfRange()
     {
-        float sqrDistanceToTarget = (Owner.AttackTarget.position - Owner.transform.position).sqrMagnitude;
+        Miner target = Owner.CurrentTarget;
+        if (target == null || !target.IsAlive)
+            return true;
 
-        return sqrDistanceToTarget > loseTrackRange * loseTrackRange;
+        float sqrDistanceToTarget = (target.transform.position - Owner.transform.position).sqrMagnitude;
+
+        return sqrDistanceToTarget > Owner.Config.LoseTrackRange * Owner.Config.LoseTrackRange;
     }
 }
