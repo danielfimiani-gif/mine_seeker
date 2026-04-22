@@ -13,7 +13,6 @@ class GoToMineState : FsmState<Miner>
         _animator = Owner.GetComponentInChildren<Animator>();
     }
 
-
     public override void OnEnter()
     {
         Vector3 minePosition = Owner.Context.CurrentMine.transform.position;
@@ -32,6 +31,5 @@ class GoToMineState : FsmState<Miner>
     public override void OnExit()
     {
         _animator.SetBool("IsWalking", false);
-        Debug.Log("[Miner] Exit GoToMineState");
     }
 }

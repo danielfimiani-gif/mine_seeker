@@ -44,8 +44,20 @@ class PathNodeAgent : MonoBehaviour
         if (Destination == null || HasReachedDestination)
             return;
 
+        while ((_targetNode.Position - transform.position).sqrMagnitude < 0.0001f)
+        {
+            if (_currentPath != null && _currentPath.Count > 0)
+                _targetNode = _currentPath.Pop();
+            else
+            {
+                HasReachedDestination = true;
+                return;
+            }
+        }
+
         Vector3 targetPosition = _targetNode.Position;
         Vector3 diff = targetPosition - transform.position;
+
         Quaternion targetRotation = Quaternion.LookRotation(diff.normalized, transform.up);
         float maxDistanceDelta = movementSpeed * GetTerrainMultiplier() * Time.deltaTime;
         float maxDegreesDelta = rotationSpeed * Time.deltaTime;
@@ -54,21 +66,12 @@ class PathNodeAgent : MonoBehaviour
         Quaternion updatedRotation = Quaternion.RotateTowards(transform.rotation, targetRotation, maxDegreesDelta);
 
         transform.SetPositionAndRotation(updatedPosition, updatedRotation);
-
-        if (updatedPosition == targetPosition)
-        {
-            if (_currentPath != null && _currentPath.Count > 0)
-                _targetNode = _currentPath.Pop();
-            else
-                HasReachedDestination = true;
-        }
     }
 
     public void AddActiveZone(TerrainZone zone)
     {
         _activeZones.Add(zone);
     }
-
 
     public void RemoveActiveZone(TerrainZone zone)
     {

@@ -5,7 +5,6 @@ using UnityEngine;
 class WanderState : FsmState<Enemy>
 {
     private PathNodeAgent agent;
-    private Vector3 wanderStartPoint;
     private float currentWanderAngle = 0f;
 
     protected override void OnInitialize()
@@ -15,7 +14,6 @@ class WanderState : FsmState<Enemy>
 
     public override void OnEnter()
     {
-        wanderStartPoint = Owner.transform.position;
         agent.MovementSpeed = Owner.Config.WanderSpeed;
         agent.Destination = GetNextDestination();
         Owner.EndPursuit();
@@ -36,7 +34,6 @@ class WanderState : FsmState<Enemy>
 
     public override void OnExit()
     {
-        wanderStartPoint = Vector3.zero;
         currentWanderAngle = 0f;
     }
 
@@ -71,14 +68,14 @@ class WanderState : FsmState<Enemy>
         float offsetX = Mathf.Cos(radians);
         float offsetZ = Mathf.Sin(radians);
 
-        Vector3 nextDestination = wanderStartPoint + new Vector3(offsetX, 0f, offsetZ) * Owner.Config.CircleWanderRadius;
+        Vector3 nextDestination = Owner.HomePoint + new Vector3(offsetX, 0f, offsetZ) * Owner.Config.CircleWanderRadius;
 
         currentWanderAngle += 360f / Owner.Config.CircleSearchPrecision;
 
         if (currentWanderAngle > 360f)
             currentWanderAngle -= 360f;
 
-        Debug.DrawLine(wanderStartPoint + Vector3.up, nextDestination + Vector3.up, Color.magenta, 2f);
+        Debug.DrawLine(Owner.HomePoint + Vector3.up, nextDestination + Vector3.up, Color.magenta, 2f);
 
         return nextDestination;
     }

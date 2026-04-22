@@ -23,9 +23,11 @@ class Enemy : MonoBehaviour
     private FiniteStateMachine<Enemy> fsm;
     public EnemyStats Config => config;
     public Miner CurrentTarget { get; private set; }
+    public Vector3 HomePoint { get; private set; }
 
     void Awake()
     {
+        HomePoint = transform.position;
         wanderState.Initialize(this);
         chaseState.Initialize(this);
         attackState.Initialize(this);

@@ -23,7 +23,7 @@ class AttackState : FsmState<Enemy>
         _targetRadius = Owner.CurrentTarget.GetComponentInChildren<CapsuleCollider>().radius;
         FaceTarget();
         _animator.SetBool("IsAttacking", true);
-        _attackTimer = Owner.Config.AttackInterval;
+        _attackTimer = 0f;
     }
 
     public override void OnUpdate()
@@ -65,7 +65,7 @@ class AttackState : FsmState<Enemy>
 
     private bool IsOutOfAttackRange()
     {
-        float range = _selfRadius + _targetRadius + 0.5f;
+        float range = _selfRadius + _targetRadius + 2.0f;
         float sqr = (Owner.CurrentTarget.transform.position - Owner.transform.position).sqrMagnitude;
         return sqr > range * range;
     }

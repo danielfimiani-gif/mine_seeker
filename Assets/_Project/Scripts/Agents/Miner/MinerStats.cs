@@ -11,6 +11,7 @@ class MinerStats : ScriptableObject
     [SerializeField, Range(1f, 50f)] float runSpeed;
     [SerializeField, Range(1f, 20f)] float orePerHit;
     [SerializeField, Range(0.5f, 5f)] float unloadSpeed;
+    [SerializeField, Range(0.5f, 5f)] float respawnTime;
 
     public float MaxOreCapacity => maxOreCapacity;
     public float MiningSpeed => miningSpeed;
@@ -18,6 +19,7 @@ class MinerStats : ScriptableObject
     public float OrePerHit => orePerHit;
     public float UnloadSpeed => unloadSpeed;
     public float MaxHP => maxHP;
+    public float RespawnTime => respawnTime;
 
     public float GetWalkSpeed(bool hasOre)
     {

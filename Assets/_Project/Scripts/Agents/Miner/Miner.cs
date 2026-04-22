@@ -14,7 +14,8 @@ class Miner : MonoBehaviour
     [SerializeField] private MiningState miningState = new MiningState();
     [SerializeField] private ReturnToBaseState returnToBaseState = new ReturnToBaseState();
     [SerializeField] private UnloadState unloadState = new UnloadState();
-    [SerializeField] private EscapeSate escapeSate = new EscapeSate();
+    [SerializeField] private EscapeState escapeState = new EscapeState();
+    [SerializeField] private DeathState deathState = new DeathState();
 
 
     [Header("Events")]
@@ -27,6 +28,7 @@ class Miner : MonoBehaviour
     public UnityEvent OnStopEscaping { get; private set; } = new UnityEvent();
     public UnityEvent OnDamaged { get; private set; } = new UnityEvent();
     public UnityEvent OnKilled { get; private set; } = new UnityEvent();
+    public UnityEvent OnRespawned { get; private set; } = new UnityEvent();
 
     public MinerStats Config => config;
     public Base OreBase => oreBase;
@@ -43,21 +45,22 @@ class Miner : MonoBehaviour
         miningState.Initialize(this);
         returnToBaseState.Initialize(this);
         unloadState.Initialize(this);
-        escapeSate.Initialize(this);
+        escapeState.Initialize(this);
+        deathState.Initialize(this);
     }
 
     void Start()
     {
         FsmState<Miner>[] states = {
             idleState, goToMineState, miningState,
-            returnToBaseState, unloadState, escapeSate
+            returnToBaseState, unloadState, escapeState,
+            deathState
         };
         UnityEvent[] events = {
             OnMineAssigned, OnArrivedAtMine, OnInventoryFull,
             OnVeinEmpty, OnArrivedAtBase, OnGoldUnloaded,
-            OnDamaged, OnStopEscaping, OnKilled
+            OnDamaged, OnStopEscaping, OnKilled, OnRespawned
         };
-
 
         _fsm = new FiniteStateMachine<Miner>(states, events, idleState);
 
@@ -68,13 +71,21 @@ class Miner : MonoBehaviour
         _fsm.ConfigureTransition(returnToBaseState, unloadState, OnArrivedAtBase);
         _fsm.ConfigureTransition(unloadState, idleState, OnGoldUnloaded);
 
-        _fsm.ConfigureTransition(idleState, escapeSate, OnDamaged);
-        _fsm.ConfigureTransition(goToMineState, escapeSate, OnDamaged);
-        _fsm.ConfigureTransition(miningState, escapeSate, OnDamaged);
-        _fsm.ConfigureTransition(returnToBaseState, escapeSate, OnDamaged);
-        _fsm.ConfigureTransition(unloadState, escapeSate, OnDamaged);
+        _fsm.ConfigureTransition(idleState, escapeState, OnDamaged);
+        _fsm.ConfigureTransition(goToMineState, escapeState, OnDamaged);
+        _fsm.ConfigureTransition(miningState, escapeState, OnDamaged);
+        _fsm.ConfigureTransition(returnToBaseState, escapeState, OnDamaged);
+        _fsm.ConfigureTransition(unloadState, escapeState, OnDamaged);
 
-        _fsm.ConfigureTransition(escapeSate, unloadState, OnStopEscaping);
+        _fsm.ConfigureTransition(idleState, deathState, OnKilled);
+        _fsm.ConfigureTransition(goToMineState, deathState, OnKilled);
+        _fsm.ConfigureTransition(miningState, deathState, OnKilled);
+        _fsm.ConfigureTransition(returnToBaseState, deathState, OnKilled);
+        _fsm.ConfigureTransition(unloadState, deathState, OnKilled);
+        _fsm.ConfigureTransition(escapeState, deathState, OnKilled);
+
+        _fsm.ConfigureTransition(escapeState, idleState, OnStopEscaping);
+        _fsm.ConfigureTransition(deathState, idleState, OnRespawned);
     }
 
     void Update()
@@ -92,5 +103,13 @@ class Miner : MonoBehaviour
             OnKilled?.Invoke();
         else
             OnDamaged?.Invoke();
+    }
+
+    public void Respawn()
+    {
+        transform.position = OreBase.transform.position;
+        Context.InitializeHP(Config.MaxHP);
+        Context.ResetOre();
+        OnRespawned?.Invoke();
     }
 }

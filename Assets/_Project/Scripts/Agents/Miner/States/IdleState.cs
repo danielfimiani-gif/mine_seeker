@@ -26,10 +26,7 @@ class IdleState : FsmState<Miner>
             Owner.OnMineAssigned?.Invoke();
     }
 
-    public override void OnExit()
-    {
-        Debug.Log("[Miner] Exit IdleState");
-    }
+    public override void OnExit() { }
 
     private void SearchNearestMine()
     {

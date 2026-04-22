@@ -17,6 +17,7 @@ class ChaseState : FsmState<Enemy>
 
     public override void OnEnter()
     {
+        Debug.Log("[Enemy] enter chase state");
         agent.MovementSpeed = Owner.Config.ChaseSpeed;
         targetRadius = Owner.CurrentTarget.GetComponentInChildren<CapsuleCollider>().radius;
         agent.Destination = GetTargetPosition();

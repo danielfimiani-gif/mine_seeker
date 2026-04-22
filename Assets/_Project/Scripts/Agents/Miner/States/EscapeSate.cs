@@ -1,6 +1,6 @@
 using UnityEngine;
 
-class EscapeSate : FsmState<Miner>
+class EscapeState : FsmState<Miner>
 {
     private PathNodeAgent _agent;
     private Animator _animator;
@@ -22,7 +22,7 @@ class EscapeSate : FsmState<Miner>
 
     public override void OnUpdate()
     {
-        if (_agent.HasReachedDestination && !Owner.Context.HasPursers())
+        if (!Owner.Context.HasPursers() || _agent.HasReachedDestination)
         {
             Owner.OnStopEscaping?.Invoke();
         }

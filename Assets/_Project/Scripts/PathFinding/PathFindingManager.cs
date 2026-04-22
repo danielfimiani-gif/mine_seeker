@@ -113,6 +113,12 @@ class PathFindingManager : MonoBehaviourSingleton<PathFindingManager>
 
     public Stack<PathNode> CreatePath(Vector3 origin, Vector3 destination)
     {
+        if (_pathNodes == null)
+            GeneratePath();
+
+        if (_currentStrategy == null)
+            SetStrategy(pathFindingStrategy);
+
         PathFindingContext pathCtx = new();
         Stack<PathNode> path = null;
 

@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc251154f0243b140bf0ea9dcac29a55, type: 3}
   m_Name: MinerStats
   m_EditorClassIdentifier: 
+  maxHP: 100
   maxOreCapacity: 25
   miningSpeed: 1.5
   walkSpeed: 5
@@ -19,3 +20,4 @@ MonoBehaviour:
   runSpeed: 7
   orePerHit: 5
   unloadSpeed: 2
+  respawnTime: 3
